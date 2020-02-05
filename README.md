@@ -27,4 +27,4 @@ Whether you'd like to use Time Journal as a journal or a budgeting tool is up to
 - As a user, I want to be able to be reminded when I'm not meeting my goals each month
 - As a user, I want to be able to have default categories and goals set up for me because I might not know where to start
 - As a user, I want to be able to view a full log of my entries and filter/sort based on categories, time spent, or entry date
-- As a user, I want to be able to click into a category and see a list of all related journal entries and an average amount of time spent
+- As a user, I want to be able to click into a category, a list of related journal entries, see if I'm on track to meet my goal, and see a total average of time spent
