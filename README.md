@@ -18,11 +18,12 @@ This application will combine common approaches to journaling and budgeting to c
 Whether you'd like to use Time Journal as a journal or a budgeting tool is up to you. <br>
 
 ## User Stories
-
-- As a user, I want to be able to create/delete categories for where I spend my time (Phase 1)
-- As a user, I want to be able to create/delete journal entries for my activities with timestamps and amount of time spent (Phase 1)
-- As a user, I want to be able to categorize my journal entries based on the ones I created (Phase 1)
-- As a user, I want to be able to view a full log of my entries (Phase 1)<br><br>
+**Phase 1**
+- As a user, I want to be able to create/delete categories for where I spend my time 
+- As a user, I want to be able to create/delete journal entries for my activities with timestamps and amount of time spent
+- As a user, I want to be able to categorize my journal entries based on the ones I created
+- As a user, I want to be able to view a full log of my entries <br><br>
+**Later Phases**
 - As a user, I want to be able to filter/sort my log of journal entries based on categories, time spent, or entry date 
 - As a user, I want to be able to set monthly targets for my categories and track my progress
 - As a user, I want to be able to pull a report with a date range of my choice to see how I spent my time over that period
