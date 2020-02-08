@@ -23,4 +23,8 @@ public class Category {
         this.duration = duration;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class JournalLog {
@@ -17,28 +16,26 @@ public class JournalLog {
     //          - adds time duration to category total
     public void addJournalEntry(JournalEntry entry) {
         journalLog.put(entry.getId(), entry);
-
+        entry.getCategory().setDuration(entry.getCategory().getDuration() + entry.getDuration());
     }
 
     // MODIFIES: this
     // EFFECTS: if category exists, deletes a journal entry from the log and adjusts category totals and returns true
-    //          else, return false
-    public boolean deleteJournalEntry(int removeID) {
+    public void deleteJournalEntry(int removeID) {
         if (journalLog.containsKey(removeID)) {
             journalLog.get(removeID).getCategory().setDuration(journalLog.get(removeID).getCategory().getDuration() - journalLog.get(removeID).getDuration());
             journalLog.remove(removeID);
-            return true;
         } else {
-            return false;
+            System.out.println("Entry does not exist.");
         }
     }
 
     // MODIFIES: this
     // EFFECTS: changes all entries categorized with "c" to "uncategorized"
-    public void uncategorize(Category c) {
+    public void uncategorize(Category c, Category uncategorized) {
         for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
             if (entry.getValue().getCategory() == c) {
-                entry.getValue().setCategory(c);
+                entry.getValue().setCategory(uncategorized);
             }
         }
     }
@@ -66,6 +63,14 @@ public class JournalLog {
     // EFFECTS: returns number of journal entries
     public int getSize() {
         return journalLog.size();
+    }
+
+    public boolean hasID(int id) {
+        return journalLog.containsKey(id);
+    }
+
+    public JournalEntry getValue(int i) {
+        return journalLog.get(i);
     }
 
 }
