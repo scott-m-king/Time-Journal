@@ -11,8 +11,8 @@ import java.util.Scanner;
  * Design inspired by https://github.students.cs.ubc.ca/CPSC210/TellerApp
  */
 
-// TODO: Make uncategorized undeletable and uneditable
-// TODO: Edit description and duration of journal entry
+// TODO: deal with duplicate category entries
+// TODO: try to make duration a loop....
 
 public class JournalApp {
     private CategoryList categoryList;
@@ -115,8 +115,7 @@ public class JournalApp {
                     deleteJournalEntry();
                     toContinue = false;
                 } else if (!choice.equals("3")) {
-                    System.out.println("Sorry, that's an invalid choice.");;
-                    toContinue = true;
+                    System.out.println("Sorry, that's an invalid choice.");
                 } else {
                     toContinue = false;
                 }
@@ -140,7 +139,7 @@ public class JournalApp {
                     deleteCategory();
                     toContinue = false;
                 } else if (!choice.equals("3")) {
-                    System.out.println("Sorry, that's an invalid choice.");;
+                    System.out.println("Sorry, that's an invalid choice.");
                     toContinue = true;
                 } else {
                     toContinue = false;
@@ -167,7 +166,6 @@ public class JournalApp {
         }
     }
 
-    // TODO: to implement in category log
     public void deleteCategory() {
         System.out.println("Which category would you like to delete? (Select number)");
         int select = input.nextInt();
@@ -181,24 +179,31 @@ public class JournalApp {
     }
 
     public void editCategory() {
-        System.out.println("Which category would you like to edit? Enter number");
+        System.out.println("Which category would you like to edit? Enter number:");
+        categoryList.printListExceptUncategorized();
         int editChoice = input.nextInt();
-        if (editChoice > 0 && editChoice <= categoryList.getSize()) {
+        if (editChoice > 1 && editChoice <= categoryList.getSize()) {
             System.out.println("What would you like to change the category name to?");
             String editName = input.next();
-            categoryList.getCategory(editChoice - 1).setName(editName);
+            categoryList.getCategory(editChoice).setName(editName);
         } else {
             System.out.println("Sorry, that is an invalid choice.");
         }
     }
 
+    // TODO: fix the infinite loop here when selecting an ID number that doesn't exist
     public void editJournalEntry() {
-        System.out.println("Which entry would you like to edit? Enter ID number");
-        int editChoice = input.nextInt();
-        if (journalEntries.hasID(editChoice)) {
-            editJournalEntryMenu(editChoice);
-        } else {
-            System.out.println("Sorry, that was an invalid choice.");
+        boolean toContinue = true;
+        while (toContinue) {
+            System.out.println("Which entry would you like to edit? Enter ID number");
+            int editChoice = input.nextInt();
+            if (journalEntries.hasID(editChoice)) {
+                editJournalEntryMenu(editChoice);
+                toContinue = false;
+            } else {
+                System.out.println("Sorry, that was an invalid choice.");
+                toContinue = true;
+            }
         }
     }
 
@@ -230,15 +235,45 @@ public class JournalApp {
         System.out.println("What would you like to change the category to? Enter number below.");
         categoryList.printList();
         int changeTo = input.nextInt();
-        journalEntries.getValue(journalID).setCategory(categoryList.getCategory(changeTo - 1));
+        boolean toContinue = true;
+        while (toContinue) {
+            if (changeTo > 0 && changeTo <= categoryList.getSize()) {
+                updateCategory(changeTo, journalID);
+                System.out.println("You have successfully edited the entry.");
+                toContinue = false;
+            } else {
+                System.out.println("Sorry, that category does not exist. ");
+                toContinue = true;
+            }
+        }
     }
 
-    public void editJournalEntryDuration(int journalID) {
+    public void updateCategory(int changeTo, int journalID) {
+        Category toCategory = categoryList.getCategory(changeTo - 1);
+        Category fromCategory = journalEntries.getValue(journalID).getCategory();
 
+        int toCategoryDuration = toCategory.getDuration();
+        int journalEntryDuration = journalEntries.getValue(journalID).getDuration();
+
+        toCategory.setDuration(toCategoryDuration + journalEntryDuration);
+        fromCategory.setDuration(fromCategory.getDuration() - journalEntryDuration);
+
+        journalEntries.getValue(journalID).setCategory(toCategory);
+    }
+
+    // TODO: fix duration issue - not adding to duration of category that was switched to
+    public void editJournalEntryDuration(int journalID) {
+        System.out.println("What would you like to change the duration to? Enter number in minutes below:");
+        int changeTo = input.nextInt();
+        journalEntries.getValue(journalID).setDuration(changeTo);
+        System.out.println("You have successfully edited the entry.");
     }
 
     public void editJournalEntryDescription(int journalID) {
-
+        System.out.println("What would you like to change the description to? This will overwrite the current one.");
+        String changeTo = input.next();
+        journalEntries.getValue(journalID).setDescription(changeTo);
+        System.out.println("You have successfully edited the entry.");
     }
 
 }

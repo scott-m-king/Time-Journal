@@ -42,4 +42,12 @@ public class JournalEntry {
         category = c;
     }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setDescription(String newDescription) {
+        description = newDescription;
+    }
+
 }

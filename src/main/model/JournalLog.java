@@ -53,7 +53,7 @@ public class JournalLog {
             builder.append(entry.getCategory().getName());
             builder.append(" | Duration: ");
             builder.append(entry.getDuration());
-            builder.append("mins | Description: ");
+            builder.append(" mins | Description: ");
             builder.append(entry.getDescription());
             builder.append("\n");
         }

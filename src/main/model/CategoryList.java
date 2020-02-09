@@ -33,7 +33,6 @@ public class CategoryList {
         return 0;
     }
 
-    // TODO: make sure that entries assigned this category are changed to uncategorized
     // MODIFIES: this
     // EFFECTS: - deletes category from list
     //          - adds duration total to uncategorized
@@ -51,10 +50,20 @@ public class CategoryList {
         return categoryList.size();
     }
 
-    // EFFECTS: prints ist of categories to screen
+    // EFFECTS: prints list of categories to screen
     public void printList() {
         for (int i = 0; i < categoryList.size(); i++) {
             System.out.println((i + 1) + ". "
+                    + categoryList.get(i).getName()
+                    + ". You spent " + categoryList.get(i).getDuration()
+                    + " minutes on this category.");
+        }
+    }
+
+    // EFFECTS: prints list of categories to screen except for 'Uncategorized'
+    public void printListExceptUncategorized() {
+        for (int i = 1; i < categoryList.size(); i++) {
+            System.out.println((i) + ". "
                     + categoryList.get(i).getName()
                     + ". You spent " + categoryList.get(i).getDuration()
                     + " minutes on this category.");
