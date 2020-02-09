@@ -16,16 +16,36 @@ public class JournalLogTest {
         testJournal = new JournalLog();
         testCategory = new Category("test");
         testEntry = new JournalEntry(1, "test", testCategory, 5);
+        testJournal.addJournalEntry(testEntry);
     }
 
     @Test
     public void testAddLogEntry() {
-        testJournal.addJournalEntry(testEntry);
+        assertEquals(1, testJournal.getValue(1).getId());
     }
 
     @Test
     public void testDeleteJournalEntry() {
-        testJournal.addJournalEntry(testEntry);
+    }
+
+    @Test
+    public void testUncategorize() {
+    }
+
+    @Test
+    public void testPrintLog() {
+    }
+
+    @Test
+    public void testGetSize() {
+    }
+
+    @Test
+    public void testHasID() {
+    }
+
+    @Test
+    public void testGetValue() {
     }
 
 }

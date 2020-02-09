@@ -40,6 +40,7 @@ public class JournalLog {
         }
     }
 
+    // REQUIRES: at least one journal entry is in the log
     // EFFECTS: prints entire log to screen
     public void printLog() {
         StringBuilder builder = new StringBuilder();
@@ -65,12 +66,15 @@ public class JournalLog {
         return journalLog.size();
     }
 
+    // EFFECTS: returns true if journal entry is in the log, false otherwise
     public boolean hasID(int id) {
         return journalLog.containsKey(id);
     }
 
-    public JournalEntry getValue(int i) {
-        return journalLog.get(i);
+    // REQUIRES: valid ID of journal entry that exists in the list
+    // EFFECTS: returns journal entry in the list given ID
+    public JournalEntry getValue(int id) {
+        return journalLog.get(id);
     }
 
 }

@@ -16,6 +16,21 @@ public class CategoryTest {
     @Test
     public void testConstructor() {
         assertEquals("test", testCategory.getName());
+        assertEquals(0, testCategory.getDuration());
+    }
+
+    @Test
+    public void testSetDuration() {
+        testCategory.setDuration(15);
+        assertEquals(15, testCategory.getDuration());
+        testCategory.setDuration(20);
+        assertEquals(20, testCategory.getDuration());
+    }
+
+    @Test
+    public void testSetName() {
+        testCategory.setName("newTest");
+        assertEquals("newTest", testCategory.getName());
     }
 
 }

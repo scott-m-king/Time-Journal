@@ -41,4 +41,20 @@ public class CategoryListTest {
         assertEquals(0, testList.getSize());
     }
 
+    @Test
+    public void testPrintList() {
+    }
+
+    @Test
+    public void testPrintListExceptUncategorized() {
+    }
+
+    @Test
+    public void testGetCategory() {
+    }
+
+    @Test
+    public void testDoesCategoryAlreadyExist() {
+    }
+
 }

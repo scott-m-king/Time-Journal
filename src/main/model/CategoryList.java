@@ -10,6 +10,7 @@ public class CategoryList {
     private List<Category> categoryList;
     private Category uncategorized;
 
+    // Constructor
     public CategoryList() {
         categoryList = new ArrayList<>();
         uncategorized = new Category("Uncategorized");
@@ -73,6 +74,16 @@ public class CategoryList {
     // EFFECTS: returns category of index in list
     public Category getCategory(int i) {
         return categoryList.get(i);
+    }
+
+    // EFFECTS: returns true if category already exists in the list, false otherwise
+    public boolean doesCategoryAlreadyExist(String name) {
+        for (Category c : categoryList) {
+            if (name.equals(c.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
