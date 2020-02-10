@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JournalLogTest {
@@ -10,6 +12,7 @@ public class JournalLogTest {
     JournalLog testJournal;
     JournalEntry testEntry;
     Category testCategory;
+    Category uncategorized = new Category("Uncategorized");
 
     @BeforeEach
     public void runBefore() {
@@ -26,26 +29,34 @@ public class JournalLogTest {
 
     @Test
     public void testDeleteJournalEntry() {
+        assertFalse(testJournal.deleteJournalEntry(3));
+        assertTrue(testJournal.deleteJournalEntry(1));
+        assertEquals(0, testJournal.getSize());
     }
 
     @Test
     public void testUncategorize() {
-    }
-
-    @Test
-    public void testPrintLog() {
-    }
-
-    @Test
-    public void testGetSize() {
+        JournalEntry test2 = new JournalEntry(2, "test2", testCategory, 15);
+        testJournal.addJournalEntry(test2);
+        testJournal.uncategorize(testCategory, uncategorized);
+        assertEquals(uncategorized, testJournal.getValue(1).getCategory());
+        assertEquals(uncategorized, testJournal.getValue(2).getCategory());
     }
 
     @Test
     public void testHasID() {
+        assertFalse(testJournal.hasID(2));
+        assertTrue(testJournal.hasID(1));
+        JournalEntry test2 = new JournalEntry(2, "test2", testCategory, 10);
+        testJournal.addJournalEntry(test2);
+        assertTrue(testJournal.hasID(2));
     }
 
     @Test
-    public void testGetValue() {
+    public void testPrintLog() {
+        assertEquals("ID: 1 | Date: "
+                        + LocalDate.now() + " | Category: test | Duration: 5 mins | Description: test\n",
+                testJournal.printLog());
     }
 
 }

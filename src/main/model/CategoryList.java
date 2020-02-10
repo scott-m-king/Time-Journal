@@ -11,6 +11,7 @@ public class CategoryList {
     private Category uncategorized;
 
     // Constructor
+    // Each new category instantiated with "uncategorized" category that is not deletable or modifiable
     public CategoryList() {
         categoryList = new ArrayList<>();
         uncategorized = new Category("Uncategorized");
@@ -52,23 +53,33 @@ public class CategoryList {
     }
 
     // EFFECTS: prints list of categories to screen
-    public void printList() {
+    public String printList() {
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < categoryList.size(); i++) {
-            System.out.println((i + 1) + ". "
-                    + categoryList.get(i).getName()
-                    + ". You spent " + categoryList.get(i).getDuration()
-                    + " minutes on this category.");
+            builder.append(i + 1);
+            builder.append(". ");
+            builder.append(categoryList.get(i).getName());
+            builder.append(". You spent ");
+            builder.append(categoryList.get(i).getDuration());
+            builder.append(" minutes on this category. ");
+            builder.append("\n");
         }
+        return builder.toString();
     }
 
     // EFFECTS: prints list of categories to screen except for 'Uncategorized'
-    public void printListExceptUncategorized() {
+    public String printListExceptUncategorized() {
+        StringBuilder builder = new StringBuilder();
         for (int i = 1; i < categoryList.size(); i++) {
-            System.out.println((i) + ". "
-                    + categoryList.get(i).getName()
-                    + ". You spent " + categoryList.get(i).getDuration()
-                    + " minutes on this category.");
+            builder.append(i);
+            builder.append(". ");
+            builder.append(categoryList.get(i).getName());
+            builder.append(". You spent ");
+            builder.append(categoryList.get(i).getDuration());
+            builder.append(" minutes on this category. ");
+            builder.append("\n");
         }
+        return builder.toString();
     }
 
     // EFFECTS: returns category of index in list

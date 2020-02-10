@@ -21,12 +21,14 @@ public class JournalLog {
 
     // MODIFIES: this
     // EFFECTS: if category exists, deletes a journal entry from the log and adjusts category totals and returns true
-    public void deleteJournalEntry(int removeID) {
+    public boolean deleteJournalEntry(int removeID) {
         if (journalLog.containsKey(removeID)) {
-            journalLog.get(removeID).getCategory().setDuration(journalLog.get(removeID).getCategory().getDuration() - journalLog.get(removeID).getDuration());
+            Category category = journalLog.get(removeID).getCategory();
+            category.setDuration(category.getDuration() - journalLog.get(removeID).getDuration());
             journalLog.remove(removeID);
+            return true;
         } else {
-            System.out.println("Entry does not exist.");
+            return false;
         }
     }
 
@@ -42,9 +44,8 @@ public class JournalLog {
 
     // REQUIRES: at least one journal entry is in the log
     // EFFECTS: prints entire log to screen
-    public void printLog() {
+    public String printLog() {
         StringBuilder builder = new StringBuilder();
-
         for (JournalEntry entry : journalLog.values()) {
             builder.append("ID: ");
             builder.append(entry.getId());
@@ -58,7 +59,7 @@ public class JournalLog {
             builder.append(entry.getDescription());
             builder.append("\n");
         }
-        System.out.println(builder.toString());
+        return builder.toString();
     }
 
     // EFFECTS: returns number of journal entries
