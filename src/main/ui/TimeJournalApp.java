@@ -120,8 +120,8 @@ public class TimeJournalApp {
         System.out.println("Your entry has been added. \n");
     }
 
-
     // EFFECTS: validates user input to make sure it's a positive integer
+    // problem: inputs starting with integer and ending in string - eg. "45 minutes"
     public int inputIntegerValidation(String question) {
         input.nextLine();
         int choice;
