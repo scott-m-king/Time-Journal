@@ -102,8 +102,8 @@ public class TimeJournalApp {
 
         boolean toContinue = true;
         while (toContinue) {
-            System.out.println(categoryList.printList());
             String categoryQuestion = "What category would you like to place this under? (Enter number)";
+            System.out.println(categoryList.printList());
             int choice = inputIntegerValidation(categoryQuestion);
             if (choice > 0 && choice <= categoryList.getSize()) {
                 int categoryIndex = (choice - 1);
@@ -166,9 +166,9 @@ public class TimeJournalApp {
         if (categoryList.getSize() == 0) {
             System.out.println("You currently have no categories. \n");
         } else {
-            System.out.println(categoryList.printList());
             boolean toContinue = true;
             while (toContinue) {
+                System.out.println(categoryList.printList());
                 editDeleteMenu();
                 String choice = input.next();
                 if (choice.equals("1")) {
@@ -220,12 +220,12 @@ public class TimeJournalApp {
     //          - adds duration of affected journal entries to 'uncategorized' duration
     public void deleteCategory() {
         if (categoryList.getSize() != 1) {
-            System.out.println("Which category would you like to delete? (Select number)");
+            String question = "Which category would you like to delete? (Select number)";
             System.out.println(categoryList.printListExceptUncategorized());
-            int select = input.nextInt();
             boolean toContinue = true;
             while (toContinue) {
-                if (select > 0 && select <= categoryList.getSize()) {
+                int select = inputIntegerValidation(question);
+                if (select > 0 && select <= categoryList.getSize() - 1) {
                     journalLog.uncategorize(categoryList.getCategory(select), categoryList.getCategory(0));
                     categoryList.deleteCategory(categoryList.getCategory(select));
                     System.out.println("You have successfully deleted the category.");
@@ -320,9 +320,9 @@ public class TimeJournalApp {
     public void editJournalEntryCategory(int journalID) {
         boolean toContinue = true;
         while (toContinue) {
-            System.out.println("What would you like to change the category to? Enter number below.");
+            String question = "What would you like to change the category to? Enter number below.";
             System.out.println(categoryList.printList());
-            int changeTo = input.nextInt();
+            int changeTo = inputIntegerValidation(question);
             if (changeTo > 0 && changeTo <= categoryList.getSize()) {
                 updateCategory(changeTo, journalID);
                 System.out.println("You have successfully edited the entry.\n");
@@ -353,8 +353,8 @@ public class TimeJournalApp {
     // MODIFIES: this
     // EFFECTS: edits journal entry duration field based on user input
     public void editJournalEntryDuration(int journalID) {
-        System.out.println("What would you like to change the duration to? Enter number in minutes below:");
-        int newDuration = input.nextInt();
+        String question = "What would you like to change the duration to? Enter number in minutes below:";
+        int newDuration = inputIntegerValidation(question);
         int oldDuration = journalLog.getValue(journalID).getDuration();
         Category affectedCategory = journalLog.getValue(journalID).getCategory();
         affectedCategory.setDuration(affectedCategory.getDuration() - oldDuration + newDuration);
