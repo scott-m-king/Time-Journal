@@ -37,10 +37,14 @@ public class JournalLogTest {
     @Test
     public void testUncategorize() {
         JournalEntry test2 = new JournalEntry(2, "test2", testCategory, 15);
+        Category anotherCategory = new Category("test2");
+        JournalEntry test3 = new JournalEntry(3, "test3", anotherCategory, 30);
         testJournal.addJournalEntry(test2);
+        testJournal.addJournalEntry(test3);
         testJournal.uncategorize(testCategory, uncategorized);
         assertEquals(uncategorized, testJournal.getValue(1).getCategory());
         assertEquals(uncategorized, testJournal.getValue(2).getCategory());
+        assertEquals(anotherCategory, testJournal.getValue(3).getCategory());
     }
 
     @Test
