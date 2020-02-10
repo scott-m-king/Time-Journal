@@ -11,21 +11,22 @@ public class Category {
         this.duration = 0;
     }
 
-    // EFFECTS: returns name of category
+    // getters and setters
     public String getName() {
         return name;
     }
 
-    // EFFECTS: returns duration of category
     public int getDuration() {
         return duration;
     }
 
+    // MODIFIES: this
     // EFFECTS: sets duration of category
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
+    // MODIFIES: this
     // EFFECTS: sets name of category
     public void setName(String name) {
         this.name = name;

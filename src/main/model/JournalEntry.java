@@ -9,6 +9,7 @@ public class JournalEntry {
     private Category category;
     private Integer duration;
 
+    // Constructor
     public JournalEntry(int id, String description, Category category, int duration) {
         this.id = id;
         date = LocalDate.now();
@@ -17,7 +18,7 @@ public class JournalEntry {
         this.duration = duration;
     }
 
-    // getters
+    // getters and setters
     public int getId() {
         return id;
     }
@@ -38,14 +39,22 @@ public class JournalEntry {
         return duration;
     }
 
+    // MODIFIES: this
+    // REQUIRES: category that exists
+    // EFFECTS: sets the category of this entry to user specified category
     public void setCategory(Category c) {
         category = c;
     }
 
+    // MODIFIES: this
+    // REQUIRES: positive integer
+    // EFFECTS: sets the duration of this entry to user specified duration
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the description of this entry to user specified description
     public void setDescription(String newDescription) {
         description = newDescription;
     }

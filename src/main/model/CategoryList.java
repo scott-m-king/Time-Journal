@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryList {
+    private Category uncategorized;
 
     // Key: Category
     // Value: hours spent for each category
     private List<Category> categoryList;
-    private Category uncategorized;
 
     // Constructor
     // Each new category instantiated with "uncategorized" category that is not deletable or modifiable

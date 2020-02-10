@@ -25,6 +25,11 @@ public class JournalLogTest {
     @Test
     public void testAddLogEntry() {
         assertEquals(1, testJournal.getValue(1).getId());
+        assertEquals(1, testJournal.getSize());
+        JournalEntry testTwo = new JournalEntry(2, "test 2", uncategorized, 10);
+        testJournal.addJournalEntry(testTwo);
+        assertEquals(2, testJournal.getValue(2).getId());
+        assertEquals(2, testJournal.getSize());
     }
 
     @Test
@@ -60,6 +65,17 @@ public class JournalLogTest {
     public void testPrintLog() {
         assertEquals("ID: 1 | Date: "
                         + LocalDate.now() + " | Category: test | Duration: 5 mins | Description: test\n",
+                testJournal.printLog());
+        JournalEntry test2 = new JournalEntry(2, "test2", uncategorized, 10);
+        JournalEntry test3 = new JournalEntry(3, "test3", testCategory, 15);
+        testJournal.addJournalEntry(test2);
+        testJournal.addJournalEntry(test3);
+        assertEquals("ID: 1 | Date: " + LocalDate.now() +
+                        " | Category: test | Duration: 5 mins | Description: test\n" +
+                        "ID: 2 | Date: " + LocalDate.now() +
+                        " | Category: Uncategorized | Duration: 10 mins | Description: test2\n" +
+                        "ID: 3 | Date: " + LocalDate.now() +
+                        " | Category: test | Duration: 15 mins | Description: test3\n",
                 testJournal.printLog());
     }
 

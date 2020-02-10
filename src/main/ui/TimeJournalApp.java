@@ -340,13 +340,11 @@ public class TimeJournalApp {
     public void updateCategory(int changeTo, int journalID) {
         Category toCategory = categoryList.getCategory(changeTo - 1);
         Category fromCategory = journalLog.getValue(journalID).getCategory();
-
         int toCategoryDuration = toCategory.getDuration();
         int journalEntryDuration = journalLog.getValue(journalID).getDuration();
 
         toCategory.setDuration(toCategoryDuration + journalEntryDuration);
         fromCategory.setDuration(fromCategory.getDuration() - journalEntryDuration);
-
         journalLog.getValue(journalID).setCategory(toCategory);
     }
 
@@ -357,6 +355,7 @@ public class TimeJournalApp {
         int newDuration = inputIntegerValidation(question);
         int oldDuration = journalLog.getValue(journalID).getDuration();
         Category affectedCategory = journalLog.getValue(journalID).getCategory();
+
         affectedCategory.setDuration(affectedCategory.getDuration() - oldDuration + newDuration);
         journalLog.getValue(journalID).setDuration(newDuration);
         System.out.println("You have successfully edited the entry.\n");
