@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Unit tests for JournalEntryTest class
 public class JournalEntryTest {
     JournalEntry testEntry;
     Category testCategory;
