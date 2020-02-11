@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for JournalEntryTest class
 public class JournalEntryTest {
-    JournalEntry testEntry;
-    Category testCategory;
+    private JournalEntry testEntry;
+    private Category testCategory;
 
     @BeforeEach
     public void runBefore() {

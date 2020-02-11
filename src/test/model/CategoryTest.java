@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for Category class
 public class CategoryTest {
-    Category testCategory;
+    private Category testCategory;
 
     @BeforeEach
     public void runBefore() {

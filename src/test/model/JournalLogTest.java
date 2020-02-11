@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for JournalLog class
 public class JournalLogTest {
-    JournalLog testJournal;
-    JournalEntry testEntry;
-    Category testCategory;
-    Category uncategorized = new Category("Uncategorized");
+    private JournalLog testJournal;
+    private JournalEntry testEntry;
+    private Category testCategory;
+    private Category uncategorized = new Category("Uncategorized");
 
     @BeforeEach
     public void runBefore() {

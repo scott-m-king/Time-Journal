@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for CategoryList class
 public class CategoryListTest {
-    CategoryList testList;
-    Category testCategory;
+    private CategoryList testList;
+    private Category testCategory;
 
     @BeforeEach
     public void runBefore() {
