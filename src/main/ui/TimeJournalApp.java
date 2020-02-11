@@ -27,7 +27,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    public void runJournal() {
+    private void runJournal() {
         boolean keepGoing = true;
         String command;
         input = new Scanner(System.in);
@@ -48,13 +48,13 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: prompts user to enter first category
-    public void intro() {
+    private void intro() {
         System.out.print("Hello! Welcome to Time Journal. Let's start by creating your first category. ");
         createNewCategory();
     }
 
     // EFFECTS: displays all menu options to the user
-    public void displayMenu() {
+    private void displayMenu() {
         System.out.println("What would you like to do now? (Enter number)");
         System.out.println("1. Create journal entry");
         System.out.println("2. Create category");
@@ -65,7 +65,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: processes commands
-    public void processCommand(String command) {
+    private void processCommand(String command) {
         switch (command) {
             case "1":
                 createNewJournalEntry();
@@ -87,7 +87,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new category and adds it to categoryList
-    public void createNewCategory() {
+    private void createNewCategory() {
         System.out.println("Enter a name for your category below: ");
         String newName = input.next();
         if (!categoryList.doesCategoryAlreadyExist(newName)) {
@@ -101,7 +101,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new journal entry and adds it to journalLog
-    public void createNewJournalEntry() {
+    private void createNewJournalEntry() {
         System.out.println("What did you get up to? Enter a description for your journal entry:");
         Scanner descriptionInput = new Scanner(System.in);
         String description = descriptionInput.nextLine();
@@ -127,7 +127,7 @@ public class TimeJournalApp {
 
     // EFFECTS: validates user input to make sure it's a positive integer
     // problem: inputs starting with integer and ending in string - eg. "45 minutes"
-    public int inputIntegerValidation(String question, String list) {
+    private int inputIntegerValidation(String question, String list) {
         input.nextLine();
         int choice;
         do {
@@ -143,7 +143,7 @@ public class TimeJournalApp {
     }
 
     // EFFECTS: displays list of journal entries and gives user choice to edit/delete/go back to home
-    public void journalLogMenu() {
+    private void journalLogMenu() {
         if (journalLog.getSize() == 0) {
             System.out.println("You currently have no journal entries. \n");
         } else {
@@ -168,7 +168,7 @@ public class TimeJournalApp {
     }
 
     // EFFECTS: displays list of categories and gives user choice to edit/delete/go back to home
-    public void categoryListMenu() {
+    private void categoryListMenu() {
         if (categoryList.getSize() == 0) {
             System.out.println("You currently have no categories. \n");
         } else {
@@ -203,7 +203,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: asks user which journal entry to delete and deletes it from journalLog
-    public void deleteJournalEntry() {
+    private void deleteJournalEntry() {
         if (journalLog.getSize() == 0) {
             System.out.println("Nothing to delete - your journal log is currently empty.\n");
         } else {
@@ -226,7 +226,7 @@ public class TimeJournalApp {
     //          - deletes it from categoryList
     //          - recategorizes journal entries to 'uncategorized'
     //          - adds duration of affected journal entries to 'uncategorized' duration
-    public void deleteCategory() {
+    private void deleteCategory() {
         if (categoryList.getSize() != 1) {
             String question = "Which category would you like to delete? (Select number)";
             System.out.println(categoryList.printListExceptUncategorized());
@@ -253,7 +253,7 @@ public class TimeJournalApp {
     //          - checks that the category exists
     //          - asks user what they want to rename the category to
     //          - renames category based on user input
-    public void editCategory() {
+    private void editCategory() {
         if (categoryList.getSize() != 1) {
             String question = "Which category would you like to edit? Enter number:";
             System.out.println(categoryList.printListExceptUncategorized());
@@ -280,7 +280,7 @@ public class TimeJournalApp {
     // EFFECTS: - asks user which journal entry to edit
     //          - checks if journal entry exists
     //          - edits journal entry
-    public void editJournalEntry() {
+    private void editJournalEntry() {
         boolean toContinue = true;
         while (toContinue) {
             System.out.println(journalLog.printLog());
@@ -301,7 +301,7 @@ public class TimeJournalApp {
     // MODIFIES: this
     // EFFECTS: - asks user what field of journal entry they want to edit
     //          - edits journal entry
-    public void editJournalEntryMenu(int journalID) {
+    private void editJournalEntryMenu(int journalID) {
         boolean toContinue = true;
         while (toContinue) {
             System.out.println("Select what to edit: ");
@@ -328,7 +328,7 @@ public class TimeJournalApp {
     // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: modifies journal entry category field based on user input
-    public void editJournalEntryCategory(int journalID) {
+    private void editJournalEntryCategory(int journalID) {
         boolean toContinue = true;
         while (toContinue) {
             String question = "What would you like to change the category to? Enter number below.";
@@ -349,7 +349,7 @@ public class TimeJournalApp {
     // MODIFIES: this
     // EFFECTS: helper for editJournalEntryCategory - updates category duration of category in which journal entry
     //          is being changed to
-    public void editJournalEntryCategoryHelper(int changeTo, int journalID) {
+    private void editJournalEntryCategoryHelper(int changeTo, int journalID) {
         Category toCategory = categoryList.getCategory(changeTo - 1);
         Category fromCategory = journalLog.getValue(journalID).getCategory();
         int toCategoryDuration = toCategory.getDuration();
@@ -363,7 +363,7 @@ public class TimeJournalApp {
     // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: edits journal entry duration field based on user input
-    public void editJournalEntryDuration(int journalID) {
+    private void editJournalEntryDuration(int journalID) {
         String question = "What would you like to change the duration to? Enter number in minutes below:";
         int newDuration = inputIntegerValidation(question, "");
         int oldDuration = journalLog.getValue(journalID).getDuration();
@@ -377,7 +377,7 @@ public class TimeJournalApp {
     // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: edits journal entry description field based on user input
-    public void editJournalEntryDescription(int journalID) {
+    private void editJournalEntryDescription(int journalID) {
         System.out.println("What would you like to change the description to? This will overwrite the current one.");
         input.nextLine();
         String changeTo = input.nextLine();
