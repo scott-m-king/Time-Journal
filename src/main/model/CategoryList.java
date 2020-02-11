@@ -3,15 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents an ArrayList of categories.
 public class CategoryList {
-    private Category uncategorized;
-
-    // Key: Category
-    // Value: hours spent for each category
+    private Category uncategorized;       // declaration of 'Uncategorized' category object as a default' category
     private List<Category> categoryList;
 
     // Constructor
-    // Each new category instantiated with "uncategorized" category that is not deletable or modifiable
+    // New instances of CategoryList come pre-populated with 'Uncategorized' which is non-modifiable/deletable
     public CategoryList() {
         categoryList = new ArrayList<>();
         uncategorized = new Category("Uncategorized");

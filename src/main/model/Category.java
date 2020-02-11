@@ -1,9 +1,9 @@
 package model;
 
+// Represents a category with a name and duration (total time spent in this category)
 public class Category {
-
-    private String name;
-    private int duration;
+    private String name;       // User-inputted name of category
+    private int duration;      // time spent on category initialized to zero
 
     // Constructor
     public Category(String name) {

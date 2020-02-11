@@ -3,8 +3,9 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 
+// Represents a HashMap of journal entries with journalEntry.id as key, and associated journalEntry as value
 public class JournalLog {
-    Map<Integer, JournalEntry> journalLog;
+    private Map<Integer, JournalEntry> journalLog;
 
     // Constructor
     public JournalLog() {
@@ -42,7 +43,7 @@ public class JournalLog {
         }
     }
 
-    // REQUIRES: at least one journal entry is in the log
+    // REQUIRES: at least one journal entry in the log
     // EFFECTS: prints entire log to screen
     public String printLog() {
         StringBuilder builder = new StringBuilder();

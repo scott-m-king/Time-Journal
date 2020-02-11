@@ -2,12 +2,13 @@ package model;
 
 import java.time.*;
 
+// Represents a Journal Entry with a unique ID, date stamp, description, assigned category, and duration
 public class JournalEntry {
-    private int id;
-    private LocalDate date;
-    private String description;
-    private Category category;
-    private Integer duration;
+    private int id;                // unique ID for each journal entry used to access value in journalLog
+    private LocalDate date;        // current system date
+    private String description;    // User-inputted description for journal entry
+    private Category category;     // Category object user assigned to this journal entry
+    private Integer duration;      // Amount of time spent on this entry
 
     // Constructor
     public JournalEntry(int id, String description, Category category, int duration) {

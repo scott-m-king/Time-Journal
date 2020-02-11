@@ -13,12 +13,12 @@ import java.util.Scanner;
 
 // Time Journal Application
 public class TimeJournalApp {
-    private CategoryList categoryList;
-    private JournalLog journalLog;
-    private Scanner input;
-    private int id = 1;
+    private CategoryList categoryList;   // declaration of new CategoryList
+    private JournalLog journalLog;       // declaration of new JournalLog
+    private Scanner input;               // scanner object to take in user input
+    private int id = 1;                  // starting ID of first journal entry, incremented by 1 for each new entry
 
-    // EFFECTS: runs time journal application and initializes category and journal entry logs
+    // EFFECTS: runs time journal application and instantiates new category and journal entry logs
     public TimeJournalApp() {
         categoryList = new CategoryList();
         journalLog = new JournalLog();
@@ -105,7 +105,6 @@ public class TimeJournalApp {
         System.out.println("What did you get up to? Enter a description for your journal entry:");
         Scanner descriptionInput = new Scanner(System.in);
         String description = descriptionInput.nextLine();
-
         boolean toContinue = true;
         while (toContinue) {
             String categoryQuestion = "What category would you like to place this under? (Enter number)";
@@ -298,6 +297,7 @@ public class TimeJournalApp {
         journalLogMenu();
     }
 
+    // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: - asks user what field of journal entry they want to edit
     //          - edits journal entry
@@ -325,6 +325,7 @@ public class TimeJournalApp {
         }
     }
 
+    // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: modifies journal entry category field based on user input
     public void editJournalEntryCategory(int journalID) {
@@ -344,6 +345,7 @@ public class TimeJournalApp {
         }
     }
 
+    // REQUIRES: valid journal ID and positive duration
     // MODIFIES: this
     // EFFECTS: helper for editJournalEntryCategory - updates category duration of category in which journal entry
     //          is being changed to
@@ -358,6 +360,7 @@ public class TimeJournalApp {
         journalLog.getValue(journalID).setCategory(toCategory);
     }
 
+    // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: edits journal entry duration field based on user input
     public void editJournalEntryDuration(int journalID) {
@@ -371,6 +374,7 @@ public class TimeJournalApp {
         System.out.println("You have successfully edited the entry.\n");
     }
 
+    // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: edits journal entry description field based on user input
     public void editJournalEntryDescription(int journalID) {
