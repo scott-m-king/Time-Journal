@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Represents an ArrayList of categories.
+// Represents an ArrayList of categories
 public class CategoryList {
     private Category uncategorized;       // declaration of 'Uncategorized' category object as a default' category
     private List<Category> categoryList;

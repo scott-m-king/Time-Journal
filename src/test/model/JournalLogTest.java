@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 // Unit tests for JournalLog class
 public class JournalLogTest {
     private JournalLog testJournal;
-    private JournalEntry testEntry;
     private Category testCategory;
     private Category uncategorized = new Category("Uncategorized");
 
@@ -18,7 +17,7 @@ public class JournalLogTest {
     public void runBefore() {
         testJournal = new JournalLog();
         testCategory = new Category("test");
-        testEntry = new JournalEntry(1, "test", testCategory, 5);
+        JournalEntry testEntry = new JournalEntry(1, "test", testCategory, 5);
         testJournal.addJournalEntry(testEntry);
     }
 

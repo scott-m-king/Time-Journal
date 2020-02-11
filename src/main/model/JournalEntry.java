@@ -1,6 +1,6 @@
 package model;
 
-import java.time.*;
+import java.time.LocalDate;
 
 // Represents a Journal Entry with a unique ID, date stamp, description, assigned category, and duration
 public class JournalEntry {
