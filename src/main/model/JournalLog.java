@@ -16,7 +16,7 @@ public class JournalLog {
     //          - adds time duration to category total
     public void addJournalEntry(JournalEntry entry) {
         journalLog.put(entry.getId(), entry);
-        entry.getCategory().setDuration(entry.getCategory().getDuration() + entry.getDuration());
+        entry.getCategory().addDuration(entry.getDuration());
     }
 
     // MODIFIES: this

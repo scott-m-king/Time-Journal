@@ -32,4 +32,10 @@ public class Category {
         this.name = name;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds d to the current duration of this object
+    public void addDuration(int d) {
+        duration += d;
+    }
+
 }

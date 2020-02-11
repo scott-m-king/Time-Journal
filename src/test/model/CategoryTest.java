@@ -33,4 +33,11 @@ public class CategoryTest {
         assertEquals("newTest", testCategory.getName());
     }
 
+    @Test
+    public void addDuration() {
+        testCategory.setDuration(10);
+        testCategory.addDuration(50);
+        assertEquals(60, testCategory.getDuration());
+    }
+
 }

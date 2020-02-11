@@ -66,16 +66,22 @@ public class TimeJournalApp {
     // MODIFIES: this
     // EFFECTS: processes commands
     public void processCommand(String command) {
-        if (command.equals("1")) {
-            createNewJournalEntry();
-        } else if (command.equals("2")) {
-            createNewCategory();
-        } else if (command.equals("3")) {
-            journalLogMenu();
-        } else if (command.equals("4")) {
-            categoryListMenu();
-        } else {
-            System.out.println("Sorry, that is an invalid choice.");
+        switch (command) {
+            case "1":
+                createNewJournalEntry();
+                break;
+            case "2":
+                createNewCategory();
+                break;
+            case "3":
+                journalLogMenu();
+                break;
+            case "4":
+                categoryListMenu();
+                break;
+            default:
+                System.out.println("Sorry, that is an invalid choice.");
+                break;
         }
     }
 
@@ -104,12 +110,12 @@ public class TimeJournalApp {
         while (toContinue) {
             String categoryQuestion = "What category would you like to place this under? (Enter number)";
             System.out.println(categoryList.printList());
-            int choice = inputIntegerValidation(categoryQuestion);
+            int choice = inputIntegerValidation(categoryQuestion, categoryList.printList());
             if (choice > 0 && choice <= categoryList.getSize()) {
                 int categoryIndex = (choice - 1);
                 Category category = categoryList.getCategory(categoryIndex);
                 String durationQuestion = "How long did you spend on this? (in minutes)";
-                int duration = inputIntegerValidation(durationQuestion);
+                int duration = inputIntegerValidation(durationQuestion, "");
                 JournalEntry newEntry = new JournalEntry(id++, description, category, duration);
                 journalLog.addJournalEntry(newEntry);
                 toContinue = false;
@@ -122,12 +128,13 @@ public class TimeJournalApp {
 
     // EFFECTS: validates user input to make sure it's a positive integer
     // problem: inputs starting with integer and ending in string - eg. "45 minutes"
-    public int inputIntegerValidation(String question) {
+    public int inputIntegerValidation(String question, String list) {
         input.nextLine();
         int choice;
         do {
             System.out.println(question);
             while (!input.hasNextInt()) {
+                System.out.println(list);
                 System.out.println("Invalid entry. " + question);
                 input.nextLine();
             }
@@ -141,9 +148,9 @@ public class TimeJournalApp {
         if (journalLog.getSize() == 0) {
             System.out.println("You currently have no journal entries. \n");
         } else {
-            System.out.println(journalLog.printLog());
             boolean toContinue = true;
             while (toContinue) {
+                System.out.println(journalLog.printLog());
                 editDeleteMenu();
                 String choice = input.next();
                 if (choice.equals("1")) {
@@ -201,10 +208,12 @@ public class TimeJournalApp {
         if (journalLog.getSize() == 0) {
             System.out.println("Nothing to delete - your journal log is currently empty.\n");
         } else {
+            System.out.println(journalLog.printLog());
             String question = "Enter the ID number of the journal entry you would like to delete:";
-            int choice = inputIntegerValidation(question);
+            int choice = inputIntegerValidation(question, journalLog.printLog());
             if (journalLog.hasID(choice)) {
                 journalLog.deleteJournalEntry(choice);
+                System.out.println("The entry has successfully been deleted.");
             } else {
                 System.out.println("Sorry, that entry does not exist.");
             }
@@ -224,7 +233,7 @@ public class TimeJournalApp {
             System.out.println(categoryList.printListExceptUncategorized());
             boolean toContinue = true;
             while (toContinue) {
-                int select = inputIntegerValidation(question);
+                int select = inputIntegerValidation(question, categoryList.printListExceptUncategorized());
                 if (select > 0 && select <= categoryList.getSize() - 1) {
                     journalLog.uncategorize(categoryList.getCategory(select), categoryList.getCategory(0));
                     categoryList.deleteCategory(categoryList.getCategory(select));
@@ -247,9 +256,9 @@ public class TimeJournalApp {
     //          - renames category based on user input
     public void editCategory() {
         if (categoryList.getSize() != 1) {
-            System.out.println("Which category would you like to edit? Enter number:");
+            String question = "Which category would you like to edit? Enter number:";
             System.out.println(categoryList.printListExceptUncategorized());
-            int editChoice = input.nextInt() + 1;
+            int editChoice = 1 + inputIntegerValidation(question, categoryList.printListExceptUncategorized());
             if (editChoice > 1 && editChoice <= categoryList.getSize()) {
                 System.out.println("What would you like to change the category name to?");
                 String editName = input.next();
@@ -275,8 +284,9 @@ public class TimeJournalApp {
     public void editJournalEntry() {
         boolean toContinue = true;
         while (toContinue) {
+            System.out.println(journalLog.printLog());
             String question = "Which entry would you like to edit? Enter ID number";
-            int editChoice = inputIntegerValidation(question);
+            int editChoice = inputIntegerValidation(question, journalLog.printLog());
             if (journalLog.hasID(editChoice)) {
                 editJournalEntryMenu(editChoice);
                 toContinue = false;
@@ -322,9 +332,9 @@ public class TimeJournalApp {
         while (toContinue) {
             String question = "What would you like to change the category to? Enter number below.";
             System.out.println(categoryList.printList());
-            int changeTo = inputIntegerValidation(question);
+            int changeTo = inputIntegerValidation(question, categoryList.printList());
             if (changeTo > 0 && changeTo <= categoryList.getSize()) {
-                updateCategory(changeTo, journalID);
+                editJournalEntryCategoryHelper(changeTo, journalID);
                 System.out.println("You have successfully edited the entry.\n");
                 toContinue = false;
             } else {
@@ -337,7 +347,7 @@ public class TimeJournalApp {
     // MODIFIES: this
     // EFFECTS: helper for editJournalEntryCategory - updates category duration of category in which journal entry
     //          is being changed to
-    public void updateCategory(int changeTo, int journalID) {
+    public void editJournalEntryCategoryHelper(int changeTo, int journalID) {
         Category toCategory = categoryList.getCategory(changeTo - 1);
         Category fromCategory = journalLog.getValue(journalID).getCategory();
         int toCategoryDuration = toCategory.getDuration();
@@ -352,7 +362,7 @@ public class TimeJournalApp {
     // EFFECTS: edits journal entry duration field based on user input
     public void editJournalEntryDuration(int journalID) {
         String question = "What would you like to change the duration to? Enter number in minutes below:";
-        int newDuration = inputIntegerValidation(question);
+        int newDuration = inputIntegerValidation(question, "");
         int oldDuration = journalLog.getValue(journalID).getDuration();
         Category affectedCategory = journalLog.getValue(journalID).getCategory();
 
