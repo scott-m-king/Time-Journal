@@ -5,6 +5,8 @@ import java.util.List;
 
 // Represents an ArrayList of categories
 public class CategoryList {
+    private Category uncategorized;
+    private List<Category> categoryList;
 
     /**
      * When CategoryList is instantiated, it comes pre-populated with the 'Uncategorized' Category object that acts as
@@ -12,8 +14,6 @@ public class CategoryList {
      * When a Category is deleted from CategoryList, all journal entries tagged with that category will automatically
      * be re-assigned to Uncategorized and the duration will be updated accordingly.
      */
-    private Category uncategorized;
-    private List<Category> categoryList;
 
     // Constructor
     public CategoryList() {
