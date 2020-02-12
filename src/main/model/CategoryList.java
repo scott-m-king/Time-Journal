@@ -5,11 +5,17 @@ import java.util.List;
 
 // Represents an ArrayList of categories
 public class CategoryList {
-    private Category uncategorized;       // declaration of 'Uncategorized' category object as a default' category
+
+    /**
+     * When CategoryList is instantiated, it comes pre-populated with the 'Uncategorized' Category object that acts as
+     * a 'default' category. Uncategorized is just like a normal Category but is non-modifiable and non-deletable.
+     * When a Category is deleted from CategoryList, all journal entries tagged with that category will automatically
+     * be re-assigned to Uncategorized and the duration will be updated accordingly.
+     */
+    private Category uncategorized;
     private List<Category> categoryList;
 
     // Constructor
-    // New instances of CategoryList come pre-populated with 'Uncategorized' which is non-modifiable/deletable
     public CategoryList() {
         categoryList = new ArrayList<>();
         uncategorized = new Category("Uncategorized");
@@ -18,13 +24,13 @@ public class CategoryList {
 
     // MODIFIES: this
     // EFFECTS: adds a category to this list of categories and sets initial balance to 0
-    public void addCategory(Category c) {
+    public void add(Category c) {
         categoryList.add(c);
     }
 
     // REQUIRES: category that exists in the list
     // EFFECTS: returns total time spent in a category
-    public Integer getCategoryTimeSpent(Category c) {
+    public Integer getDuration(Category c) {
         for (Category category : categoryList) {
             if (category == c) {
                 return category.getDuration();
@@ -36,12 +42,8 @@ public class CategoryList {
     // MODIFIES: this
     // EFFECTS: - deletes category from list
     //          - adds duration total to uncategorized
-    public void deleteCategory(Category c) {
-        for (Category category : categoryList) {
-            if (category == uncategorized) {
-                category.setDuration(category.getDuration() + c.getDuration());
-            }
-        }
+    public void delete(Category c) {
+        uncategorized.setDuration(uncategorized.getDuration() + c.getDuration());
         categoryList.remove(c);
     }
 
@@ -81,12 +83,12 @@ public class CategoryList {
     }
 
     // EFFECTS: returns category of index in list
-    public Category getCategory(int i) {
+    public Category get(int i) {
         return categoryList.get(i);
     }
 
     // EFFECTS: returns true if category already exists in the list, false otherwise
-    public boolean doesCategoryAlreadyExist(String name) {
+    public boolean isDuplicateName(String name) {
         for (Category c : categoryList) {
             if (name.equals(c.getName())) {
                 return true;

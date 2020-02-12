@@ -15,18 +15,18 @@ public class JournalLog {
     // MODIFIES: this
     // EFFECTS: - adds journal entry to the log
     //          - adds time duration to category total
-    public void addJournalEntry(JournalEntry entry) {
+    public void add(JournalEntry entry) {
         journalLog.put(entry.getId(), entry);
         entry.getCategory().addDuration(entry.getDuration());
     }
 
     // MODIFIES: this
     // EFFECTS: if category exists, deletes a journal entry from the log and adjusts category totals and returns true
-    public boolean deleteJournalEntry(int removeID) {
-        if (journalLog.containsKey(removeID)) {
-            Category category = journalLog.get(removeID).getCategory();
-            category.setDuration(category.getDuration() - journalLog.get(removeID).getDuration());
-            journalLog.remove(removeID);
+    public boolean delete(int id) {
+        if (journalLog.containsKey(id)) {
+            Category category = journalLog.get(id).getCategory();
+            category.setDuration(category.getDuration() - journalLog.get(id).getDuration());
+            journalLog.remove(id);
             return true;
         } else {
             return false;
