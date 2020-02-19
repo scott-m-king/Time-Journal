@@ -44,6 +44,8 @@ public class JournalEntryTest {
     public void testSetDescription() {
         testEntry.setDescription("New description");
         assertEquals("New description", testEntry.getDescription());
+        testEntry.setDescription("Changed description");
+        assertEquals("Changed description", testEntry.getDescription());
     }
 
 }

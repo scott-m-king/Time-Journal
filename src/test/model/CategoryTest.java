@@ -32,6 +32,8 @@ public class CategoryTest {
     public void testSetName() {
         testCategory.setName("newTest");
         assertEquals("newTest", testCategory.getName());
+        testCategory.setName("anotherTest");
+        assertEquals("anotherTest", testCategory.getName());
     }
 
     @Test
@@ -39,6 +41,8 @@ public class CategoryTest {
         testCategory.setDuration(10);
         testCategory.addDuration(50);
         assertEquals(60, testCategory.getDuration());
+        testCategory.addDuration(10);
+        assertEquals(70, testCategory.getDuration());
     }
 
 }
