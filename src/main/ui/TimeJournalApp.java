@@ -4,7 +4,11 @@ import model.Category;
 import model.CategoryList;
 import model.JournalEntry;
 import model.JournalLog;
+import persistence.SaveReader;
+import persistence.SaveWriter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -17,6 +21,8 @@ public class TimeJournalApp {
     private JournalLog journalLog;       // declaration of new JournalLog
     private Scanner input;               // scanner object to take in user input
     private int id = 1;                  // starting ID of first journal entry, incremented by 1 for each new entry
+    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
+    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
 
     // EFFECTS: runs time journal application and instantiates new category and journal entry logs
     public TimeJournalApp() {
@@ -32,13 +38,12 @@ public class TimeJournalApp {
         String command;
         input = new Scanner(System.in);
         intro();
-
         while (keepGoing) {
             displayMenu();
             command = input.next();
             command = command.toLowerCase();
-
             if (command.equals("5")) {
+                endSession();
                 keepGoing = false;
             } else {
                 processCommand(command);
@@ -46,11 +51,50 @@ public class TimeJournalApp {
         }
     }
 
+    // EFFECTS: ends user session and prompts to save or not
+    private void endSession() {
+        System.out.println("Would you like to save your session?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        String choice = input.next();
+        if (choice.equals("1")) {
+            saveEntries();
+            System.out.println("See you next time!");
+        } else if (choice.equals("2")) {
+            System.out.println("See you next time!");
+        } else {
+            System.out.println("Invalid selection.");
+            endSession();
+        }
+
+    }
+
     // MODIFIES: this
     // EFFECTS: prompts user to enter first category
     private void intro() {
-        System.out.print("Hello! Welcome to Time Journal. Let's start by creating your first category. ");
-        createNewCategory();
+        System.out.println("Hello! Welcome to Time Journal. What type of user are you? Enter number: ");
+        System.out.println("1. New User");
+        System.out.println("2. Returning User");
+
+        String choice = input.next();
+        if (choice.equals("1")) {
+            System.out.println("Let's start by creating your first category. ");
+            createNewCategory();
+        } else if (choice.equals("2")) {
+            System.out.println("Welcome back - what would you like to do? Enter number: ");
+            System.out.println("1. Load save file");
+            System.out.println("2. Start fresh");
+            choice = input.next();
+            if (choice.equals("1")) {
+                loadEntries();
+            } else {
+                System.out.println("Let's start by creating your first category. ");
+                createNewCategory();
+            }
+        } else {
+            System.out.println("Invalid entry.");
+            intro();
+        }
     }
 
     // EFFECTS: displays all menu options to the user
@@ -105,17 +149,14 @@ public class TimeJournalApp {
         System.out.println("What did you get up to? Enter a description for your journal entry:");
         Scanner descriptionInput = new Scanner(System.in);
         String description = descriptionInput.nextLine();
-
         boolean toContinue = true;
         while (toContinue) {
             String categoryQuestion = "What category would you like to place this under? (Enter number)";
             System.out.println(categoryList.printList());
-
             int choice = inputIntegerValidation(categoryQuestion, categoryList.printList());
             if (choice > 0 && choice <= categoryList.getSize()) {
                 int categoryIndex = (choice - 1);
                 Category category = categoryList.get(categoryIndex);
-
                 int duration = inputIntegerValidation("How long did you spend on this? (in minutes)", "");
                 JournalEntry newEntry = new JournalEntry(id++, description, category, duration);
                 journalLog.add(newEntry);
@@ -125,6 +166,35 @@ public class TimeJournalApp {
             }
         }
         System.out.println("Your entry has been added. \n");
+    }
+
+    // EFFECTS: saves CategoryList and JournalLog to files
+    private void saveEntries() {
+        try {
+            SaveWriter journalSave = new SaveWriter(new File(JOURNAL_SAVE_FILE));
+            journalSave.saveFile(journalLog);
+            journalSave.close();
+
+            SaveWriter categorySave = new SaveWriter(new File(CATEGORY_SAVE_FILE));
+            categorySave.saveFile(categoryList);
+            categorySave.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // EFFECTS: reads json files and converts back into objects
+    private void loadEntries() {
+        try {
+            SaveReader journalReader = new SaveReader(JOURNAL_SAVE_FILE);
+            SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
+            journalLog = journalReader.readJournalEntries();
+            categoryList = categoryReader.readCategoryList();
+            System.out.println("Save file successfully loaded. \n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // EFFECTS: validates user input to make sure it's a positive integer

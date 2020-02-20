@@ -1,0 +1,24 @@
+{
+  "uncategorized": {
+    "name": "Uncategorized",
+    "duration": 0
+  },
+  "categoryList": [
+    {
+      "name": "Uncategorized",
+      "duration": 60
+    },
+    {
+      "name": "Sleep",
+      "duration": 75
+    },
+    {
+      "name": "Work",
+      "duration": 480
+    },
+    {
+      "name": "Social",
+      "duration": 120
+    }
+  ]
+}
