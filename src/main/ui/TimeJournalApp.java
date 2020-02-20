@@ -15,12 +15,17 @@ import java.util.Scanner;
  * Design inspired by Teller App: https://github.students.cs.ubc.ca/CPSC210/TellerApp
  */
 
+// TODO: Fix bug where data is not updated after loading a save file and doing things after.
+    // it is something to do with the fact that when objects are reconstructed, they are new instances and
+    // cannot modify them using simple getters and setters for Category and JournalEntry
+
 // Time Journal Application
 public class TimeJournalApp {
     private CategoryList categoryList;   // declaration of new CategoryList
     private JournalLog journalLog;       // declaration of new JournalLog
     private Scanner input;               // scanner object to take in user input
     private int id = 1;                  // starting ID of first journal entry, incremented by 1 for each new entry
+
     public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
     public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
 
@@ -66,7 +71,6 @@ public class TimeJournalApp {
             System.out.println("Invalid selection.");
             endSession();
         }
-
     }
 
     // MODIFIES: this
@@ -191,6 +195,8 @@ public class TimeJournalApp {
             SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
+            id = journalLog.getCurrentID();
+            System.out.println(id);
             System.out.println("Save file successfully loaded. \n");
         } catch (IOException e) {
             e.printStackTrace();

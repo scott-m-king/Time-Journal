@@ -5,70 +5,56 @@
       "date": {
         "year": 2020,
         "month": 2,
-        "day": 19
+        "day": 20
       },
-      "description": "Went out for drinks",
+      "description": "Took a nap",
       "category": {
-        "name": "Social",
-        "duration": 120
+        "name": "Sleep",
+        "duration": 45
       },
-      "duration": 120
+      "duration": 45
+    },
+    "2": {
+      "id": 2,
+      "date": {
+        "year": 2020,
+        "month": 2,
+        "day": 20
+      },
+      "description": "Went to school",
+      "category": {
+        "name": "Work",
+        "duration": 180
+      },
+      "duration": 180
     },
     "3": {
       "id": 3,
       "date": {
         "year": 2020,
         "month": 2,
-        "day": 19
+        "day": 20
       },
-      "description": "Did some homework",
+      "description": "Went for drinks",
       "category": {
-        "name": "Work",
-        "duration": 480
+        "name": "Social",
+        "duration": 50
       },
-      "duration": 120
+      "duration": 50
     },
     "4": {
       "id": 4,
       "date": {
         "year": 2020,
         "month": 2,
-        "day": 19
+        "day": 20
       },
-      "description": "Took another nap",
-      "category": {
-        "name": "Sleep",
-        "duration": 75
-      },
-      "duration": 30
-    },
-    "5": {
-      "id": 5,
-      "date": {
-        "year": 2020,
-        "month": 2,
-        "day": 19
-      },
-      "description": "Went out to the store",
+      "description": "Did misc things",
       "category": {
         "name": "Uncategorized",
         "duration": 60
       },
       "duration": 60
-    },
-    "6": {
-      "id": 6,
-      "date": {
-        "year": 2020,
-        "month": 2,
-        "day": 19
-      },
-      "description": "Completed CPSC 210 Phase 2 project deliverable",
-      "category": {
-        "name": "Work",
-        "duration": 480
-      },
-      "duration": 360
     }
   }
 }

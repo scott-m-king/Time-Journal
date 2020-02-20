@@ -1,7 +1,9 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 // Represents a HashMap of journal entries with journalEntry.id as key, and associated journalEntry as value
 public class JournalLog {
@@ -77,6 +79,11 @@ public class JournalLog {
     // EFFECTS: returns journal entry in the list given ID
     public JournalEntry getValue(int id) {
         return journalLog.get(id);
+    }
+
+    // TODO: write a test for this for code coverage
+    public int getCurrentID() {
+        return Collections.max(journalLog.keySet()) + 1;
     }
 
 }

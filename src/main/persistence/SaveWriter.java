@@ -2,6 +2,7 @@ package persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.*;
 
 import java.io.*;
 
@@ -17,8 +18,12 @@ public class SaveWriter {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public void saveFile(Object obj) {
-        gson.toJson(obj, writer);
+    public void saveFile(JournalLog j) {
+        gson.toJson(j, writer);
+    }
+
+    public void saveFile(CategoryList c) {
+        gson.toJson(c, writer);
     }
 
     public void close() throws IOException {
