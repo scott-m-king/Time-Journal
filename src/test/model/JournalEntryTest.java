@@ -14,14 +14,14 @@ public class JournalEntryTest {
 
     @BeforeEach
     public void runBefore() {
-        testCategory = new Category("test");
-        testEntry = new JournalEntry(1, "test", testCategory, 10);
+        testCategory = new Category(1,"test");
+        testEntry = new JournalEntry(1, "test", testCategory.getId(), testCategory, 10);
     }
 
     @Test
     public void testConstructor() {
-        assertEquals(1, testEntry.getId());
-        assertEquals(LocalDate.now(), testEntry.getDate());
+        assertEquals(1, testEntry.getJournalID());
+        assertEquals(LocalDate.now().toString(), testEntry.getDate());
         assertEquals("test", testEntry.getDescription());
         assertEquals(testCategory, testEntry.getCategory());
         assertEquals(10, testEntry.getDuration());
@@ -29,7 +29,7 @@ public class JournalEntryTest {
 
     @Test
     public void testSetCategory() {
-        Category testCategory2 = new Category("test2");
+        Category testCategory2 = new Category(2,"test2");
         testEntry.setCategory(testCategory2);
         assertEquals(testCategory2, testEntry.getCategory());
     }

@@ -11,7 +11,7 @@ public class CategoryTest {
 
     @BeforeEach
     public void runBefore() {
-        testCategory = new Category("test");
+        testCategory = new Category(1, "test");
     }
 
     @Test

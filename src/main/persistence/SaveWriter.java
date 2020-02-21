@@ -15,14 +15,18 @@ public class SaveWriter {
 
     public SaveWriter(File file) throws IOException {
         writer = new FileWriter(file);
-        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     public void saveFile(JournalLog j) {
+        gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting()
+                .create();
         gson.toJson(j, writer);
     }
 
     public void saveFile(CategoryList c) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(c, writer);
     }
 

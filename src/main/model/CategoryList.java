@@ -1,25 +1,16 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // Represents an ArrayList of categories
 public class CategoryList {
-    private Category uncategorized;
     private List<Category> categoryList;
-
-    /**
-     * When CategoryList is instantiated, it comes pre-populated with the 'Uncategorized' Category object that acts as
-     * a 'default' category. Uncategorized is just like a normal Category but is non-modifiable and non-deletable.
-     * When a Category is deleted from CategoryList, all journal entries tagged with that category will automatically
-     * be re-assigned to Uncategorized and the duration will be updated accordingly.
-     */
 
     // Constructor
     public CategoryList() {
         categoryList = new ArrayList<>();
-        uncategorized = new Category("Uncategorized");
-        categoryList.add(uncategorized);
     }
 
     // MODIFIES: this
@@ -43,8 +34,8 @@ public class CategoryList {
     // EFFECTS: - deletes category from list
     //          - adds duration total to uncategorized
     public void delete(Category c) {
-        find(uncategorized).setDuration(find(uncategorized).getDuration() + find(c).getDuration());
-        categoryList.remove(find(c));
+        categoryList.get(0).setDuration(categoryList.get(0).getDuration() + c.getDuration());
+        categoryList.remove(c);
     }
 
     // EFFECTS: returns size of category list
@@ -97,19 +88,18 @@ public class CategoryList {
         return false;
     }
 
-    // EFFECTS: given category, returns the category from this instance of CategoryList (for after loading)
-    public Category find(Category category) {
-        for (Category c : categoryList) {
-            if (c.getName().equals(category.getName())) {
-                return c;
-            }
-        }
-        return null;
-    }
-
     // EFFECTS: returns the CategoryList object as is. Used in updateWithLoadedCategories only
     protected List<Category> getCategoryList() {
         return categoryList;
+    }
+
+    // EFFECTS: returns the ID of the next category to be made
+    public int getNextCategoryID() {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (Category c : categoryList) {
+            arr.add(c.getId());
+        }
+        return Collections.max(arr) + 1;
     }
 
 }

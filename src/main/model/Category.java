@@ -2,11 +2,13 @@ package model;
 
 // Represents a category with a name and duration (total time spent in this category)
 public class Category {
+    private int id;
     private String name;       // User-inputted name of category
     private int duration;      // time spent on category initialized to zero
 
     // Constructor
-    public Category(String name) {
+    public Category(int id, String name) {
+        this.id = id;
         this.name = name;
         this.duration = 0;
     }
@@ -14,6 +16,10 @@ public class Category {
     // getters and setters
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getDuration() {

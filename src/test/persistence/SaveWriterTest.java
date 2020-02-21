@@ -26,7 +26,8 @@ public class SaveWriterTest {
     public void runBefore() {
         testJournalLog = new JournalLog();
         testCategoryList = new CategoryList();
-        uncategorized = new Category ("Uncategorized");
+        uncategorized = new Category (0, "Uncategorized");
+        testCategoryList.add(uncategorized);
 
         try {
             testSaveWriterCategories = new SaveWriter(new File(CATEGORY_SAVE_LOCATION));
@@ -85,14 +86,15 @@ public class SaveWriterTest {
 
     private void populateJournalLog(int quantity) {
         for (int i = 0; i < quantity; i++) {
-            JournalEntry test = new JournalEntry(i, "test" + (i + 1), uncategorized, 10);
+            JournalEntry test = new JournalEntry(
+                    i, "test" + (i + 1), uncategorized.getId(), uncategorized, 10);
             testJournalLog.add(test);
         }
     }
 
     private void populateCategoryList(int quantity) {
         for (int i = 1; i < quantity + 1; i++) {
-            Category test = new Category("test" + i);
+            Category test = new Category(i, "test" + i);
             testCategoryList.add(test);
         }
     }

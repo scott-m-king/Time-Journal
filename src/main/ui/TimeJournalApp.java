@@ -15,16 +15,14 @@ import java.util.Scanner;
  * Design inspired by Teller App: https://github.students.cs.ubc.ca/CPSC210/TellerApp
  */
 
-// TODO: Fix bug where data is not updated after loading a save file and doing things after.
-    // it is something to do with the fact that when objects are reconstructed, they are new instances and
-    // cannot modify them using simple getters and setters for Category and JournalEntry
-
 // Time Journal Application
 public class TimeJournalApp {
     private CategoryList categoryList;   // declaration of new CategoryList
     private JournalLog journalLog;       // declaration of new JournalLog
     private Scanner input;               // scanner object to take in user input
-    private int id = 1;                  // starting ID of first journal entry, incremented by 1 for each new entry
+    private int journalID = 1;           // starting ID of first journal entry, incremented by 1 for each new entry
+    private int categoryID = 1;          // starting ID of first category (after Uncategorized)
+    private Category uncategorized;
 
     public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
     public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
@@ -73,17 +71,25 @@ public class TimeJournalApp {
         }
     }
 
+    /**
+     * When CategoryList is instantiated in a new session, it comes pre-populated with the 'Uncategorized'
+     * Category object that acts as a 'default' category. Uncategorized is just like a normal Category but is
+     * non-modifiable and non-deletable. When a Category is deleted from CategoryList, all journal entries tagged
+     * with that category will automatically be re-assigned to Uncategorized and the duration will be updated
+     * accordingly.
+     */
+
     // MODIFIES: this
     // EFFECTS: prompts user to enter first category
     private void intro() {
+        uncategorized = new Category(0, "Uncategorized");
         System.out.println("Hello! Welcome to Time Journal. What type of user are you? Enter number: ");
         System.out.println("1. New User");
         System.out.println("2. Returning User");
 
         String choice = input.next();
         if (choice.equals("1")) {
-            System.out.println("Let's start by creating your first category. ");
-            createNewCategory();
+            newSession();
         } else if (choice.equals("2")) {
             System.out.println("Welcome back - what would you like to do? Enter number: ");
             System.out.println("1. Load save file");
@@ -92,13 +98,19 @@ public class TimeJournalApp {
             if (choice.equals("1")) {
                 loadEntries();
             } else {
-                System.out.println("Let's start by creating your first category. ");
-                createNewCategory();
+                newSession();
             }
         } else {
             System.out.println("Invalid entry.");
             intro();
         }
+    }
+
+    // EFFECTS: creates a new session by prompting use for first category
+    public void newSession() {
+        categoryList.add(uncategorized);
+        System.out.println("Let's start by creating your first category. ");
+        createNewCategory();
     }
 
     // EFFECTS: displays all menu options to the user
@@ -139,7 +151,7 @@ public class TimeJournalApp {
         System.out.println("Enter a name for your category below: ");
         String newName = input.next();
         if (!categoryList.isDuplicateName(newName)) {
-            Category newCategory = new Category(newName);
+            Category newCategory = new Category(categoryID++, newName);
             categoryList.add(newCategory);
             System.out.println("Great! That category has been added to your list. " + "\n");
         } else {
@@ -162,7 +174,8 @@ public class TimeJournalApp {
                 int categoryIndex = (choice - 1);
                 Category category = categoryList.get(categoryIndex);
                 int duration = inputIntegerValidation("How long did you spend on this? (in minutes)", "");
-                JournalEntry newEntry = new JournalEntry(id++, description, category, duration);
+                JournalEntry newEntry = new JournalEntry(
+                        journalID++, description, category.getId(), category, duration);
                 journalLog.add(newEntry);
                 toContinue = false;
             } else {
@@ -197,7 +210,8 @@ public class TimeJournalApp {
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
             journalLog.updateWithLoadedCategories(categoryList);
-            id = journalLog.getCurrentID();
+            journalID = journalLog.getNextJournalID();
+            categoryID = categoryList.getNextCategoryID();
 
             System.out.println("Save file successfully loaded. \n");
         } catch (IOException e) {
@@ -315,7 +329,7 @@ public class TimeJournalApp {
                         categoryList.printListExceptUncategorized());
                 if (select > 0 && select <= categoryList.getSize() - 1) {
                     journalLog.uncategorize(categoryList.get(select), categoryList.get(0));
-                    categoryList.delete(categoryList.find(categoryList.get(select)));
+                    categoryList.delete(categoryList.get(select));
                     System.out.println("You have successfully deleted the category.");
                     toContinue = false;
                 } else {
@@ -361,7 +375,7 @@ public class TimeJournalApp {
             return;
         }
 
-        categoryList.find(categoryList.get(editChoice - 1)).setName(editName);
+        categoryList.get(editChoice - 1).setName(editName);
         System.out.println("You've successfullly edited the category.\n");
     }
 
@@ -442,7 +456,7 @@ public class TimeJournalApp {
     private void editJournalEntryCategoryHelper(int changeTo, int journalID) {
         Category toCategory = categoryList.get(changeTo - 1);
         System.out.println(journalID);
-        Category fromCategory = categoryList.find(journalLog.getValue(journalID).getCategory());
+        Category fromCategory = journalLog.getValue(journalID).getCategory();
         int toCategoryDuration = toCategory.getDuration();
         int journalEntryDuration = journalLog.getValue(journalID).getDuration();
 

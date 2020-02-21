@@ -1,13 +1,14 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 // Represents a HashMap of journal entries with journalEntry.id as key, and associated journalEntry as value
 public class JournalLog {
-    private Map<Integer, JournalEntry> journalLog;
+    @Expose private Map<Integer, JournalEntry> journalLog;
 
     // Constructor
     public JournalLog() {
@@ -18,7 +19,7 @@ public class JournalLog {
     // EFFECTS: - adds journal entry to the log
     //          - adds time duration to category total
     public void add(JournalEntry entry) {
-        journalLog.put(entry.getId(), entry);
+        journalLog.put(entry.getJournalID(), entry);
         entry.getCategory().addDuration(entry.getDuration());
     }
 
@@ -50,7 +51,7 @@ public class JournalLog {
     public void updateWithLoadedCategories(CategoryList categoryList) {
         for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
             for (Category c : categoryList.getCategoryList()) {
-                if (entry.getValue().getCategory().getName().equals(c.getName())) {
+                if (entry.getValue().getCategoryID() == c.getId()) {
                     entry.getValue().setCategory(c);
                 }
             }
@@ -63,7 +64,7 @@ public class JournalLog {
         StringBuilder builder = new StringBuilder();
         for (JournalEntry entry : journalLog.values()) {
             builder.append("ID: ");
-            builder.append(entry.getId());
+            builder.append(entry.getJournalID());
             builder.append(" | Date: ");
             builder.append(entry.getDate());
             builder.append(" | Category: ");
@@ -94,7 +95,7 @@ public class JournalLog {
     }
 
     // EFFECTS: returns the next journal ID number to use after loading from save file
-    public int getCurrentID() {
+    public int getNextJournalID() {
         return Collections.max(journalLog.keySet()) + 1;
     }
 

@@ -31,10 +31,12 @@ public class SaveReaderTest {
         testJournalLog = new JournalLog();
         testCategoryList = new CategoryList();
 
-        testCat1 = new Category("test category 1");
-        testCat2 = new Category("test category 2");
-        testCat3 = new Category("test category 3");
-        uncategorized = new Category ("Uncategorized");
+        uncategorized = new Category (0, "Uncategorized");
+        testCat1 = new Category(1, "test category 1");
+        testCat2 = new Category(2, "test category 2");
+        testCat3 = new Category(3, "test category 3");
+
+        testCategoryList.add(uncategorized);
         testCategoryList.add(testCat1);
         testCategoryList.add(testCat2);
         testCategoryList.add(testCat3);
@@ -45,6 +47,31 @@ public class SaveReaderTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testIOExceptionReader() {
+        try {
+            SaveReader testSaveReaderException = new SaveReader(FAKE_PATH);
+            testSaveReaderException.readCategoryList();
+        } catch (IOException e) {
+            // exception expected
+        }
+    }
+
+    @Test
+    public void testIOExceptionWriter() {
+        try {
+            SaveWriter testSaveWriterException = new SaveWriter(new File(FAKE_PATH));
+            testSaveWriterException.saveFile(testJournalLog);
+        } catch (IOException e) {
+            // exception expected
+        }
+    }
+
+    @Test
+    public void testGetNextCategoryID() {
+        assertEquals(4, testCategoryList.getNextCategoryID());
     }
 
     @Test
@@ -71,9 +98,9 @@ public class SaveReaderTest {
             assertEquals("test1", testLoadJournalLog.getValue(0).getDescription());
             assertEquals("test2", testLoadJournalLog.getValue(1).getDescription());
             assertEquals("test3", testLoadJournalLog.getValue(2).getDescription());
-            assertEquals("test category 1", testLoadJournalLog.getValue(0).getCategory().getName());
-            assertEquals("test category 2", testLoadJournalLog.getValue(1).getCategory().getName());
-            assertEquals("test category 3", testLoadJournalLog.getValue(2).getCategory().getName());
+            assertEquals(1, testLoadJournalLog.getValue(0).getCategoryID());
+            assertEquals(2, testLoadJournalLog.getValue(1).getCategoryID());
+            assertEquals(3, testLoadJournalLog.getValue(2).getCategoryID());
         } catch (IOException e) {
             fail("Exception thrown...");
         }
@@ -104,29 +131,10 @@ public class SaveReaderTest {
         }
     }
 
-    @Test
-    public void testIOExceptionReader() {
-        try {
-            SaveReader testSaveReaderException = new SaveReader(FAKE_PATH);
-            testSaveReaderException.readCategoryList();
-        } catch (IOException e) {
-            // exception expected
-        }
-    }
-
-    @Test
-    public void testIOExceptionWriter() {
-        try {
-            SaveWriter testSaveWriterException = new SaveWriter(new File(FAKE_PATH));
-            testSaveWriterException.saveFile(testJournalLog);
-        } catch (IOException e) {
-            // exception expected
-        }
-    }
-
     private void populateJournalLog(int quantity) {
         for (int i = 0; i < quantity; i++) {
-            JournalEntry test = new JournalEntry(i, "test" + (i + 1), uncategorized, 10);
+            JournalEntry test = new JournalEntry(
+                    i, "test" + (i + 1), uncategorized.getId(), uncategorized, 10);
             testJournalLog.add(test);
         }
     }
