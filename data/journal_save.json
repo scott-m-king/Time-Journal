@@ -10,9 +10,9 @@
       "description": "Took a nap",
       "category": {
         "name": "Sleep",
-        "duration": 45
+        "duration": 180
       },
-      "duration": 45
+      "duration": 60
     },
     "2": {
       "id": 2,
@@ -21,26 +21,12 @@
         "month": 2,
         "day": 20
       },
-      "description": "Went to school",
+      "description": "Took the bus to school",
       "category": {
-        "name": "Work",
+        "name": "Friends",
         "duration": 180
       },
-      "duration": 180
-    },
-    "3": {
-      "id": 3,
-      "date": {
-        "year": 2020,
-        "month": 2,
-        "day": 20
-      },
-      "description": "Went for drinks",
-      "category": {
-        "name": "Social",
-        "duration": 50
-      },
-      "duration": 50
+      "duration": 60
     },
     "4": {
       "id": 4,
@@ -49,12 +35,40 @@
         "month": 2,
         "day": 20
       },
-      "description": "Did misc things",
+      "description": "Did CPSC 210 homework",
       "category": {
-        "name": "Uncategorized",
-        "duration": 60
+        "name": "Work",
+        "duration": 180
       },
-      "duration": 60
+      "duration": 180
+    },
+    "5": {
+      "id": 5,
+      "date": {
+        "year": 2020,
+        "month": 2,
+        "day": 20
+      },
+      "description": "Went out for drinks",
+      "category": {
+        "name": "Friends",
+        "duration": 180
+      },
+      "duration": 120
+    },
+    "6": {
+      "id": 6,
+      "date": {
+        "year": 2020,
+        "month": 2,
+        "day": 20
+      },
+      "description": "Took a third nap",
+      "category": {
+        "name": "Sleep",
+        "duration": 180
+      },
+      "duration": 120
     }
   }
 }

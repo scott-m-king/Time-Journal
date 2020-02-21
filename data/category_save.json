@@ -1,24 +1,24 @@
 {
   "uncategorized": {
     "name": "Uncategorized",
-    "duration": 60
+    "duration": 0
   },
   "categoryList": [
     {
       "name": "Uncategorized",
-      "duration": 60
+      "duration": 0
     },
     {
       "name": "Sleep",
-      "duration": 45
+      "duration": 180
     },
     {
       "name": "Work",
       "duration": 180
     },
     {
-      "name": "Social",
-      "duration": 50
+      "name": "Friends",
+      "duration": 180
     }
   ]
 }

@@ -39,8 +39,20 @@ public class JournalLog {
     // EFFECTS: changes all entries categorized with "c" to "uncategorized"
     public void uncategorize(Category c, Category uncategorized) {
         for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
-            if (entry.getValue().getCategory() == c) {
+            if (entry.getValue().getCategory().getName().equals(c.getName())) {
                 entry.getValue().setCategory(uncategorized);
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: updates journal entries with current instances of categories (for after loading)
+    public void updateWithLoadedCategories(CategoryList categoryList) {
+        for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
+            for (Category c : categoryList.getCategoryList()) {
+                if (entry.getValue().getCategory().getName().equals(c.getName())) {
+                    entry.getValue().setCategory(c);
+                }
             }
         }
     }
@@ -81,7 +93,7 @@ public class JournalLog {
         return journalLog.get(id);
     }
 
-    // TODO: write a test for this for code coverage
+    // EFFECTS: returns the next journal ID number to use after loading from save file
     public int getCurrentID() {
         return Collections.max(journalLog.keySet()) + 1;
     }

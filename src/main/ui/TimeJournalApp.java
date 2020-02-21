@@ -195,6 +195,7 @@ public class TimeJournalApp {
             SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
+            journalLog.updateWithLoadedCategories(categoryList);
             id = journalLog.getCurrentID();
             System.out.println(id);
             System.out.println("Save file successfully loaded. \n");
@@ -313,7 +314,7 @@ public class TimeJournalApp {
                         categoryList.printListExceptUncategorized());
                 if (select > 0 && select <= categoryList.getSize() - 1) {
                     journalLog.uncategorize(categoryList.get(select), categoryList.get(0));
-                    categoryList.delete(categoryList.get(select));
+                    categoryList.delete(categoryList.find(categoryList.get(select)));
                     System.out.println("You have successfully deleted the category.");
                     toContinue = false;
                 } else {
@@ -359,7 +360,7 @@ public class TimeJournalApp {
             return;
         }
 
-        categoryList.get(editChoice - 1).setName(editName);
+        categoryList.find(categoryList.get(editChoice - 1)).setName(editName);
         System.out.println("You've successfullly edited the category.\n");
     }
 
@@ -439,7 +440,8 @@ public class TimeJournalApp {
     //          is being changed to
     private void editJournalEntryCategoryHelper(int changeTo, int journalID) {
         Category toCategory = categoryList.get(changeTo - 1);
-        Category fromCategory = journalLog.getValue(journalID).getCategory();
+        System.out.println(journalID);
+        Category fromCategory = categoryList.find(journalLog.getValue(journalID).getCategory());
         int toCategoryDuration = toCategory.getDuration();
         int journalEntryDuration = journalLog.getValue(journalID).getDuration();
 

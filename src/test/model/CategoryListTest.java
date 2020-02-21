@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for CategoryList class
@@ -92,6 +95,19 @@ public class CategoryListTest {
         testLog.add(testEntry);
         assertEquals("1. test. You spent 0 minutes on this category. \n" +
                 "2. Sleep. You spent 30 minutes on this category. \n", testList.printListExceptUncategorized());
+    }
+
+    @Test
+    public void testFind() {
+        Category test2 = new Category("test2");
+        assertNull(testList.find(test2));
+        testList.add(test2);
+        assertEquals("test2", testList.find(test2).getName());
+    }
+
+    @Test
+    public void testGetCategoryList() {
+        assertEquals(testList.get(0), testList.getCategoryList().get(0));
     }
 
 }

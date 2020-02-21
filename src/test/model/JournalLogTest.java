@@ -12,11 +12,14 @@ public class JournalLogTest {
     private JournalLog testJournal;
     private Category testCategory;
     private Category uncategorized = new Category("Uncategorized");
+    private CategoryList testCategoryList;
 
     @BeforeEach
     public void runBefore() {
         testJournal = new JournalLog();
         testCategory = new Category("test");
+        testCategoryList = new CategoryList();
+        testCategoryList.add(testCategory);
         JournalEntry testEntry = new JournalEntry(1, "test", testCategory, 5);
         testJournal.add(testEntry);
     }
@@ -76,6 +79,42 @@ public class JournalLogTest {
                         "ID: 3 | Date: " + LocalDate.now() +
                         " | Category: test | Duration: 15 mins | Description: test3\n",
                 testJournal.printLog());
+    }
+
+    @Test
+    public void testUpdateWithLoadedCategories() {
+        Category unloadedCateogry = new Category("test2");
+        testCategoryList.add(unloadedCateogry);
+        JournalEntry testEntry2 = new JournalEntry(2, "test2", unloadedCateogry, 10);
+        testJournal.add(testEntry2);
+
+        assertEquals(testCategory, testJournal.getValue(1).getCategory());
+        assertEquals(unloadedCateogry, testJournal.getValue(2).getCategory());
+        assertEquals("test", testCategoryList.get(1).getName());
+        assertEquals("test2", testCategoryList.get(2).getName());
+
+        CategoryList reloadedCategoryList = new CategoryList();
+        Category reloadedCategory1 = new Category("test");
+        Category reloadedCategory2 = new Category("test2");
+        reloadedCategoryList.add(reloadedCategory1);
+        reloadedCategoryList.add(reloadedCategory2);
+
+        testJournal.updateWithLoadedCategories(reloadedCategoryList);
+
+        assertEquals(reloadedCategory1, testJournal.getValue(1).getCategory());
+        assertEquals(reloadedCategory2, testJournal.getValue(2).getCategory());
+    }
+
+    @Test
+    public void testGetCurrentID() {
+        JournalEntry test2 = new JournalEntry(2, "test2", uncategorized, 10);
+        JournalEntry test3 = new JournalEntry(3, "test3", testCategory, 15);
+        testJournal.add(test2);
+        testJournal.add(test3);
+
+        assertEquals(4, testJournal.getCurrentID());
+        testJournal.delete(2);
+        assertEquals(4, testJournal.getCurrentID());
     }
 
 }

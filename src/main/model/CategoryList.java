@@ -43,8 +43,8 @@ public class CategoryList {
     // EFFECTS: - deletes category from list
     //          - adds duration total to uncategorized
     public void delete(Category c) {
-        uncategorized.setDuration(uncategorized.getDuration() + c.getDuration());
-        categoryList.remove(c);
+        find(uncategorized).setDuration(find(uncategorized).getDuration() + find(c).getDuration());
+        categoryList.remove(find(c));
     }
 
     // EFFECTS: returns size of category list
@@ -95,6 +95,21 @@ public class CategoryList {
             }
         }
         return false;
+    }
+
+    // EFFECTS: given category, returns the category from this instance of CategoryList (for after loading)
+    public Category find(Category category) {
+        for (Category c : categoryList) {
+            if (c.getName().equals(category.getName())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    // EFFECTS: returns the CategoryList object as is. Used in updateWithLoadedCategories only
+    protected List<Category> getCategoryList() {
+        return categoryList;
     }
 
 }
