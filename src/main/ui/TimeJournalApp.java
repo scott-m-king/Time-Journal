@@ -193,11 +193,12 @@ public class TimeJournalApp {
         try {
             SaveReader journalReader = new SaveReader(JOURNAL_SAVE_FILE);
             SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
+
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
             journalLog.updateWithLoadedCategories(categoryList);
             id = journalLog.getCurrentID();
-            System.out.println(id);
+
             System.out.println("Save file successfully loaded. \n");
         } catch (IOException e) {
             e.printStackTrace();
