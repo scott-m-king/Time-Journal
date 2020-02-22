@@ -8,6 +8,7 @@ import persistence.SaveReader;
 import persistence.SaveWriter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -23,8 +24,8 @@ public class TimeJournalApp {
     private int journalID = 1;           // starting ID of first journal entry, incremented by 1 for each new entry
     private int categoryID = 1;          // starting ID of first category (after Uncategorized)
 
-    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";     // save location for journalLog
-    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";   // save location for categoryList
+    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
+    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
 
     // EFFECTS: runs time journal application and instantiates new category and journal entry logs
     public TimeJournalApp() {
@@ -50,23 +51,6 @@ public class TimeJournalApp {
             } else {
                 processCommand(command);
             }
-        }
-    }
-
-    // EFFECTS: ends user session and prompts to save or not
-    private void endSession() {
-        System.out.println("Would you like to save your session?");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-        String choice = input.next();
-        if (choice.equals("1")) {
-            saveEntries();
-            System.out.println("See you next time!");
-        } else if (choice.equals("2")) {
-            System.out.println("See you next time!");
-        } else {
-            System.out.println("Invalid selection.");
-            endSession();
         }
     }
 
@@ -105,11 +89,28 @@ public class TimeJournalApp {
      */
 
     // EFFECTS: creates a new session by prompting use for first category
-    public void newSession() {
+    private void newSession() {
         Category uncategorized = new Category(0, "Uncategorized");
         categoryList.add(uncategorized);
-        System.out.println("Let's start by creating your first category. ");
+        System.out.print("Let's start by creating your first category. ");
         createNewCategory();
+    }
+
+    // EFFECTS: ends user session and prompts to save or not
+    private void endSession() {
+        System.out.println("Would you like to save your session?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        String choice = input.next();
+        if (choice.equals("1")) {
+            saveEntries();
+            System.out.println("See you next time!");
+        } else if (choice.equals("2")) {
+            System.out.println("See you next time!");
+        } else {
+            System.out.println("Invalid selection.");
+            endSession();
+        }
     }
 
     // EFFECTS: saves CategoryList and JournalLog to JSON files
@@ -125,6 +126,7 @@ public class TimeJournalApp {
 
         } catch (IOException e) {
             e.printStackTrace();
+            // programming error
         }
     }
 
@@ -140,10 +142,14 @@ public class TimeJournalApp {
             journalLog.updateWithLoadedCategories(categoryList);
             journalID = journalLog.getNextJournalID();
             categoryID = categoryList.getNextCategoryID();
-
             System.out.println("Save file successfully loaded. \n");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Save file does not exist. New session will be started.\n");
+            newSession();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Invalid save file. New session will be started. \n");
+            newSession();
         }
     }
 
@@ -195,7 +201,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new journal entry and adds it to journalLog
-    private void createNewJournalEntry() {
+    private void createNewJournalEntry() throws NumberFormatException {
         System.out.println("What did you get up to? Enter a description for your journal entry:");
         Scanner descriptionInput = new Scanner(System.in);
         String description = descriptionInput.nextLine();
