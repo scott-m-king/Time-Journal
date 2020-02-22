@@ -37,21 +37,21 @@ public class JournalLog {
     }
 
     // MODIFIES: this
-    // EFFECTS: changes all entries categorized with "c" to "uncategorized"
+    // EFFECTS: changes all entries categorized with "c" to "uncategorized" (used when deleting a category)
     public void uncategorize(Category c, Category uncategorized) {
         for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
-            if (entry.getValue().getCategory().getName().equals(c.getName())) {
+            if (entry.getValue().getCategoryID() == c.getCategoryID()) {
                 entry.getValue().setCategory(uncategorized);
             }
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: updates journal entries with current instances of categories (for after loading)
+    // EFFECTS: updates journal entries with current instances of categories (for after deserialization)
     public void updateWithLoadedCategories(CategoryList categoryList) {
         for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
             for (Category c : categoryList.getCategoryList()) {
-                if (entry.getValue().getCategoryID() == c.getId()) {
+                if (entry.getValue().getCategoryID() == c.getCategoryID()) {
                     entry.getValue().setCategory(c);
                 }
             }

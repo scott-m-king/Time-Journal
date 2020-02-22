@@ -15,7 +15,7 @@ public class JournalEntryTest {
     @BeforeEach
     public void runBefore() {
         testCategory = new Category(1,"test");
-        testEntry = new JournalEntry(1, "test", testCategory.getId(), testCategory, 10);
+        testEntry = new JournalEntry(1, "test", testCategory.getCategoryID(), testCategory, 10);
     }
 
     @Test

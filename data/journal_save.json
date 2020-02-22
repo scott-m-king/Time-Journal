@@ -18,15 +18,15 @@
       "journalID": 5,
       "date": "2020-02-20",
       "description": "Took another nap",
-      "categoryID": 2,
+      "categoryID": 10,
       "duration": 45
     },
     "6": {
       "journalID": 6,
       "date": "2020-02-20",
       "description": "Did some chores",
-      "categoryID": 8,
-      "duration": 45
+      "categoryID": 12,
+      "duration": 55
     },
     "7": {
       "journalID": 7,
@@ -39,7 +39,7 @@
       "journalID": 8,
       "date": "2020-02-20",
       "description": "Took a huge nap",
-      "categoryID": 2,
+      "categoryID": 10,
       "duration": 120
     },
     "9": {
@@ -55,6 +55,13 @@
       "description": "Did stats webwork",
       "categoryID": 6,
       "duration": 60
+    },
+    "11": {
+      "journalID": 11,
+      "date": "2020-02-21",
+      "description": "Took a really short nap",
+      "categoryID": 10,
+      "duration": 15
     }
   }
 }

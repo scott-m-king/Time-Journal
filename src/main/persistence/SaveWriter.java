@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.File;
 
 // https://www.javadoc.io/doc/com.google.code.gson/gson/latest/com.google.gson/com/google/gson/package-summary.html
 // https://mkyong.com/java/how-to-parse-json-with-gson/
 
+// Represents a writer object to serialize JournalLog and CategoryList into JSON format and write to file in data folder
 public class SaveWriter {
     FileWriter writer;
     Gson gson;

@@ -134,7 +134,7 @@ public class SaveReaderTest {
     private void populateJournalLog(int quantity) {
         for (int i = 0; i < quantity; i++) {
             JournalEntry test = new JournalEntry(
-                    i, "test" + (i + 1), uncategorized.getId(), uncategorized, 10);
+                    i, "test" + (i + 1), uncategorized.getCategoryID(), uncategorized, 10);
             testJournalLog.add(test);
         }
     }

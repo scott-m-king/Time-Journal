@@ -22,7 +22,7 @@ public class JournalLogTest {
         testCategoryList.add(uncategorized);
         testCategoryList.add(testCategory);
         JournalEntry testEntry = new JournalEntry(
-                1, "test", testCategory.getId(), testCategory, 5);
+                1, "test", testCategory.getCategoryID(), testCategory, 5);
         testJournal.add(testEntry);
     }
 
@@ -31,7 +31,7 @@ public class JournalLogTest {
         assertEquals(1, testJournal.getValue(1).getJournalID());
         assertEquals(1, testJournal.getSize());
         JournalEntry testTwo = new JournalEntry(
-                2, "test 2", uncategorized.getId(), uncategorized, 10);
+                2, "test 2", uncategorized.getCategoryID(), uncategorized, 10);
         testJournal.add(testTwo);
         assertEquals(2, testJournal.getValue(2).getJournalID());
         assertEquals(2, testJournal.getSize());
@@ -47,10 +47,10 @@ public class JournalLogTest {
     @Test
     public void testUncategorize() {
         JournalEntry test2 = new JournalEntry(
-                2, "test2", testCategory.getId(), testCategory, 15);
+                2, "test2", testCategory.getCategoryID(), testCategory, 15);
         Category anotherCategory = new Category(2, "test2");
         JournalEntry test3 = new JournalEntry(
-                3, "test3", anotherCategory.getId(), anotherCategory, 30);
+                3, "test3", anotherCategory.getCategoryID(), anotherCategory, 30);
         testJournal.add(test2);
         testJournal.add(test3);
         testJournal.uncategorize(testCategory, uncategorized);
@@ -64,7 +64,7 @@ public class JournalLogTest {
         assertFalse(testJournal.hasID(2));
         assertTrue(testJournal.hasID(1));
         JournalEntry test2 = new JournalEntry(
-                2, "test2", testCategory.getId(), testCategory, 10);
+                2, "test2", testCategory.getCategoryID(), testCategory, 10);
         testJournal.add(test2);
         assertTrue(testJournal.hasID(2));
     }
@@ -75,9 +75,9 @@ public class JournalLogTest {
                         + LocalDate.now() + " | Category: test | Duration: 5 mins | Description: test\n",
                 testJournal.printLog());
         JournalEntry test2 = new JournalEntry(
-                2, "test2", uncategorized.getId(), uncategorized, 10);
+                2, "test2", uncategorized.getCategoryID(), uncategorized, 10);
         JournalEntry test3 = new JournalEntry(
-                3, "test3", testCategory.getId(), testCategory, 15);
+                3, "test3", testCategory.getCategoryID(), testCategory, 15);
         testJournal.add(test2);
         testJournal.add(test3);
         assertEquals("ID: 1 | Date: " + LocalDate.now() +
@@ -94,7 +94,7 @@ public class JournalLogTest {
         Category unloadedCateogry = new Category(2, "test2");
         testCategoryList.add(unloadedCateogry);
         JournalEntry testEntry2 = new JournalEntry(
-                2, "test2", unloadedCateogry.getId(), unloadedCateogry, 10);
+                2, "test2", unloadedCateogry.getCategoryID(), unloadedCateogry, 10);
         testJournal.add(testEntry2);
 
         assertEquals(testCategory, testJournal.getValue(1).getCategory());
@@ -117,9 +117,9 @@ public class JournalLogTest {
     @Test
     public void testGetNextID() {
         JournalEntry test2 = new JournalEntry(
-                2, "test2", uncategorized.getId(), uncategorized, 10);
+                2, "test2", uncategorized.getCategoryID(), uncategorized, 10);
         JournalEntry test3 = new JournalEntry(
-                3, "test3", testCategory.getId(), testCategory, 15);
+                3, "test3", testCategory.getCategoryID(), testCategory, 15);
         testJournal.add(test2);
         testJournal.add(test3);
 

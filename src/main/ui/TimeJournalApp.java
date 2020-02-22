@@ -22,10 +22,9 @@ public class TimeJournalApp {
     private Scanner input;               // scanner object to take in user input
     private int journalID = 1;           // starting ID of first journal entry, incremented by 1 for each new entry
     private int categoryID = 1;          // starting ID of first category (after Uncategorized)
-    private Category uncategorized;
 
-    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
-    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
+    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";     // save location for journalLog
+    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";   // save location for categoryList
 
     // EFFECTS: runs time journal application and instantiates new category and journal entry logs
     public TimeJournalApp() {
@@ -71,18 +70,9 @@ public class TimeJournalApp {
         }
     }
 
-    /**
-     * When CategoryList is instantiated in a new session, it comes pre-populated with the 'Uncategorized'
-     * Category object that acts as a 'default' category. Uncategorized is just like a normal Category but is
-     * non-modifiable and non-deletable. When a Category is deleted from CategoryList, all journal entries tagged
-     * with that category will automatically be re-assigned to Uncategorized and the duration will be updated
-     * accordingly.
-     */
-
     // MODIFIES: this
     // EFFECTS: prompts user to enter first category
     private void intro() {
-        uncategorized = new Category(0, "Uncategorized");
         System.out.println("Hello! Welcome to Time Journal. What type of user are you? Enter number: ");
         System.out.println("1. New User");
         System.out.println("2. Returning User");
@@ -106,11 +96,55 @@ public class TimeJournalApp {
         }
     }
 
+    /**
+     * When CategoryList is instantiated in a new session, it comes pre-populated with the 'Uncategorized'
+     * Category object that acts as a 'default' category. Uncategorized is just like a normal Category but is
+     * non-modifiable and non-deletable. When a Category is deleted from CategoryList, all journal entries tagged
+     * with that category will automatically be re-assigned to Uncategorized and the duration will be updated
+     * accordingly.
+     */
+
     // EFFECTS: creates a new session by prompting use for first category
     public void newSession() {
+        Category uncategorized = new Category(0, "Uncategorized");
         categoryList.add(uncategorized);
         System.out.println("Let's start by creating your first category. ");
         createNewCategory();
+    }
+
+    // EFFECTS: saves CategoryList and JournalLog to JSON files
+    private void saveEntries() {
+        try {
+            SaveWriter journalSave = new SaveWriter(new File(JOURNAL_SAVE_FILE));
+            journalSave.saveFile(journalLog);
+            journalSave.close();
+
+            SaveWriter categorySave = new SaveWriter(new File(CATEGORY_SAVE_FILE));
+            categorySave.saveFile(categoryList);
+            categorySave.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Updates current object instances with deserialized JSON files
+    private void loadEntries() {
+        try {
+            SaveReader journalReader = new SaveReader(JOURNAL_SAVE_FILE);
+            SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
+
+            journalLog = journalReader.readJournalEntries();
+            categoryList = categoryReader.readCategoryList();
+            journalLog.updateWithLoadedCategories(categoryList);
+            journalID = journalLog.getNextJournalID();
+            categoryID = categoryList.getNextCategoryID();
+
+            System.out.println("Save file successfully loaded. \n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // EFFECTS: displays all menu options to the user
@@ -175,7 +209,7 @@ public class TimeJournalApp {
                 Category category = categoryList.get(categoryIndex);
                 int duration = inputIntegerValidation("How long did you spend on this? (in minutes)", "");
                 JournalEntry newEntry = new JournalEntry(
-                        journalID++, description, category.getId(), category, duration);
+                        journalID++, description, category.getCategoryID(), category, duration);
                 journalLog.add(newEntry);
                 toContinue = false;
             } else {
@@ -183,40 +217,6 @@ public class TimeJournalApp {
             }
         }
         System.out.println("Your entry has been added. \n");
-    }
-
-    // EFFECTS: saves CategoryList and JournalLog to files
-    private void saveEntries() {
-        try {
-            SaveWriter journalSave = new SaveWriter(new File(JOURNAL_SAVE_FILE));
-            journalSave.saveFile(journalLog);
-            journalSave.close();
-
-            SaveWriter categorySave = new SaveWriter(new File(CATEGORY_SAVE_FILE));
-            categorySave.saveFile(categoryList);
-            categorySave.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // EFFECTS: reads json files and converts back into objects
-    private void loadEntries() {
-        try {
-            SaveReader journalReader = new SaveReader(JOURNAL_SAVE_FILE);
-            SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
-
-            journalLog = journalReader.readJournalEntries();
-            categoryList = categoryReader.readCategoryList();
-            journalLog.updateWithLoadedCategories(categoryList);
-            journalID = journalLog.getNextJournalID();
-            categoryID = categoryList.getNextCategoryID();
-
-            System.out.println("Save file successfully loaded. \n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     // EFFECTS: validates user input to make sure it's a positive integer
@@ -378,7 +378,6 @@ public class TimeJournalApp {
         categoryList.get(editChoice - 1).setName(editName);
         System.out.println("You've successfullly edited the category.\n");
     }
-
 
     // MODIFIES: this
     // EFFECTS: - asks user which journal entry to edit

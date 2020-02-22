@@ -35,7 +35,7 @@ public class CategoryListTest {
     public void testGetCategoryTimeSpent() {
         JournalLog testJournal = new JournalLog();
         JournalEntry testEntry = new JournalEntry(
-                1, "test entry", testCategory.getId(), testCategory, 27);
+                1, "test entry", testCategory.getCategoryID(), testCategory, 27);
         testJournal.add(testEntry);
         assertEquals(27, testList.getDuration(testCategory));
         Category fakeCategory = new Category(2, "fake");
@@ -78,7 +78,7 @@ public class CategoryListTest {
                 "2. test. You spent 0 minutes on this category. \n" +
                 "3. Sleep. You spent 0 minutes on this category. \n", testList.printList());
         JournalEntry testEntry = new JournalEntry(
-                1, "test", sleep.getId(), sleep, 30);
+                1, "test", sleep.getCategoryID(), sleep, 30);
         JournalLog testLog = new JournalLog();
         testLog.add(testEntry);
         assertEquals("1. Uncategorized. You spent 0 minutes on this category. \n" +
@@ -93,7 +93,7 @@ public class CategoryListTest {
         assertEquals("1. test. You spent 0 minutes on this category. \n" +
                 "2. Sleep. You spent 0 minutes on this category. \n", testList.printListExceptUncategorized());
         JournalEntry testEntry = new JournalEntry(
-                1, "test", sleep.getId(), sleep, 30);
+                1, "test", sleep.getCategoryID(), sleep, 30);
         JournalLog testLog = new JournalLog();
         testLog.add(testEntry);
         assertEquals("1. test. You spent 0 minutes on this category. \n" +

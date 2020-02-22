@@ -52,7 +52,7 @@ public class JournalEntry {
     // REQUIRES: category that exists
     // EFFECTS: sets the category of this entry to user specified category
     public void setCategory(Category c) {
-        categoryID = c.getId();
+        categoryID = c.getCategoryID();
         category = c;
     }
 

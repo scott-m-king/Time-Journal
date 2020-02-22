@@ -97,7 +97,7 @@ public class CategoryList {
     public int getNextCategoryID() {
         ArrayList<Integer> arr = new ArrayList<>();
         for (Category c : categoryList) {
-            arr.add(c.getId());
+            arr.add(c.getCategoryID());
         }
         return Collections.max(arr) + 1;
     }

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
+// Represents a reader object to deserialize JSON files and reconstruct objects
 public class SaveReader {
     Reader fileReader;
     Gson gson;
