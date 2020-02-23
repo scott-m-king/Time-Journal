@@ -1,0 +1,39 @@
+{
+  "journalLog": {
+    "1": {
+      "journalID": 1,
+      "date": "2020-02-23",
+      "description": "Took a nap",
+      "categoryID": 1,
+      "duration": 45
+    },
+    "2": {
+      "journalID": 2,
+      "date": "2020-02-23",
+      "description": "Went for a walk",
+      "categoryID": 4,
+      "duration": 15
+    },
+    "3": {
+      "journalID": 3,
+      "date": "2020-02-23",
+      "description": "Drove to work",
+      "categoryID": 3,
+      "duration": 15
+    },
+    "4": {
+      "journalID": 4,
+      "date": "2020-02-23",
+      "description": "Day at the office",
+      "categoryID": 2,
+      "duration": 640
+    },
+    "5": {
+      "journalID": 5,
+      "date": "2020-02-23",
+      "description": "Ran some errands",
+      "categoryID": 0,
+      "duration": 15
+    }
+  }
+}

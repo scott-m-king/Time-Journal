@@ -1,0 +1,39 @@
+{
+  "journalLog": {
+    "1": {
+      "journalID": 1,
+      "date": "2020-02-22",
+      "description": "Took a nap",
+      "categoryID": 1,
+      "duration": 56
+    },
+    "2": {
+      "journalID": 2,
+      "date": "2020-02-22",
+      "description": "Took the bus to school",
+      "categoryID": 5,
+      "duration": 60
+    },
+    "3": {
+      "journalID": 3,
+      "date": "2020-02-22",
+      "description": "Did CPSC 210 homework",
+      "categoryID": 2,
+      "duration": 300
+    },
+    "5": {
+      "journalID": 5,
+      "date": "2020-02-22",
+      "description": "Went for drinks",
+      "categoryID": 3,
+      "duration": 75
+    },
+    "6": {
+      "journalID": 6,
+      "date": "2020-02-22",
+      "description": "Took another nap",
+      "categoryID": 1,
+      "duration": 75
+    }
+  }
+}

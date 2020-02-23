@@ -10,6 +10,7 @@ import persistence.SaveWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -18,29 +19,49 @@ import java.util.Scanner;
 
 // Time Journal Application
 public class TimeJournalApp {
-    private CategoryList categoryList;   // declaration of new CategoryList
-    private JournalLog journalLog;       // declaration of new JournalLog
-    private Scanner input;               // scanner object to take in user input
-    private int journalID = 1;           // starting ID of first journal entry, incremented by 1 for each new entry
-    private int categoryID = 1;          // starting ID of first category (after Uncategorized)
+    private CategoryList categoryList;     // declaration of new CategoryList
+    private JournalLog journalLog;         // declaration of new JournalLog
+    private Scanner input;                 // scanner object to take in user input
+    private int journalID = 1;             // starting ID of first journal entry, incremented by 1 for each new entry
+    private int categoryID = 1;            // starting ID of first category (after Uncategorized)
+    private String currentUser;            // current session user
+    private ArrayList<String> userList;    // list of all users
 
-    public static final String JOURNAL_SAVE_FILE = "./data/journal_save.json";
-    public static final String CATEGORY_SAVE_FILE = "./data/category_save.json";
+    public static final String USER_SAVE_FILE = "./data/users_save.json";
+    public static final String JOURNAL_SAVE_FILE = "journal_save.json";
+    public static final String CATEGORY_SAVE_FILE = "category_save.json";
 
-    // EFFECTS: runs time journal application and instantiates new category and journal entry logs
+    // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
     public TimeJournalApp() {
+        input = new Scanner(System.in);
         categoryList = new CategoryList();
         journalLog = new JournalLog();
-        runJournal();
+        userList = new ArrayList<>();
+        boolean hasSaveFile = true;
+        try {
+            SaveReader userReader = new SaveReader(USER_SAVE_FILE);
+            userList = userReader.readUserList();
+        } catch (FileNotFoundException e) {
+            System.out.println("Welcome to Time Journal! Looks like it's your first time here.\n");
+            hasSaveFile = false;
+            newSession();
+        } catch (IOException e) {
+            System.out.println("Looks like there's something wrong with the save file. "
+                    + "New session will be started. \n");
+            newSession();
+            hasSaveFile = false;
+        }
+        runJournal(hasSaveFile);
     }
 
     // MODIFIES: this
-    // EFFECTS: processes user input
-    private void runJournal() {
+    // EFFECTS: processes user input, displays intro if new user
+    private void runJournal(boolean hasSaveFile) {
         boolean keepGoing = true;
         String command;
-        input = new Scanner(System.in);
-        intro();
+        if (hasSaveFile) {
+            intro();
+        }
         while (keepGoing) {
             displayMenu();
             command = input.next();
@@ -70,7 +91,7 @@ public class TimeJournalApp {
             System.out.println("2. Start fresh");
             choice = input.next();
             if (choice.equals("1")) {
-                loadEntries();
+                selectUser();
             } else {
                 newSession();
             }
@@ -90,9 +111,12 @@ public class TimeJournalApp {
 
     // EFFECTS: creates a new session by prompting use for first category
     private void newSession() {
+        System.out.println("What's your name? Enter below: ");
+        currentUser = input.next();
+        userList.add(currentUser);
         Category uncategorized = new Category(0, "Uncategorized");
         categoryList.add(uncategorized);
-        System.out.print("Let's start by creating your first category. ");
+        System.out.print("Welcome " + currentUser + "! Let's start by creating your first category. ");
         createNewCategory();
     }
 
@@ -104,9 +128,9 @@ public class TimeJournalApp {
         String choice = input.next();
         if (choice.equals("1")) {
             saveEntries();
-            System.out.println("See you next time!");
+            System.out.println("See you next time, " + currentUser + "!");
         } else if (choice.equals("2")) {
-            System.out.println("See you next time!");
+            System.out.println("See you next time, " + currentUser + "!");
         } else {
             System.out.println("Invalid selection.");
             endSession();
@@ -116,14 +140,23 @@ public class TimeJournalApp {
     // EFFECTS: saves CategoryList and JournalLog to JSON files
     private void saveEntries() {
         try {
-            SaveWriter journalSave = new SaveWriter(new File(JOURNAL_SAVE_FILE));
-            journalSave.saveFile(journalLog);
+            SaveWriter journalSave = new SaveWriter(new File("./data/users/"
+                    + currentUser + "/" + JOURNAL_SAVE_FILE));
+            journalSave.save(journalLog);
             journalSave.close();
 
-            SaveWriter categorySave = new SaveWriter(new File(CATEGORY_SAVE_FILE));
-            categorySave.saveFile(categoryList);
+            SaveWriter categorySave = new SaveWriter(new File("./data/users/"
+                    + currentUser + "/" + CATEGORY_SAVE_FILE));
+            categorySave.save(categoryList);
             categorySave.close();
 
+            SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
+            userListSave.save(userList);
+            userListSave.close();
+
+        } catch (FileNotFoundException e) {
+            new File("./data/users/" + currentUser + "/").mkdir();
+            saveEntries();
         } catch (IOException e) {
             e.printStackTrace();
             // programming error
@@ -131,11 +164,41 @@ public class TimeJournalApp {
     }
 
     // MODIFIES: this
+    // EFFECTS: sets current session user
+    private void selectUser() {
+        System.out.println(printUserList(userList));
+        int choice = inputIntegerValidation("Which user are you? Select number below: ",
+                printUserList(userList));
+        try {
+            currentUser = userList.get(choice - 1);
+            loadEntries();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid choice.");
+            selectUser();
+        }
+    }
+
+    // REQUIRES: userList to have at least one element
+    // EFFECTS: returns list of users as a string
+    private String printUserList(ArrayList<String> userList) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < userList.size(); i++) {
+            builder.append(i + 1);
+            builder.append(". ");
+            builder.append(userList.get(i));
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    // MODIFIES: this
     // EFFECTS: Updates current object instances with deserialized JSON files
     private void loadEntries() {
         try {
-            SaveReader journalReader = new SaveReader(JOURNAL_SAVE_FILE);
-            SaveReader categoryReader = new SaveReader(CATEGORY_SAVE_FILE);
+            SaveReader journalReader = new SaveReader("./data/users/"
+                    + currentUser + "/" + JOURNAL_SAVE_FILE);
+            SaveReader categoryReader = new SaveReader("./data/users/"
+                    + currentUser + "/" + CATEGORY_SAVE_FILE);
 
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
@@ -155,6 +218,11 @@ public class TimeJournalApp {
 
     // EFFECTS: displays all menu options to the user
     private void displayMenu() {
+        if (currentUser.charAt(currentUser.length() - 1) == 's') {
+            System.out.println(currentUser + "' Main Menu\n");
+        } else {
+            System.out.println(currentUser + "'s Main Menu\n");
+        }
         System.out.println("What would you like to do now? (Enter number)");
         System.out.println("1. Create journal entry");
         System.out.println("2. Create category");

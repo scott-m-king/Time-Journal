@@ -63,7 +63,7 @@ public class SaveReaderTest {
     public void testIOExceptionWriter() {
         try {
             SaveWriter testSaveWriterException = new SaveWriter(new File(FAKE_PATH));
-            testSaveWriterException.saveFile(testJournalLog);
+            testSaveWriterException.save(testJournalLog);
         } catch (IOException e) {
             // exception expected
         }
@@ -82,9 +82,9 @@ public class SaveReaderTest {
         testJournalLog.getValue(2).setCategory(testCat3);
 
         try {
-            testSaveWriterJournal.saveFile(testJournalLog);
+            testSaveWriterJournal.save(testJournalLog);
             testSaveWriterJournal.close();
-            testSaveWriterCategories.saveFile(testCategoryList);
+            testSaveWriterCategories.save(testCategoryList);
             testSaveWriterCategories.close();
         } catch (IOException e) {
             fail("Exception thrown...");
@@ -109,9 +109,9 @@ public class SaveReaderTest {
     @Test
     public void testSaveAndLoadFileCategories() {
         try {
-            testSaveWriterJournal.saveFile(testJournalLog);
+            testSaveWriterJournal.save(testJournalLog);
             testSaveWriterJournal.close();
-            testSaveWriterCategories.saveFile(testCategoryList);
+            testSaveWriterCategories.save(testCategoryList);
             testSaveWriterCategories.close();
         } catch (IOException e) {
             fail("Exception thrown...");

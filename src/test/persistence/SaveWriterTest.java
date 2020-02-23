@@ -41,7 +41,7 @@ public class SaveWriterTest {
     public void testSaveFileJournalLog() {
         populateJournalLog(3);
         try {
-            testSaveWriterJournal.saveFile(testJournalLog);
+            testSaveWriterJournal.save(testJournalLog);
             testSaveWriterJournal.close();
         } catch (IOException e) {
             fail("Exception thrown...");
@@ -64,7 +64,7 @@ public class SaveWriterTest {
     public void testSaveFileCategories() {
         populateCategoryList(7);
         try {
-            testSaveWriterCategories.saveFile(testCategoryList);
+            testSaveWriterCategories.save(testCategoryList);
             testSaveWriterCategories.close();
         } catch (IOException e) {
             fail("Exception thrown...");

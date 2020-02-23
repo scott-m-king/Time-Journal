@@ -1,12 +1,12 @@
 package persistence;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonWriter;
 import model.*;
 
 import java.io.IOException;
 import java.io.FileWriter;
 import java.io.File;
+import java.util.ArrayList;
 
 // https://www.javadoc.io/doc/com.google.code.gson/gson/latest/com.google.gson/com/google/gson/package-summary.html
 // https://mkyong.com/java/how-to-parse-json-with-gson/
@@ -16,11 +16,14 @@ public class SaveWriter {
     FileWriter writer;
     Gson gson;
 
+    // Constructor
     public SaveWriter(File file) throws IOException {
         writer = new FileWriter(file);
     }
 
-    public void saveFile(JournalLog j) {
+    // MODIFIES: this, user journal_save.json file
+    // EFFECTS: serializes JournalLog object to JSON and writes to user save file
+    public void save(JournalLog j) {
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
@@ -28,11 +31,22 @@ public class SaveWriter {
         gson.toJson(j, writer);
     }
 
-    public void saveFile(CategoryList c) {
+    // MODIFIES: this, user category_save.json file
+    // EFFECTS: serializes JournalLog object to JSON and writes to user save file
+    public void save(CategoryList c) {
         gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(c, writer);
     }
 
+    // MODIFIES: this, ./data/users_save.json
+    // EFFECTS: serializes user list to JSON and writes to save file
+    public void save(ArrayList<String> userList) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(userList, writer);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: closes FileWriter object
     public void close() throws IOException {
         writer.close();
     }
