@@ -137,6 +137,7 @@ public class TimeJournalApp {
         }
     }
 
+    // MODIFIES: save files
     // EFFECTS: saves CategoryList and JournalLog to JSON files
     private void saveEntries() {
         try {
