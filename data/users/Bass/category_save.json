@@ -1,0 +1,29 @@
+{
+  "categoryList": [
+    {
+      "categoryID": 0,
+      "name": "Uncategorized",
+      "duration": 0
+    },
+    {
+      "categoryID": 2,
+      "name": "Composition",
+      "duration": 120
+    },
+    {
+      "categoryID": 3,
+      "name": "Practice",
+      "duration": 60
+    },
+    {
+      "categoryID": 4,
+      "name": "Performance",
+      "duration": 60
+    },
+    {
+      "categoryID": 5,
+      "name": "Housekeeping",
+      "duration": 75
+    }
+  ]
+}
