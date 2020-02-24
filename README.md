@@ -26,8 +26,8 @@ Whether you'd like to use Time Journal as a journal or a budgeting tool is up to
 
 **Phase 2**
 - As a user, I want to be able to save my journal entries to a file
-- As a user, when I select the quit option from the application menu, I want the option to save my journal to file
-- As a user, I want to be prompted to save my file when exiting the program
+- As a user, I want to be able to be prompted to load my save file or start a new journal
+- As a user, I want to be prompted to save my file (or not) when exiting the program
 
 **Later Phases**
 - As a user, I want to be able to filter/sort my log of journal entries based on categories, time spent, or entry date 
