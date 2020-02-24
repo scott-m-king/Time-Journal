@@ -23,7 +23,7 @@ public class JournalEntry {
         this.duration = duration;
     }
 
-    // getters and setters
+    // getters
     public int getJournalID() {
         return journalID;
     }

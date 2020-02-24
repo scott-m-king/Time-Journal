@@ -3,27 +3,27 @@
     {
       "categoryID": 0,
       "name": "Uncategorized",
-      "duration": 0
+      "duration": 50
     },
     {
       "categoryID": 1,
       "name": "Sleep",
-      "duration": 131
+      "duration": 45
     },
     {
       "categoryID": 2,
-      "name": "Work",
-      "duration": 300
+      "name": "School",
+      "duration": 120
     },
     {
       "categoryID": 3,
-      "name": "Social",
-      "duration": 75
+      "name": "Transportation",
+      "duration": 60
     },
     {
-      "categoryID": 5,
-      "name": "Commute",
-      "duration": 60
+      "categoryID": 4,
+      "name": "Leisure/social",
+      "duration": 180
     }
   ]
 }

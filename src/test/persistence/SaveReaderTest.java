@@ -9,14 +9,17 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SaveReaderTest {
     private SaveWriter testSaveWriterCategories;
     private SaveWriter testSaveWriterJournal;
+    private SaveWriter testSaveWriterUserList;
     private JournalLog testJournalLog;
     private CategoryList testCategoryList;
+    private ArrayList<String> testUserList;
     private Category testCat1;
     private Category testCat2;
     private Category testCat3;
@@ -24,12 +27,14 @@ public class SaveReaderTest {
 
     public static final String CATEGORY_SAVE_LOCATION = "./data/test/test_category_save.json";
     public static final String JOURNAL_SAVE_LOCATION = "./data/test/test_journal_save.json";
+    public static final String USERS_SAVE_LOCATION = "./data/test/users_save.json";
     public static final String FAKE_PATH = "./wonder/if/the/TA/will/notice/this.json";
 
     @BeforeEach
     public void runBefore() {
         testJournalLog = new JournalLog();
         testCategoryList = new CategoryList();
+        testUserList = new ArrayList<>();
 
         uncategorized = new Category (0, "Uncategorized");
         testCat1 = new Category(1, "test category 1");
@@ -44,6 +49,7 @@ public class SaveReaderTest {
         try {
             testSaveWriterCategories = new SaveWriter(new File(CATEGORY_SAVE_LOCATION));
             testSaveWriterJournal = new SaveWriter(new File(JOURNAL_SAVE_LOCATION));
+            testSaveWriterUserList = new SaveWriter(new File(USERS_SAVE_LOCATION));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,6 +136,32 @@ public class SaveReaderTest {
             fail("Exception thrown...");
         }
     }
+
+    @Test
+    public void testSaveFileUsers() {
+        testUserList.add("User0");
+        testUserList.add("User1");
+        testUserList.add("User2");
+        try {
+            testSaveWriterUserList.save(testUserList);
+            testSaveWriterUserList.close();
+        } catch (IOException e) {
+            fail("Exception thrown...");
+        }
+
+        try {
+            SaveReader testUsersReader = new SaveReader(USERS_SAVE_LOCATION);
+            ArrayList<String> testLoadUsers = testUsersReader.readUserList();
+
+            assertEquals("User0", testLoadUsers.get(0));
+            assertEquals("User1", testLoadUsers.get(1));
+            assertEquals("User2", testLoadUsers.get(2));
+
+        } catch (IndexOutOfBoundsException | IOException e) {
+            fail("Exception thrown...");
+        }
+    }
+
 
     private void populateJournalLog(int quantity) {
         for (int i = 0; i < quantity; i++) {
