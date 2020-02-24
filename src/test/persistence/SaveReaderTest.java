@@ -82,6 +82,8 @@ public class SaveReaderTest {
 
     @Test
     public void testSaveAndLoadFileJournalLog() {
+        JournalLog testLoadJournalLog = new JournalLog();
+
         populateJournalLog(3);
         testJournalLog.getValue(0).setCategory(testCat1);
         testJournalLog.getValue(1).setCategory(testCat2);
@@ -98,22 +100,24 @@ public class SaveReaderTest {
 
         try {
             SaveReader testJournalReader = new SaveReader(JOURNAL_SAVE_LOCATION);
-            JournalLog testLoadJournalLog = testJournalReader.readJournalEntries();
-
-            assertEquals(3, testLoadJournalLog.getSize());
-            assertEquals("test1", testLoadJournalLog.getValue(0).getDescription());
-            assertEquals("test2", testLoadJournalLog.getValue(1).getDescription());
-            assertEquals("test3", testLoadJournalLog.getValue(2).getDescription());
-            assertEquals(1, testLoadJournalLog.getValue(0).getCategoryID());
-            assertEquals(2, testLoadJournalLog.getValue(1).getCategoryID());
-            assertEquals(3, testLoadJournalLog.getValue(2).getCategoryID());
+            testLoadJournalLog = testJournalReader.readJournalEntries();
         } catch (IOException e) {
             fail("Exception thrown...");
         }
+
+        assertEquals(3, testLoadJournalLog.getSize());
+        assertEquals("test1", testLoadJournalLog.getValue(0).getDescription());
+        assertEquals("test2", testLoadJournalLog.getValue(1).getDescription());
+        assertEquals("test3", testLoadJournalLog.getValue(2).getDescription());
+        assertEquals(1, testLoadJournalLog.getValue(0).getCategoryID());
+        assertEquals(2, testLoadJournalLog.getValue(1).getCategoryID());
+        assertEquals(3, testLoadJournalLog.getValue(2).getCategoryID());
     }
 
     @Test
     public void testSaveAndLoadFileCategories() {
+        CategoryList testLoadCategories = new CategoryList();
+
         try {
             testSaveWriterJournal.save(testJournalLog);
             testSaveWriterJournal.close();
@@ -125,20 +129,22 @@ public class SaveReaderTest {
 
         try {
             SaveReader testCategoryReader = new SaveReader(CATEGORY_SAVE_LOCATION);
-            CategoryList testLoadCategories = testCategoryReader.readCategoryList();
-
-            assertEquals(4, testLoadCategories.getSize());
-            assertEquals("Uncategorized", testLoadCategories.get(0).getName());
-            assertEquals("test category 1", testLoadCategories.get(1).getName());
-            assertEquals("test category 2", testLoadCategories.get(2).getName());
-            assertEquals("test category 3", testLoadCategories.get(3).getName());
+            testLoadCategories = testCategoryReader.readCategoryList();
         } catch (IOException e) {
             fail("Exception thrown...");
         }
+
+        assertEquals(4, testLoadCategories.getSize());
+        assertEquals("Uncategorized", testLoadCategories.get(0).getName());
+        assertEquals("test category 1", testLoadCategories.get(1).getName());
+        assertEquals("test category 2", testLoadCategories.get(2).getName());
+        assertEquals("test category 3", testLoadCategories.get(3).getName());
     }
 
     @Test
     public void testSaveFileUsers() {
+        ArrayList<String> testLoadUsers = new ArrayList<>();
+
         testUserList.add("User0");
         testUserList.add("User1");
         testUserList.add("User2");
@@ -151,15 +157,14 @@ public class SaveReaderTest {
 
         try {
             SaveReader testUsersReader = new SaveReader(USERS_SAVE_LOCATION);
-            ArrayList<String> testLoadUsers = testUsersReader.readUserList();
-
-            assertEquals("User0", testLoadUsers.get(0));
-            assertEquals("User1", testLoadUsers.get(1));
-            assertEquals("User2", testLoadUsers.get(2));
-
+            testLoadUsers = testUsersReader.readUserList();
         } catch (IndexOutOfBoundsException | IOException e) {
             fail("Exception thrown...");
         }
+
+        assertEquals("User0", testLoadUsers.get(0));
+        assertEquals("User1", testLoadUsers.get(1));
+        assertEquals("User2", testLoadUsers.get(2));
     }
 
 
