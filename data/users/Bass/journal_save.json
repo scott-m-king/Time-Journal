@@ -27,6 +27,13 @@
       "description": "Ran some errands",
       "categoryID": 5,
       "duration": 75
+    },
+    "5": {
+      "journalID": 5,
+      "date": "2020-02-25",
+      "description": "Took a nap",
+      "categoryID": 6,
+      "duration": 60
     }
   }
 }

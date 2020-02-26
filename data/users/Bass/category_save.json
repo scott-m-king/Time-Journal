@@ -24,6 +24,11 @@
       "categoryID": 5,
       "name": "Housekeeping",
       "duration": 75
+    },
+    {
+      "categoryID": 6,
+      "name": "Sleep",
+      "duration": 60
     }
   ]
 }

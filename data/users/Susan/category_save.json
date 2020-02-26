@@ -1,0 +1,19 @@
+{
+  "categoryList": [
+    {
+      "categoryID": 0,
+      "name": "Uncategorized",
+      "duration": 0
+    },
+    {
+      "categoryID": 1,
+      "name": "Gardening",
+      "duration": 84
+    },
+    {
+      "categoryID": 2,
+      "name": "Exercise",
+      "duration": 60
+    }
+  ]
+}
