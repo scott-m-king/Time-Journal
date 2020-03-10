@@ -9,12 +9,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
-import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 
 import java.awt.*;
@@ -156,26 +154,84 @@ public class GUI extends Application {
         sideBar.getChildren().add(menuItems);
         pane.getChildren().addAll(sideBar, quit);
 
-        newJournalEntry.setOnAction(e -> createJournalEntry(stage, sideBar, quit));
-
-        quit.setOnAction(e -> {
-            savePrompt();
-//            Platform.exit();
-//            System.exit(0);
-        });
+        menuButtonListeners(newJournalEntry, newCategory, viewJournalLog, viewCategoryList, stage, sideBar, quit);
 
         stage.setScene(scene);
         stage.show();
     }
 
-    public void createJournalEntry(Stage stage, Pane sideBar, Button quit) {
+    public void menuButtonListeners(Button newJournalEntry, Button newCategory, Button viewJournalLog,
+                                    Button viewCategoryList, Stage stage, Pane sideBar, Button quit) {
+        newJournalEntry.setOnAction(e ->  {
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            createJournalEntry(stage, sideBar, quit, newJournalEntry);
+        });
+
+        newCategory.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            createNewCategory(stage, sideBar, quit, newCategory);
+        });
+
+        viewJournalLog.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            viewJournalEntries(stage, sideBar, quit, viewJournalLog);
+        });
+
+        viewCategoryList.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            viewAllCategories(stage, sideBar, quit, viewCategoryList);
+        });
+
+        quit.setOnAction(e -> savePrompt());
+    }
+
+    public void createJournalEntry(Stage stage, Pane sideBar, Button quit, Button newJournalEntry) {
         AnchorPane pane = new AnchorPane();
         pane.getChildren().addAll(sideBar, quit);
+
+        newJournalEntry.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
 
-        pane.setStyle("-fx-background-color:#787878");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void createNewCategory(Stage stage, Pane sideBar, Button quit, Button newCategory) {
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().addAll(sideBar, quit);
+
+        newCategory.setStyle("-fx-background-color:#787878");
+
+        Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene.getStylesheets().add("ui/style.css");
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void viewJournalEntries(Stage stage, Pane sideBar, Button quit, Button viewCategoryList) {
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().addAll(sideBar, quit);
+
+        viewCategoryList.setStyle("-fx-background-color:#787878");
+
+        Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene.getStylesheets().add("ui/style.css");
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void viewAllCategories(Stage stage, Pane sideBar, Button quit, Button viewJournalLog) {
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().addAll(sideBar, quit);
+
+        viewJournalLog.setStyle("-fx-background-color:#787878");
+
+        Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene.getStylesheets().add("ui/style.css");
 
         stage.setScene(scene);
         stage.show();
@@ -226,5 +282,12 @@ public class GUI extends Application {
         double subtractWindowSizeY = s.getHeight() / 2;
         s.setX(middleCoordinateX - subtractWindowSizeX);
         s.setY(middleCoordinateY - subtractWindowSizeY);
+    }
+
+    private void clearButtonColours(Button button1, Button button2, Button button3, Button button4) {
+        button1.setStyle("-fx-background-color: #585858;");
+        button2.setStyle("-fx-background-color: #585858;");
+        button3.setStyle("-fx-background-color: #585858;");
+        button4.setStyle("-fx-background-color: #585858;");
     }
 }
