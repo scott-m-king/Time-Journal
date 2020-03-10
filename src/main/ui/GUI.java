@@ -8,11 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
+import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 public class GUI extends Application {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     ComboBox<String> comboBox;
+    TimeJournalApp session;
 
     public static final int WINDOW_WIDTH = 900;
     public static final int WINDOW_HEIGHT = 700;
@@ -77,6 +81,7 @@ public class GUI extends Application {
         GridPane.setConstraints(title, 0, 0);
 
         comboBox = new ComboBox<>();
+        comboBox.setPromptText("Select one...");
         comboBox.setMinWidth(200);
 
         ArrayList<String> list = new ArrayList<>();
@@ -154,8 +159,9 @@ public class GUI extends Application {
         newJournalEntry.setOnAction(e -> createJournalEntry(stage, sideBar, quit));
 
         quit.setOnAction(e -> {
-            Platform.exit();
-            System.exit(0);
+            savePrompt();
+//            Platform.exit();
+//            System.exit(0);
         });
 
         stage.setScene(scene);
@@ -172,6 +178,44 @@ public class GUI extends Application {
         pane.setStyle("-fx-background-color:#787878");
 
         stage.setScene(scene);
+        stage.show();
+    }
+
+    public void savePrompt() {
+        Stage stage = new Stage();
+        stage.setTitle("Exit");
+        stage.setWidth(300);
+        stage.setHeight(100);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        GridPane pane = new GridPane();
+        pane.setPadding(new Insets(20));
+        pane.setVgap(10);
+        pane.setAlignment(Pos.CENTER);
+
+        Text text = new Text("Would you like to save your file?");
+        GridPane.setConstraints(text, 0, 0);
+
+        HBox choice = new HBox();
+        Button yes = new Button("Yes");
+        Button no = new Button("No");
+        Button cancel = new Button("Cancel");
+        no.setOnAction(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        cancel.setOnAction(e -> stage.close());
+
+        choice.getChildren().addAll(yes, no, cancel);
+        choice.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(choice, 0, 1);
+
+        pane.getChildren().addAll(text, choice);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        setMiddle(stage);
         stage.show();
     }
 
