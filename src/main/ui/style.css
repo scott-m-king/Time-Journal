@@ -1,0 +1,11 @@
+.button {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #585858;
+    -fx-min-height: 45;
+    -fx-min-width: 200;
+}
+
+.label {
+    -fx-text-fill:#FFFFFF;
+    -fx-font-size:25px;
+}
