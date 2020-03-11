@@ -564,4 +564,21 @@ public class TimeJournalApp {
         System.out.println("You have successfully edited the entry.\n");
     }
 
+    // Getters
+    public CategoryList getCategoryList() {
+        return categoryList;
+    }
+
+    public JournalLog getJournalLog() {
+        return journalLog;
+    }
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public ArrayList<String> getUserList() {
+        return userList;
+    }
+
 }

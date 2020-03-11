@@ -21,10 +21,14 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.stage.StageStyle;
 import model.Category;
+import model.CategoryList;
 import model.JournalEntry;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 //TODO: Add homescreen
 
@@ -32,6 +36,7 @@ public class GUI extends Application {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     ComboBox<String> comboBox;
     TableView<JournalEntry> journalTable;
+    TableView<JournalEntry> categoryJournalTable;
     Button newJournalEntry;
     Button newCategory;
     Button viewJournalLog;
@@ -47,9 +52,13 @@ public class GUI extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("Time Journal");
 
-        stage.setMinWidth(WINDOW_WIDTH);
+//        stage.setMinWidth(WINDOW_WIDTH - 200);
+//        stage.setMinHeight(WINDOW_HEIGHT - 200);
         stage.setWidth(WINDOW_WIDTH);
+        stage.setHeight(WINDOW_HEIGHT);
+        stage.setMinWidth(WINDOW_WIDTH);
         stage.setMinHeight(WINDOW_HEIGHT);
+
         stage.setHeight(WINDOW_HEIGHT);
         setMiddle(stage);
 
@@ -203,7 +212,7 @@ public class GUI extends Application {
         quit.setOnAction(e -> savePrompt());
     }
 
-    public void createJournalEntry(Stage stage, Pane sideBar, Button quit, Button newJournalEntry) {
+    public void createJournalEntry(Stage stage, Pane sideBar, Button quit, Button newJournalEntryMenuButton) {
         AnchorPane pane = new AnchorPane();
 
         Text title = new Text();
@@ -253,7 +262,7 @@ public class GUI extends Application {
         pane.getChildren().addAll(sideBar, quit, title, durationLabel, descriptionLabel, categoryLabel,
                 description, categoryList, duration, submit);
 
-        newJournalEntry.setStyle("-fx-background-color:#787878");
+        newJournalEntryMenuButton.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
@@ -262,7 +271,7 @@ public class GUI extends Application {
         stage.show();
     }
 
-    public void createNewCategory(Stage stage, Pane sideBar, Button quit, Button newCategory) {
+    public void createNewCategory(Stage stage, Pane sideBar, Button quit, Button newCategoryMenuButton) {
         AnchorPane pane = new AnchorPane();
 
         Text title = new Text();
@@ -273,7 +282,7 @@ public class GUI extends Application {
 
         pane.getChildren().addAll(sideBar, quit, title);
 
-        newCategory.setStyle("-fx-background-color:#787878");
+        newCategoryMenuButton.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
@@ -282,7 +291,7 @@ public class GUI extends Application {
         stage.show();
     }
 
-    public void viewJournalEntries(Stage stage, Pane sideBar, Button quit, Button viewCategoryList) {
+    public void viewJournalEntries(Stage stage, Pane sideBar, Button quit, Button journalLogMenuButton) {
         AnchorPane pane = new AnchorPane();
 
         Text title = new Text();
@@ -291,7 +300,7 @@ public class GUI extends Application {
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
-        viewCategoryList.setStyle("-fx-background-color:#787878");
+        journalLogMenuButton.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
@@ -308,18 +317,18 @@ public class GUI extends Application {
         AnchorPane.setRightAnchor(edit, 145.0);
         AnchorPane.setBottomAnchor(edit, 30.0);
 
+        // to get data from the app
         edit.setOnAction(e -> {
             ObservableList<JournalEntry> entrySelected = journalTable.getSelectionModel().getSelectedItems();
             System.out.println(entrySelected.get(0).getDescription());
         });
 
-        Button createNew = new Button("Create New...");
-        createNew.setStyle("-fx-min-width: 100;");
-        AnchorPane.setBottomAnchor(createNew, 30.0);
-        AnchorPane.setRightAnchor(createNew, 260.0);
+        Button createNew = new Button("Create New Entry");
+        AnchorPane.setTopAnchor(createNew, 30.0);
+        AnchorPane.setRightAnchor(createNew, 30.0);
 
         createNew.setOnAction(e -> {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, journalLogMenuButton);
             createJournalEntry(stage, sideBar, quit, newJournalEntry);
         });
 
@@ -376,7 +385,7 @@ public class GUI extends Application {
         AnchorPane.setRightAnchor(journalTable, 30.0);
     }
 
-    public void viewAllCategories(Stage stage, Pane sideBar, Button quit, Button viewJournalLog) {
+    public void viewAllCategories(Stage stage, Pane sideBar, Button quit, Button categoriesMenuButton) {
         AnchorPane pane = new AnchorPane();
 
         Text title = new Text();
@@ -385,15 +394,115 @@ public class GUI extends Application {
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
-        pane.getChildren().addAll(sideBar, quit, title);
+        ListView<String> categoryDurationList = new ListView<>();
+        ObservableList<Category> observableList = generateCategoryList();
 
-        viewJournalLog.setStyle("-fx-background-color:#787878");
+        for (Category category : observableList) {
+            categoryDurationList.getItems().add(category.getDurationString());
+        }
+
+        categoryDurationList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        categoryDurationList.setMaxHeight(350);
+        AnchorPane.setLeftAnchor(categoryDurationList, 230.0);
+        AnchorPane.setTopAnchor(categoryDurationList, 95.0);
+        AnchorPane.setRightAnchor(categoryDurationList, 30.0);
+
+        categoryJournalTable = renderCategoryJournalEntryTable(getEntries());
+        Button createNewCategory = new Button("Create New Category");
+        AnchorPane.setRightAnchor(createNewCategory, 30.0);
+        AnchorPane.setTopAnchor(createNewCategory, 30.0);
+
+        Button refresh = new Button("See Entries");
+        AnchorPane.setTopAnchor(refresh, 30.0);
+        AnchorPane.setRightAnchor(refresh, 225.0);
+
+        final String[] toFilter = new String[1];
+
+        refresh.setOnAction(e -> {
+            try {
+                int index = categoryDurationList.getSelectionModel().getSelectedIndex();
+                toFilter[0] = observableList.get(index).getName();
+                filterList(toFilter[0]);
+                pane.getChildren().clear();
+                pane.getChildren().addAll(sideBar, quit, title, categoryDurationList,
+                        categoryJournalTable, createNewCategory, refresh);
+            } catch (IndexOutOfBoundsException exception) {
+                // no action
+            }
+        });
+
+        pane.getChildren().addAll(sideBar, quit, title, categoryDurationList,
+                categoryJournalTable, createNewCategory, refresh);
+
+        categoriesMenuButton.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void filterList(String filterCondition) {
+        ObservableList<JournalEntry> entriesToFilter = getEntries();
+        List<JournalEntry> result = entriesToFilter.stream()
+                .filter(journalEntry -> filterCondition.equals(journalEntry.getCategory().getName()))
+                .collect(Collectors.toList());
+        categoryJournalTable = renderCategoryJournalEntryTable(result);
+    }
+
+    public ObservableList<Category> generateCategoryList() {
+        Category uncategorized = new Category(0, "Uncategorized");
+        Category sleep = new Category(1, "Sleep");
+        Category homework = new Category(2, "Homework");
+        CategoryList categoryList = new CategoryList();
+        categoryList.add(uncategorized);
+        categoryList.add(sleep);
+        categoryList.add(homework);
+
+        ObservableList<Category> observableCategoryList = FXCollections.observableArrayList();
+
+        for (int i = 0; i < categoryList.getSize(); i++) {
+            observableCategoryList.add(categoryList.get(i));
+        }
+
+        return observableCategoryList;
+    }
+
+    public TableView<JournalEntry> renderCategoryJournalEntryTable(List<JournalEntry> entries) {
+        categoryJournalTable = new TableView<>();
+        ObservableList<JournalEntry> observableList = FXCollections.observableArrayList();
+        observableList.addAll(entries);
+
+        // Category Column
+        TableColumn<JournalEntry, String> categoryTableColumn = new TableColumn<>("Category");
+        categoryTableColumn.setMinWidth(100);
+        categoryTableColumn.setCellValueFactory(cellData -> Bindings.selectString(
+                cellData.getValue().getCategory(), "name"));
+
+        // Date Column
+        TableColumn<JournalEntry, String> dateTableColumn = new TableColumn<>("Date");
+        dateTableColumn.setMinWidth(100);
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        // Duration Column
+        TableColumn<JournalEntry, Integer> durationTableColumn = new TableColumn<>("Duration");
+        durationTableColumn.setMinWidth(100);
+        durationTableColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+
+        // Description Column
+        TableColumn<JournalEntry, String> descriptionTableColumn = new TableColumn<>("Description");
+        descriptionTableColumn.setMinWidth(315);
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        categoryJournalTable.setItems(observableList);
+        categoryJournalTable.getColumns().addAll(
+                categoryTableColumn, dateTableColumn, durationTableColumn, descriptionTableColumn);
+        AnchorPane.setTopAnchor(categoryJournalTable, 460.0);
+        AnchorPane.setBottomAnchor(categoryJournalTable, 30.0);
+        AnchorPane.setRightAnchor(categoryJournalTable, 30.0);
+        AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
+        return categoryJournalTable;
     }
 
     public void savePrompt() {

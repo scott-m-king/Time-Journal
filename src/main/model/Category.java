@@ -44,4 +44,9 @@ public class Category {
         duration += d;
     }
 
+    // EFFECTS: returns total time spent in this category in String format
+    public String getDurationString() {
+        return name + " - " + duration + " minutes spent on this category.";
+    }
+
 }
