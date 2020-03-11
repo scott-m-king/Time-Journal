@@ -26,10 +26,17 @@ import model.JournalEntry;
 import java.awt.*;
 import java.util.ArrayList;
 
+//TODO: Add homescreen
+
 public class GUI extends Application {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     ComboBox<String> comboBox;
     TableView<JournalEntry> journalTable;
+    Button newJournalEntry;
+    Button newCategory;
+    Button viewJournalLog;
+    Button viewCategoryList;
+
     TimeJournalApp session;
 
     public static final int WINDOW_WIDTH = 1000;
@@ -52,7 +59,7 @@ public class GUI extends Application {
         grid.setHgap(10);
 
         Label title = new Label("Time Journal");
-        title.setStyle("-fx-font-size: 70px");
+        title.setStyle("-fx-font-size: 70px; -fx-text-fill: #383838;");
         title.setPadding(new Insets(0, 0, 75, 0));
 
         Button newUserButton = new Button("New User");
@@ -73,6 +80,7 @@ public class GUI extends Application {
         vbox.getChildren().addAll(title, grid);
 
         Scene scene = new Scene(vbox);
+        scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
 
         stage.show();
@@ -85,12 +93,13 @@ public class GUI extends Application {
         root.setHgap(10);
 
         Label title = new Label("Which user are you?");
-        title.setStyle("-fx-font-size: 40px");
+        title.setStyle("-fx-font-size: 40px; -fx-text-fill: #383838;");
         GridPane.setConstraints(title, 0, 0);
 
         comboBox = new ComboBox<>();
         comboBox.setPromptText("Select one...");
         comboBox.setMinWidth(200);
+        comboBox.setStyle("-fx-font-size: 15px;");
 
         ArrayList<String> list = new ArrayList<>();
         list.add("Scott");
@@ -112,14 +121,15 @@ public class GUI extends Application {
         root.getChildren().addAll(title, comboBox, submit);
         root.setAlignment(Pos.CENTER);
 
-        submit.setOnAction(e -> mainMenu(stage, comboBox.getValue()));
+        submit.setOnAction(e -> renderSideBar(stage, comboBox.getValue()));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.getStylesheets().add("ui/style.css");
         stage.show();
     }
 
-    public void mainMenu(Stage stage, String name) {
+    public void renderSideBar(Stage stage, String name) {
         AnchorPane pane = new AnchorPane();
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -127,7 +137,7 @@ public class GUI extends Application {
 
         Pane sideBar = new Pane();
         sideBar.setPrefWidth(200);
-        sideBar.setStyle("-fx-background-color:#262626");
+        sideBar.setStyle("-fx-background-color:#383838");
         AnchorPane.setTopAnchor(sideBar, 0.0);
         AnchorPane.setBottomAnchor(sideBar, 0.0);
         AnchorPane.setLeftAnchor(sideBar, 0.0);
@@ -142,16 +152,16 @@ public class GUI extends Application {
         userName.setPadding(new Insets(0, 0, 15, 0));
         GridPane.setHalignment(userName, HPos.CENTER);
 
-        Button newJournalEntry = new Button("Create Journal Entry");
+        newJournalEntry = new Button("Create Journal Entry");
         GridPane.setConstraints(newJournalEntry, 0, 1);
 
-        Button newCategory = new Button("Create category");
+        newCategory = new Button("Create category");
         GridPane.setConstraints(newCategory, 0, 2);
 
-        Button viewJournalLog = new Button("Journal Entry Log");
+        viewJournalLog = new Button("Journal Entry Log");
         GridPane.setConstraints(viewJournalLog, 0, 3);
 
-        Button viewCategoryList = new Button("Category List");
+        viewCategoryList = new Button("Category List");
         GridPane.setConstraints(viewCategoryList, 0, 4);
 
         Button quit = new Button("Exit");
@@ -286,7 +296,34 @@ public class GUI extends Application {
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
 
-        renderJournalEntryTable(pane, sideBar, quit, title);
+        renderJournalEntryTable();
+
+        Button delete = new Button("Delete");
+        delete.setStyle("-fx-min-width: 100;");
+        AnchorPane.setRightAnchor(delete, 30.0);
+        AnchorPane.setBottomAnchor(delete, 30.0);
+
+        Button edit = new Button("Edit");
+        edit.setStyle("-fx-min-width: 100;");
+        AnchorPane.setRightAnchor(edit, 145.0);
+        AnchorPane.setBottomAnchor(edit, 30.0);
+
+        edit.setOnAction(e -> {
+            ObservableList<JournalEntry> entrySelected = journalTable.getSelectionModel().getSelectedItems();
+            System.out.println(entrySelected.get(0).getDescription());
+        });
+
+        Button createNew = new Button("Create New...");
+        createNew.setStyle("-fx-min-width: 100;");
+        AnchorPane.setBottomAnchor(createNew, 30.0);
+        AnchorPane.setRightAnchor(createNew, 260.0);
+
+        createNew.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            createJournalEntry(stage, sideBar, quit, newJournalEntry);
+        });
+
+        pane.getChildren().addAll(sideBar, quit, title, journalTable, delete, edit, createNew);
 
         stage.setScene(scene);
         stage.show();
@@ -302,7 +339,7 @@ public class GUI extends Application {
         return entries;
     }
 
-    public void renderJournalEntryTable(AnchorPane pane, Pane sideBar, Button quit, Text title) {
+    public void renderJournalEntryTable() {
         // Journal ID Column
         TableColumn<JournalEntry, Integer> idColumn = new TableColumn<>("Journal ID");
         idColumn.setMinWidth(100);
@@ -334,11 +371,9 @@ public class GUI extends Application {
         journalTable.getColumns().addAll(idColumn, dateTableColumn,
                 categoryTableColumn, durationTableColumn, descriptionTableColumn);
         AnchorPane.setTopAnchor(journalTable, 95.0);
-        AnchorPane.setBottomAnchor(journalTable, 30.0);
+        AnchorPane.setBottomAnchor(journalTable, 100.0);
         AnchorPane.setLeftAnchor(journalTable, 230.0);
         AnchorPane.setRightAnchor(journalTable, 30.0);
-
-        pane.getChildren().addAll(sideBar, quit, title, journalTable);
     }
 
     public void viewAllCategories(Stage stage, Pane sideBar, Button quit, Button viewJournalLog) {
@@ -384,6 +419,7 @@ public class GUI extends Application {
 
         choice.getChildren().addAll(yes, no, cancel);
         choice.setAlignment(Pos.CENTER);
+        choice.setSpacing(5.0);
 
         GridPane.setConstraints(choice, 0, 1);
         pane.getChildren().addAll(text, choice);
