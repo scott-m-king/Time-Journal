@@ -1,11 +1,17 @@
 .button {
     -fx-text-fill: #FFFFFF;
     -fx-background-color: #585858;
-    -fx-min-height: 45;
-    -fx-min-width: 200;
+    -fx-min-height: 40;
+    -fx-min-width: 180;
 }
 
 .label {
     -fx-text-fill:#FFFFFF;
-    -fx-font-size:25px;
+    -fx-font-size:23px;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size:15px;
 }
