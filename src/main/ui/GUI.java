@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
@@ -26,7 +27,6 @@ import model.JournalEntry;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +38,7 @@ public class GUI extends Application {
     TableView<JournalEntry> journalTable;
     TableView<JournalEntry> categoryJournalTable;
     Button newJournalEntry;
-    Button newCategory;
+    Button homePage;
     Button viewJournalLog;
     Button viewCategoryList;
 
@@ -161,11 +161,11 @@ public class GUI extends Application {
         userName.setPadding(new Insets(0, 0, 15, 0));
         GridPane.setHalignment(userName, HPos.CENTER);
 
-        newJournalEntry = new Button("Create Journal Entry");
-        GridPane.setConstraints(newJournalEntry, 0, 1);
+        homePage = new Button("Home");
+        GridPane.setConstraints(homePage, 0, 1);
 
-        newCategory = new Button("Create category");
-        GridPane.setConstraints(newCategory, 0, 2);
+        newJournalEntry = new Button("Create Journal Entry");
+        GridPane.setConstraints(newJournalEntry, 0, 2);
 
         viewJournalLog = new Button("Journal Entry Log");
         GridPane.setConstraints(viewJournalLog, 0, 3);
@@ -177,35 +177,34 @@ public class GUI extends Application {
         AnchorPane.setBottomAnchor(quit, 14.0);
         AnchorPane.setLeftAnchor(quit, 10.0);
 
-        menuItems.getChildren().addAll(userName, newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+        menuItems.getChildren().addAll(userName, newJournalEntry, homePage, viewJournalLog, viewCategoryList);
         sideBar.getChildren().add(menuItems);
         pane.getChildren().addAll(sideBar, quit);
 
-        menuButtonListeners(newJournalEntry, newCategory, viewJournalLog, viewCategoryList, stage, sideBar, quit);
+        menuButtonListeners(newJournalEntry, homePage, viewJournalLog, viewCategoryList, stage, sideBar, quit);
 
-        stage.setScene(scene);
-        stage.show();
+        homePage(stage, sideBar, quit, homePage);
     }
 
-    public void menuButtonListeners(Button newJournalEntry, Button newCategory, Button viewJournalLog,
+    public void menuButtonListeners(Button newJournalEntry, Button homePage, Button viewJournalLog,
                                     Button viewCategoryList, Stage stage, Pane sideBar, Button quit) {
-        newJournalEntry.setOnAction(e ->  {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+        newJournalEntry.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, homePage, viewJournalLog, viewCategoryList);
             createJournalEntry(stage, sideBar, quit, newJournalEntry);
         });
 
-        newCategory.setOnAction(e -> {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
-            createNewCategory(stage, sideBar, quit, newCategory);
+        homePage.setOnAction(e -> {
+            clearButtonColours(newJournalEntry, homePage, viewJournalLog, viewCategoryList);
+            homePage(stage, sideBar, quit, homePage);
         });
 
         viewJournalLog.setOnAction(e -> {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            clearButtonColours(newJournalEntry, homePage, viewJournalLog, viewCategoryList);
             viewJournalEntries(stage, sideBar, quit, viewJournalLog);
         });
 
         viewCategoryList.setOnAction(e -> {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, viewCategoryList);
+            clearButtonColours(newJournalEntry, homePage, viewJournalLog, viewCategoryList);
             viewAllCategories(stage, sideBar, quit, viewCategoryList);
         });
 
@@ -218,6 +217,7 @@ public class GUI extends Application {
         Text title = new Text();
         title.setFont(new Font(TITLE_FONT_SIZE));
         title.setText("Create New Journal Entry");
+        title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
@@ -271,18 +271,19 @@ public class GUI extends Application {
         stage.show();
     }
 
-    public void createNewCategory(Stage stage, Pane sideBar, Button quit, Button newCategoryMenuButton) {
+    public void homePage(Stage stage, Pane sideBar, Button quit, Button homePageButton) {
         AnchorPane pane = new AnchorPane();
 
         Text title = new Text();
         title.setFont(new Font(TITLE_FONT_SIZE));
-        title.setText("Create New Category");
+        title.setText("Home");
+        title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
         pane.getChildren().addAll(sideBar, quit, title);
 
-        newCategoryMenuButton.setStyle("-fx-background-color:#787878");
+        homePageButton.setStyle("-fx-background-color:#787878");
 
         Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add("ui/style.css");
@@ -297,6 +298,7 @@ public class GUI extends Application {
         Text title = new Text();
         title.setFont(new Font(TITLE_FONT_SIZE));
         title.setText("Journal Entry Log");
+        title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
@@ -328,7 +330,7 @@ public class GUI extends Application {
         AnchorPane.setRightAnchor(createNew, 30.0);
 
         createNew.setOnAction(e -> {
-            clearButtonColours(newJournalEntry, newCategory, viewJournalLog, journalLogMenuButton);
+            clearButtonColours(newJournalEntry, homePage, viewJournalLog, journalLogMenuButton);
             createJournalEntry(stage, sideBar, quit, newJournalEntry);
         });
 
@@ -391,6 +393,7 @@ public class GUI extends Application {
         Text title = new Text();
         title.setFont(new Font(TITLE_FONT_SIZE));
         title.setText("Category List");
+        title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
 
@@ -402,37 +405,37 @@ public class GUI extends Application {
         }
 
         categoryDurationList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        categoryDurationList.setMaxHeight(350);
+        categoryDurationList.setMaxHeight(275);
         AnchorPane.setLeftAnchor(categoryDurationList, 230.0);
         AnchorPane.setTopAnchor(categoryDurationList, 95.0);
         AnchorPane.setRightAnchor(categoryDurationList, 30.0);
 
         categoryJournalTable = renderCategoryJournalEntryTable(getEntries());
+
         Button createNewCategory = new Button("Create New Category");
         AnchorPane.setRightAnchor(createNewCategory, 30.0);
         AnchorPane.setTopAnchor(createNewCategory, 30.0);
+        createNewCategory.setOnAction(e -> createNewCategory());
 
-        Button refresh = new Button("See Entries");
-        AnchorPane.setTopAnchor(refresh, 30.0);
-        AnchorPane.setRightAnchor(refresh, 225.0);
-
+        // string to filter with
         final String[] toFilter = new String[1];
 
-        refresh.setOnAction(e -> {
-            try {
-                int index = categoryDurationList.getSelectionModel().getSelectedIndex();
-                toFilter[0] = observableList.get(index).getName();
-                filterList(toFilter[0]);
-                pane.getChildren().clear();
-                pane.getChildren().addAll(sideBar, quit, title, categoryDurationList,
-                        categoryJournalTable, createNewCategory, refresh);
-            } catch (IndexOutOfBoundsException exception) {
-                // no action
-            }
-        });
+        categoryDurationList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    try {
+                        int index = categoryDurationList.getSelectionModel().getSelectedIndex();
+                        toFilter[0] = observableList.get(index).getName();
+                        filterList(toFilter[0]);
+                        pane.getChildren().clear();
+                        pane.getChildren().addAll(sideBar, quit, title, categoryDurationList,
+                                categoryJournalTable, createNewCategory);
+                    } catch (IndexOutOfBoundsException exception) {
+                        // no action
+                    }
+                }
+        );
 
-        pane.getChildren().addAll(sideBar, quit, title, categoryDurationList,
-                categoryJournalTable, createNewCategory, refresh);
+        pane.getChildren().addAll(sideBar, quit, title, categoryDurationList, categoryJournalTable, createNewCategory);
 
         categoriesMenuButton.setStyle("-fx-background-color:#787878");
 
@@ -448,7 +451,12 @@ public class GUI extends Application {
         List<JournalEntry> result = entriesToFilter.stream()
                 .filter(journalEntry -> filterCondition.equals(journalEntry.getCategory().getName()))
                 .collect(Collectors.toList());
-        categoryJournalTable = renderCategoryJournalEntryTable(result);
+        if (result.size() == 0) {
+            categoryJournalTable = renderCategoryJournalEntryTable(result);
+            categoryJournalTable.setPlaceholder(new Text("No entries for " + filterCondition));
+        } else {
+            categoryJournalTable = renderCategoryJournalEntryTable(result);
+        }
     }
 
     public ObservableList<Category> generateCategoryList() {
@@ -474,16 +482,16 @@ public class GUI extends Application {
         ObservableList<JournalEntry> observableList = FXCollections.observableArrayList();
         observableList.addAll(entries);
 
+        // Date Column
+        TableColumn<JournalEntry, String> dateTableColumn = new TableColumn<>("Date");
+        dateTableColumn.setMinWidth(100);
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
         // Category Column
         TableColumn<JournalEntry, String> categoryTableColumn = new TableColumn<>("Category");
         categoryTableColumn.setMinWidth(100);
         categoryTableColumn.setCellValueFactory(cellData -> Bindings.selectString(
                 cellData.getValue().getCategory(), "name"));
-
-        // Date Column
-        TableColumn<JournalEntry, String> dateTableColumn = new TableColumn<>("Date");
-        dateTableColumn.setMinWidth(100);
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         // Duration Column
         TableColumn<JournalEntry, Integer> durationTableColumn = new TableColumn<>("Duration");
@@ -497,12 +505,60 @@ public class GUI extends Application {
 
         categoryJournalTable.setItems(observableList);
         categoryJournalTable.getColumns().addAll(
-                categoryTableColumn, dateTableColumn, durationTableColumn, descriptionTableColumn);
-        AnchorPane.setTopAnchor(categoryJournalTable, 460.0);
+                dateTableColumn, categoryTableColumn, durationTableColumn, descriptionTableColumn);
+        AnchorPane.setTopAnchor(categoryJournalTable, 385.0);
         AnchorPane.setBottomAnchor(categoryJournalTable, 30.0);
         AnchorPane.setRightAnchor(categoryJournalTable, 30.0);
         AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
         return categoryJournalTable;
+    }
+
+    public void createNewCategory() {
+        Stage stage = new Stage();
+        stage.setWidth(WINDOW_WIDTH - 600);
+        stage.setHeight(WINDOW_HEIGHT - 450);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(20.0);
+
+        Text text = new Text("Enter a name for your your category:");
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setStyle("-fx-font-size:16px;");
+
+        TextField categoryName = new TextField();
+        categoryName.setAlignment(Pos.CENTER);
+        categoryName.setMaxWidth(300);
+        categoryName.setStyle("-fx-font-size:14px;");
+
+        HBox hbox = new HBox();
+        hbox.setSpacing(10.0);
+
+        Button submit = new Button("Submit");
+        submit.setStyle("-fx-min-width: 100; -fx-min-height:35;");
+
+        Button cancel = new Button("Cancel");
+        cancel.setStyle("-fx-min-width: 100; -fx-min-height:35;");
+
+        hbox.getChildren().addAll(submit, cancel);
+        hbox.setAlignment(Pos.CENTER);
+
+        vbox.getChildren().addAll(text, categoryName, hbox);
+        vbox.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vbox);
+        scene.getStylesheets().add("ui/style.css");
+        stage.setScene(scene);
+        setMiddle(stage);
+
+        createCategoryListeners(stage, submit, cancel);
+
+        stage.show();
+    }
+
+    public void createCategoryListeners(Stage stage, Button submit, Button cancel) {
+        cancel.setOnAction(e -> stage.close());
     }
 
     public void savePrompt() {
