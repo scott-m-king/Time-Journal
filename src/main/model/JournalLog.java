@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,6 +98,15 @@ public class JournalLog {
     // EFFECTS: returns the next journal ID number to use after loading from save file
     public int getNextJournalID() {
         return Collections.max(journalLog.keySet()) + 1;
+    }
+
+    // EFFECTS: returns values of journalLog as ArrayList
+    public ArrayList<JournalEntry> getEntriesAsList() {
+        ArrayList<JournalEntry> entries = new ArrayList<>();
+        for (Map.Entry<Integer, JournalEntry> entry : journalLog.entrySet()) {
+            entries.add(entry.getValue());
+        }
+        return entries;
     }
 
 }

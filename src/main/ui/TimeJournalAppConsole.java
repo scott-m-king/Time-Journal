@@ -1,6 +1,5 @@
 package ui;
 
-import exceptions.CategoryAlreadyExistsException;
 import exceptions.NullEntryException;
 import model.Category;
 import model.CategoryList;
@@ -20,7 +19,7 @@ import java.util.Scanner;
  */
 
 // Time Journal Application
-public class TimeJournalApp {
+public class TimeJournalAppConsole {
     private CategoryList categoryList;     // declaration of new CategoryList
     private JournalLog journalLog;         // declaration of new JournalLog
     private Scanner input;                 // scanner object to take in user input
@@ -34,29 +33,72 @@ public class TimeJournalApp {
     public static final String CATEGORY_SAVE_FILE = "category_save.json";
 
     // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
-    public TimeJournalApp() {
+    public TimeJournalAppConsole() {
         input = new Scanner(System.in);
         categoryList = new CategoryList();
         journalLog = new JournalLog();
         userList = new ArrayList<>();
-    }
-
-    public boolean isFirstTime() {
-        boolean isFirstTime = false;
+        boolean hasSaveFile = true;
         try {
             SaveReader userReader = new SaveReader(USER_SAVE_FILE);
             userList = userReader.readUserList();
+        } catch (FileNotFoundException e) {
+            System.out.println("Welcome to Time Journal! Looks like it's your first time here.\n");
+            hasSaveFile = false;
+            newSession();
         } catch (IOException e) {
-            isFirstTime = true;
+            System.out.println("Looks like there's something wrong with the save file. "
+                    + "New session will be started. \n");
+            newSession();
+            hasSaveFile = false;
         }
-        return isFirstTime;
+        runJournal(hasSaveFile);
     }
 
-    public void setCurrentUser(String user) throws NullEntryException {
-        if (user.equals("")) {
-            throw new NullEntryException();
+    // MODIFIES: this
+    // EFFECTS: processes user input, displays intro if new user
+    private void runJournal(boolean hasSaveFile) {
+        boolean keepGoing = true;
+        String command;
+        if (hasSaveFile) {
+            intro();
+        }
+        while (keepGoing) {
+            displayMenu();
+            command = input.next();
+            command = command.toLowerCase();
+            if (command.equals("5")) {
+                endSession();
+                keepGoing = false;
+            } else {
+                processCommand(command);
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts user to enter first category
+    private void intro() {
+        System.out.println("Hello! Welcome to Time Journal. What type of user are you? Enter number: ");
+        System.out.println("1. New User");
+        System.out.println("2. Returning User");
+
+        String choice = input.next();
+        if (choice.equals("1")) {
+            newSession();
+        } else if (choice.equals("2")) {
+            System.out.println("Welcome back - what would you like to do? Enter number: ");
+            System.out.println("1. Load save file");
+            System.out.println("2. Start fresh");
+            choice = input.next();
+            if (choice.equals("1")) {
+                selectUser();
+            } else {
+                newSession();
+            }
         } else {
-            this.currentUser = user;
+            System.out.println("Invalid entry.");
+            intro();
         }
     }
 
@@ -69,20 +111,36 @@ public class TimeJournalApp {
      */
 
     // EFFECTS: creates a new session by prompting use for first category
-    public void newSession() {
+    private void newSession() {
+        System.out.println("What's your name? Enter below: ");
+        currentUser = input.next();
         userList.add(currentUser);
         Category uncategorized = new Category(0, "Uncategorized");
         categoryList.add(uncategorized);
+        System.out.print("Welcome " + currentUser + "! Let's start by creating your first category. ");
+        createNewCategory();
     }
 
     // EFFECTS: ends user session and prompts to save or not
-    public void endSession() {
-        System.out.println("See you next time, " + currentUser + "!");
+    private void endSession() {
+        System.out.println("Would you like to save your session?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        String choice = input.next();
+        if (choice.equals("1")) {
+            saveEntries();
+            System.out.println("See you next time, " + currentUser + "!");
+        } else if (choice.equals("2")) {
+            System.out.println("See you next time, " + currentUser + "!");
+        } else {
+            System.out.println("Invalid selection.");
+            endSession();
+        }
     }
 
     // MODIFIES: save files
     // EFFECTS: saves CategoryList and JournalLog to JSON files
-    public void saveEntries() {
+    private void saveEntries() {
         try {
             SaveWriter journalSave = new SaveWriter(new File("./data/users/"
                     + currentUser + "/" + JOURNAL_SAVE_FILE));
@@ -109,20 +167,30 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: sets current session user
-    public void selectUser(String choice) throws NullEntryException {
-        if (choice == null) {
-            throw new NullEntryException();
+    private void selectUser() {
+        System.out.println(printUserList(userList));
+        int choice = inputIntegerValidation("Which user are you? Select number below: ",
+                printUserList(userList));
+        try {
+            currentUser = userList.get(choice - 1);
+            loadEntries();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid choice.");
+            selectUser();
         }
-        currentUser = choice;
-        loadEntries();
     }
 
-    public String getUserWelcome() {
-        if (currentUser.charAt(currentUser.length() - 1) == 's') {
-            return currentUser + "'\nTime Journal";
-        } else {
-            return currentUser + "'s\nTime Journal";
+    // REQUIRES: userList to have at least one element
+    // EFFECTS: returns list of users as a string
+    private String printUserList(ArrayList<String> userList) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < userList.size(); i++) {
+            builder.append(i + 1);
+            builder.append(". ");
+            builder.append(userList.get(i));
+            builder.append("\n");
         }
+        return builder.toString();
     }
 
     // MODIFIES: this
@@ -133,12 +201,14 @@ public class TimeJournalApp {
                     + currentUser + "/" + JOURNAL_SAVE_FILE);
             SaveReader categoryReader = new SaveReader("./data/users/"
                     + currentUser + "/" + CATEGORY_SAVE_FILE);
+
             journalLog = journalReader.readJournalEntries();
             categoryList = categoryReader.readCategoryList();
             journalLog.updateWithLoadedCategories(categoryList);
             journalID = journalLog.getNextJournalID();
             categoryID = categoryList.getNextCategoryID();
             System.out.println("Save file successfully loaded. \n");
+
         } catch (FileNotFoundException e) {
             System.out.println("Save file does not exist. New session will be started.\n");
             newSession();
@@ -148,33 +218,81 @@ public class TimeJournalApp {
         }
     }
 
+    // EFFECTS: displays all menu options to the user
+    private void displayMenu() {
+        if (currentUser.charAt(currentUser.length() - 1) == 's') {
+            System.out.println(currentUser + "' Main Menu\n");
+        } else {
+            System.out.println(currentUser + "'s Main Menu\n");
+        }
+        System.out.println("What would you like to do now? (Enter number)");
+        System.out.println("1. Create journal entry");
+        System.out.println("2. Create category");
+        System.out.println("3. View/Edit journal entries");
+        System.out.println("4. View/Edit categories");
+        System.out.println("5. Quit");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes commands
+    private void processCommand(String command) {
+        switch (command) {
+            case "1":
+                createNewJournalEntry();
+                break;
+            case "2":
+                createNewCategory();
+                break;
+            case "3":
+                journalLogMenu();
+                break;
+            case "4":
+                categoryListMenu();
+                break;
+            default:
+                System.out.println("Sorry, that is an invalid choice.");
+                break;
+        }
+    }
+
     // MODIFIES: this
     // EFFECTS: creates a new category and adds it to categoryList
-    public void createNewCategory(String name) throws CategoryAlreadyExistsException, NullEntryException {
-        if (name.equals("")) {
-            throw new NullEntryException();
-        }
-        if (!categoryList.isDuplicateName(name)) {
-            Category newCategory = new Category(categoryID++, name);
+    private void createNewCategory() {
+        System.out.println("Enter a name for your category below: ");
+        String newName = input.next();
+        if (!categoryList.isDuplicateName(newName)) {
+            Category newCategory = new Category(categoryID++, newName);
             categoryList.add(newCategory);
+            System.out.println("Great! That category has been added to your list. " + "\n");
         } else {
-            throw new CategoryAlreadyExistsException();
+            System.out.println("Sorry, that category already exists.");
         }
     }
 
     // MODIFIES: this
     // EFFECTS: creates a new journal entry and adds it to journalLog
-    public void createNewJournalEntry(String description, String durationEntry, String categoryEntry)
-            throws NullEntryException, NumberFormatException {
-        if (description.equals("") || durationEntry.equals("")) {
-            throw new NullEntryException();
-        } else {
-            int durationFinal = Integer.parseInt(durationEntry);
-            Category category = categoryList.get(categoryEntry);
-            JournalEntry newEntry = new JournalEntry(
-                    journalID++, description, category.getCategoryID(), category, durationFinal);
-            journalLog.add(newEntry);
+    private void createNewJournalEntry() throws NumberFormatException {
+        System.out.println("What did you get up to? Enter a description for your journal entry:");
+        Scanner descriptionInput = new Scanner(System.in);
+        String description = descriptionInput.nextLine();
+        boolean toContinue = true;
+        while (toContinue) {
+            String categoryQuestion = "What category would you like to place this under? (Enter number)";
+            System.out.println(categoryList.printList());
+            int choice = inputIntegerValidation(categoryQuestion, categoryList.printList());
+            if (choice > 0 && choice <= categoryList.getSize()) {
+                int categoryIndex = (choice - 1);
+                Category category = categoryList.get(categoryIndex);
+                int duration = inputIntegerValidation("How long did you spend on this? (in minutes)", "");
+                JournalEntry newEntry = new JournalEntry(
+                        journalID++, description, category.getCategoryID(), category, duration);
+                journalLog.add(newEntry);
+                toContinue = false;
+            } else {
+                System.out.println("Sorry, that was an invalid choice.");
+            }
         }
+        System.out.println("Your entry has been added. \n");
     }
 
     // EFFECTS: validates user input to make sure it's a positive integer

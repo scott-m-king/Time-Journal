@@ -78,6 +78,16 @@ public class CategoryList {
         return categoryList.get(i);
     }
 
+    // EFFECTS: returns category in list with matching name
+    public Category get(String name) {
+        for (Category category : categoryList) {
+            if (category.getName().equals(name)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
     // EFFECTS: returns true if category already exists in the list, false otherwise
     public boolean isDuplicateName(String name) {
         for (Category c : categoryList) {
