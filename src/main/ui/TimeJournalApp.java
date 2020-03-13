@@ -1,6 +1,6 @@
 package ui;
 
-import exceptions.CategoryAlreadyExistsException;
+import exceptions.CategoryExistsException;
 import exceptions.NullEntryException;
 import model.Category;
 import model.CategoryList;
@@ -150,7 +150,7 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new category and adds it to categoryList
-    public void createNewCategory(String name) throws CategoryAlreadyExistsException, NullEntryException {
+    public void createNewCategory(String name) throws CategoryExistsException, NullEntryException {
         if (name.equals("")) {
             throw new NullEntryException();
         }
@@ -158,7 +158,7 @@ public class TimeJournalApp {
             Category newCategory = new Category(categoryID++, name);
             categoryList.add(newCategory);
         } else {
-            throw new CategoryAlreadyExistsException();
+            throw new CategoryExistsException();
         }
     }
 
@@ -219,32 +219,6 @@ public class TimeJournalApp {
         }
     }
 
-    // EFFECTS: displays list of categories and gives user choice to edit/delete/go back to home
-    private void categoryListMenu() {
-        if (categoryList.getSize() == 0) {
-            System.out.println("You currently have no categories. \n");
-        } else {
-            boolean toContinue = true;
-            while (toContinue) {
-                System.out.println(categoryList.printList());
-                editDeleteMenu();
-                String choice = input.next();
-                if (choice.equals("1")) {
-                    editCategoryAndPrintList();
-                    toContinue = false;
-                } else if (choice.equals("2")) {
-                    deleteCategory();
-                    toContinue = false;
-                } else if (!choice.equals("3")) {
-                    System.out.println("Sorry, that's an invalid choice.\n");
-                    toContinue = true;
-                } else {
-                    toContinue = false;
-                }
-            }
-        }
-    }
-
     // EFFECTS: displays list of edit options for viewEditJournalLog and viewEditCategoryList
     private void editDeleteMenu() {
         System.out.println("What would you like to do? (Enter number)");
@@ -278,63 +252,22 @@ public class TimeJournalApp {
     //          - deletes it from categoryList
     //          - recategorizes journal entries to 'uncategorized'
     //          - adds duration of affected journal entries to 'uncategorized' duration
-    private void deleteCategory() {
-        if (categoryList.getSize() != 1) {
-            System.out.println(categoryList.printListExceptUncategorized());
-            boolean toContinue = true;
-            while (toContinue) {
-                int select = inputIntegerValidation("Which category would you like to delete? (Select number)",
-                        categoryList.printListExceptUncategorized());
-                if (select > 0 && select <= categoryList.getSize() - 1) {
-                    journalLog.uncategorize(categoryList.get(select), categoryList.get(0));
-                    categoryList.delete(categoryList.get(select));
-                    System.out.println("You have successfully deleted the category.");
-                    toContinue = false;
-                } else {
-                    System.out.println("Invalid choice.");
-                }
-            }
-        } else {
-            System.out.println("There's nothing available to delete.\n");
-        }
-        categoryListMenu();
+    public void deleteCategory(String toDelete) {
+        journalLog.uncategorize(categoryList.get(toDelete), categoryList.get(0));
+        categoryList.delete(categoryList.get(toDelete));
     }
 
-    // EFFECTS: calls the editCategory method and prints category list menu
-    private void editCategoryAndPrintList() {
-        editCategory();
-        categoryListMenu();
-    }
 
     // MODIFIES: this
     // EFFECTS: - asks user which category to edit
     //          - checks that the category exists
     //          - asks user what they want to rename the category to
     //          - renames category based on user input
-    private void editCategory() {
-        if (categoryList.getSize() == 1) {
-            System.out.println("There's nothing to edit.\n");
-            return;
+    public void editCategory(String changeFrom, String changeTo) throws CategoryExistsException {
+        if (categoryList.isDuplicateName(changeTo)) {
+            throw new CategoryExistsException();
         }
-
-        System.out.println(categoryList.printListExceptUncategorized());
-        int editChoice = 1 + inputIntegerValidation("Which category would you like to edit? Enter number:",
-                categoryList.printListExceptUncategorized());
-
-        if (editChoice <= 1 || editChoice > categoryList.getSize()) {
-            System.out.println("Sorry, that is an invalid choice.\n");
-            return;
-        }
-
-        System.out.println("What would you like to change the category name to?");
-        String editName = input.next();
-        if (categoryList.isDuplicateName(editName)) {
-            System.out.println("Sorry, that category name already exists.\n");
-            return;
-        }
-
-        categoryList.get(editChoice - 1).setName(editName);
-        System.out.println("You've successfullly edited the category.\n");
+        categoryList.get(changeFrom).setName(changeTo);
     }
 
     // MODIFIES: this
