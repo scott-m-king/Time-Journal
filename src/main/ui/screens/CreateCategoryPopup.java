@@ -15,15 +15,18 @@ import ui.UserInterface;
 
 public class CreateCategoryPopup extends Popup {
     private final UserInterface userInterface;
+    private TextField categoryName;
+    private Text mainLabel;
     private Stage stage;
     private Pane pane;
+
 
     public CreateCategoryPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
     public void renderCategoryPopup() {
-        stage = createStandardStage();
+        stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         initializeFinalPane();
         userInterface.setMiddle(stage);
         initializeScreen(pane, stage);
@@ -33,39 +36,56 @@ public class CreateCategoryPopup extends Popup {
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
         vbox.setSpacing(20.0);
-
-        Text text = new Text("Enter a name for your your category:");
-        text.setTextAlignment(TextAlignment.CENTER);
-        text.setStyle("-fx-font-size:16px;");
-
-        TextField categoryName = new TextField();
-        categoryName.setAlignment(Pos.CENTER);
-        categoryName.setMaxWidth(300);
-        categoryName.setStyle("-fx-font-size:14px;");
-
-        HBox hbox = userInterface.getCategoryListScreen().makeCategoryButtons(categoryName, stage, "createCategoryScreen");
-
-        vbox.getChildren().addAll(text, categoryName, hbox);
+        setMainLabel();
+        setTextField();
+        HBox buttonPane = makeFormButtons(categoryName, stage, CREATE_CATEGORY, userInterface);
+        vbox.getChildren().addAll(mainLabel, categoryName, buttonPane);
         vbox.setAlignment(Pos.CENTER);
 
         pane = vbox;
     }
 
-    public void createNewCategory(TextField categoryName, Stage createCategoryStage) {
+    private void setMainLabel() {
+        mainLabel = new Text("Enter a name for your your category:");
+        mainLabel.setTextAlignment(TextAlignment.CENTER);
+        mainLabel.setStyle("-fx-font-size:16px;");
+    }
+
+    private void setTextField() {
+        categoryName = new TextField();
+        categoryName.setAlignment(Pos.CENTER);
+        categoryName.setMaxWidth(300);
+        categoryName.setStyle("-fx-font-size:14px;");
+    }
+
+    public void createNewCategory(TextField categoryName) {
         try {
             userInterface.getSession().createNewCategory(categoryName.getText());
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setContentText("You've successfully added the category.");
-            a.show();
-            createCategoryStage.close();
+            addSuccessfulAlert();
+            stage.close();
         } catch (NullEntryException e1) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
-            a.setContentText("You must enter a name for your category.");
-            a.show();
+            nullEntryAlert();
         } catch (CategoryExistsException exception) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
-            a.setContentText("Sorry, that category already exists. Please try again.");
-            a.show();
+            categoryAlreadyExistsAlert();
         }
     }
+
+    private void categoryAlreadyExistsAlert() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("Sorry, that category already exists. Please try again.");
+        a.show();
+    }
+
+    private void nullEntryAlert() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("You must enter a name for your category.");
+        a.show();
+    }
+
+    private void addSuccessfulAlert() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText("You've successfully added the category.");
+        a.show();
+    }
+
 }

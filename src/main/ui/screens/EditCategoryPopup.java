@@ -4,7 +4,6 @@ import exceptions.CategoryExistsException;
 import exceptions.NullEntryException;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -29,11 +28,9 @@ public class EditCategoryPopup extends Popup {
     }
 
     public void initializeScreen() {
-        stage = createStandardStage();
+        stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         setFields();
-        buttons = userInterface
-                .getCategoryListScreen()
-                .makeCategoryButtons(categoryName, stage, "editCategoryScreen");
+        buttons = makeFormButtons(categoryName, stage, EDIT_CATEGORY, userInterface);
         initializeFinalPane();
         userInterface.setMiddle(stage);
         initializeScreen(pane, stage);
@@ -41,11 +38,11 @@ public class EditCategoryPopup extends Popup {
 
     @Override
     protected void initializeFinalPane() {
-        VBox screen = new VBox();
-        screen.getChildren().addAll(label, text, categoryName, buttons);
-        screen.setAlignment(Pos.CENTER);
-        screen.setSpacing(15.0);
-        pane = screen;
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(label, text, categoryName, buttons);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(15.0);
+        pane = vbox;
     }
 
     private void setFields() {
@@ -58,20 +55,28 @@ public class EditCategoryPopup extends Popup {
         categoryName.setMaxWidth(300);
     }
 
-    public void editCategory(Button submit, TextField categoryName) {
-        submit.setOnAction(e -> {
-            try {
-                userInterface.getSession().editCategory(userInterface.getCategoryCurrentlySelected(), categoryName.getText());
-                stage.close();
-            } catch (CategoryExistsException exception1) {
-                Alert a = new Alert(Alert.AlertType.WARNING);
-                a.setContentText("That category name already exists.");
-                a.show();
-            } catch (NullEntryException exception2) {
-                Alert a = new Alert(Alert.AlertType.WARNING);
-                a.setContentText("Please enter a name for your category.");
-                a.show();
-            }
-        });
+    public void editCategory(TextField categoryName) {
+        try {
+            userInterface.getSession().editCategory(userInterface.getCategoryCurrentlySelected(),
+                    categoryName.getText());
+            stage.close();
+            userInterface.viewAllCategories();
+        } catch (CategoryExistsException exception1) {
+            categoryAlreadyExistsAlert();
+        } catch (NullEntryException exception2) {
+            nullEntryAlert();
+        }
+    }
+
+    private void nullEntryAlert() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("Please enter a name for your category.");
+        a.show();
+    }
+
+    private void categoryAlreadyExistsAlert() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("That category name already exists.");
+        a.show();
     }
 }

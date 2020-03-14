@@ -1,47 +1,40 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import model.Category;
 import model.JournalEntry;
 import ui.screens.*;
-import ui.components.CategoryChart;
-import ui.components.JournalTable;
-import ui.components.SideBar;
+import ui.components.CategoryChartComponent;
+import ui.components.JournalTableComponent;
+import ui.components.SideBarComponent;
 
 import java.awt.*;
 
-//TODO: edit/delete categories
-//TODO: edit/delete journal entries
-//TODO: add time spent to category list in journal entry
 //TODO: find way to get CategoryList page to refresh after each action (create new and selection)
-//TODO: think about using an abstract class for all scenes...
-//TODO: Add a category (duration) pie chart to the home screen
 
 public class UserInterface extends Application {
-    private final NewUserWelcomeScreen newUserWelcomeScreen = new NewUserWelcomeScreen(this);
-    private final NewUserNameScreen newUserNameScreen = new NewUserNameScreen(this);
-    private final FirstNewCategoryScreen firstNewCategoryScreen = new FirstNewCategoryScreen(this);
-    private final UserSelectScreen userSelectScreen = new UserSelectScreen(this);
-    private final SideBar sideBar = new SideBar(this);
-    private final JournalEntryCreateScreen journalEntryCreateScreen = new JournalEntryCreateScreen(this);
-    private final JournalLogScreen journalLogScreen = new JournalLogScreen(this);
-    private final HomePageScreen homePageScreen = new HomePageScreen(this);
-    private final CategoryListScreen categoryListScreen = new CategoryListScreen(this);
-    private final JournalTable journalTable = new JournalTable();
-    private final CategoryChart categoryChart = new CategoryChart();
-    private final CreateCategoryPopup createCategoryPopup = new CreateCategoryPopup(this);
-    private final EditCategoryPopup editCategoryPopup = new EditCategoryPopup(this);
-    private final SavePopup savePopup = new SavePopup(this);
-    private final WelcomeScreen welcomeScreen = new WelcomeScreen(this);
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private NewUserWelcomeScreen newUserWelcomeScreen;
+    private NewUserNameScreen newUserNameScreen;
+    private FirstNewCategoryScreen firstNewCategoryScreen;
+    private UserSelectScreen userSelectScreen;
+    private SideBarComponent sideBarComponent;
+    private JournalEntryCreateScreen journalEntryCreateScreen;
+    private JournalLogScreen journalLogScreen;
+    private HomePageScreen homePageScreen;
+    private CategoryListScreen categoryListScreen;
+    private JournalTableComponent journalTableObject;
+    private CategoryChartComponent categoryChartComponent;
+    private CreateCategoryPopup createCategoryPopup;
+    private EditCategoryPopup editCategoryPopup;
+    private SavePromptPopup savePromptPopup;
+    private WelcomeScreen welcomeScreen;
+    private Dimension screenSize;
     private TableView<JournalEntry> journalTableView;
     private Button quitButton;
     private TimeJournalApp session;
@@ -53,33 +46,62 @@ public class UserInterface extends Application {
     public static final int TITLE_FONT_SIZE = 35;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         this.mainStage = stage;
+
         mainStage.setTitle("Time Journal");
         session = new TimeJournalApp();
         boolean noSaveFile = session.isFirstTime();
 
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainStage.setWidth(WINDOW_WIDTH);
         mainStage.setHeight(WINDOW_HEIGHT);
         mainStage.setMinWidth(WINDOW_WIDTH);
         mainStage.setMinHeight(WINDOW_HEIGHT);
+
+        initializeAllScreens();
         setMiddle(mainStage);
 
         if (noSaveFile) {
-            newUserWelcomeScreen.newUserWelcomeScreen();
+            newUserWelcomeScreen.renderNewUserWelcomeScreen();
         } else {
             welcomeScreen.renderWelcomeScreen();
         }
     }
 
-    public void initializeScene(Pane newPane, Stage stage) {
-        Scene scene = new Scene(newPane);
-        scene.getStylesheets().add("ui/style.css");
-        stage.setScene(scene);
+    public void initializeAllScreens() {
+        // completely new user
+        newUserWelcomeScreen = new NewUserWelcomeScreen(this);
+        newUserNameScreen = new NewUserNameScreen(this);
+        firstNewCategoryScreen = new FirstNewCategoryScreen(this);
+
+        // save files already exist
+        welcomeScreen = new WelcomeScreen(this);
+        userSelectScreen = new UserSelectScreen(this);
+
+        // home screen
+        homePageScreen = new HomePageScreen(this);
+
+        // create journal entry
+        journalEntryCreateScreen = new JournalEntryCreateScreen(this);
+
+        // view journal log
+        journalLogScreen = new JournalLogScreen(this);
+
+        // category list
+        categoryListScreen = new CategoryListScreen(this);
+        createCategoryPopup = new CreateCategoryPopup(this);
+        editCategoryPopup = new EditCategoryPopup(this);
+
+        // components
+        sideBarComponent = new SideBarComponent(this);
+        savePromptPopup = new SavePromptPopup(this);
+        categoryChartComponent = new CategoryChartComponent();
+        journalTableObject = new JournalTableComponent();
     }
 
     public void newUserWelcomeScreen() {
-        newUserWelcomeScreen.newUserWelcomeScreen();
+        newUserWelcomeScreen.renderNewUserWelcomeScreen();
     }
 
     public void newUserNameScreen() {
@@ -87,7 +109,7 @@ public class UserInterface extends Application {
     }
 
     public void firstNewCategory() {
-        firstNewCategoryScreen.firstNewCategory();
+        firstNewCategoryScreen.renderFirstNewCategoryScreen();
     }
 
     public void userSelect() {
@@ -95,7 +117,7 @@ public class UserInterface extends Application {
     }
 
     public void makeSideBar() {
-        sideBar.makeSideBar();
+        sideBarComponent.renderSideBar();
     }
 
     public void homePage(Pane sideBar, Button homePageButton) {
@@ -103,7 +125,7 @@ public class UserInterface extends Application {
     }
 
     public PieChart generateCategoryChart() {
-        return categoryChart.generateCategoryChart();
+        return categoryChartComponent.generateCategoryChart();
     }
 
     public void createJournalEntry() {
@@ -114,48 +136,20 @@ public class UserInterface extends Application {
         journalLogScreen.renderJournalLogScreen();
     }
 
-    public TableColumn<JournalEntry, Integer> journalTableIdColumn() {
-        return journalTable.getIdColumn();
-    }
-
-    public TableColumn<JournalEntry, String> journalTableDescriptionColumn() {
-        return journalTable.getDescriptionColumn();
-    }
-
-    public TableColumn<JournalEntry, Integer> journalTableDurationColumn() {
-        return journalTable.getDurationColumn();
-    }
-
-    public TableColumn<JournalEntry, String> journalTableCategoryColumn() {
-        return journalTable.getCategoryColumn();
-    }
-
-    public TableColumn<JournalEntry, String> journalTableDateColumn() {
-        return journalTable.getDateColumn();
+    public JournalTableComponent getJournalTableObject() {
+        return journalTableObject;
     }
 
     public void viewAllCategories() {
         categoryListScreen.renderJournalLogScreen();
     }
 
-    public ObservableList<Category> generateCategoryList() {
-        return categoryListScreen.generateCategoryList();
-    }
-
-    public void editCategory(Button submit, TextField categoryName) {
-        editCategoryPopup.editCategory(submit, categoryName);
-    }
-
-    public void createNewCategory(TextField categoryName, Stage createCategoryStage) {
-        createCategoryPopup.createNewCategory(categoryName, createCategoryStage);
-    }
-
-    public void editCategoryScreen() {
-        editCategoryPopup.initializeScreen();
+    public EditCategoryPopup getEditCategoryPopup() {
+        return editCategoryPopup;
     }
 
     public void saveSession() {
-        savePopup.renderSavePopup();
+        savePromptPopup.renderSavePopup();
     }
 
     public Stage getMainStage() {
@@ -195,7 +189,7 @@ public class UserInterface extends Application {
     }
 
     public Button getJournalEntryButton() {
-        return sideBar.getNewJournalEntryButton();
+        return sideBarComponent.getNewJournalEntryButton();
     }
 
     public JournalLogScreen getJournalLogScreen() {
@@ -206,16 +200,12 @@ public class UserInterface extends Application {
         return categoryListScreen;
     }
 
-    public SideBar getSideBar() {
-        return sideBar;
+    public SideBarComponent getSideBarComponent() {
+        return sideBarComponent;
     }
 
     public CreateCategoryPopup getCreateCategoryPopup() {
         return createCategoryPopup;
-    }
-
-    public JournalTable getJournalTable() {
-        return journalTable;
     }
 
     public void setMiddle(Stage s) {
@@ -228,10 +218,10 @@ public class UserInterface extends Application {
     }
 
     public void clearButtonColours() {
-        sideBar.getNewJournalEntryButton().setStyle("-fx-background-color: #585858;");
-        sideBar.getHomePageButton().setStyle("-fx-background-color: #585858;");
-        sideBar.getViewJournalLogButton().setStyle("-fx-background-color: #585858;");
-        sideBar.getViewCategoryListButton().setStyle("-fx-background-color: #585858;");
+        sideBarComponent.getNewJournalEntryButton().setStyle("-fx-background-color: #585858;");
+        sideBarComponent.getHomePageButton().setStyle("-fx-background-color: #585858;");
+        sideBarComponent.getViewJournalLogButton().setStyle("-fx-background-color: #585858;");
+        sideBarComponent.getViewCategoryListButton().setStyle("-fx-background-color: #585858;");
     }
 
 }

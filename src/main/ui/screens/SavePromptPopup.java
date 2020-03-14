@@ -9,12 +9,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import ui.UserInterface;
 
-public class SavePopup extends Popup {
+public class SavePromptPopup extends Popup {
     private final UserInterface userInterface;
     private Button yes;
     private Button no;
@@ -23,16 +21,15 @@ public class SavePopup extends Popup {
     private Pane pane;
     private Stage saveStage;
 
-    public SavePopup(UserInterface userInterface) {
+    public SavePromptPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
     public void renderSavePopup() {
-        saveStage = createCustomDimensionStage(
+        saveStage = createPopupStage(
                 300,
-                100,
-                StageStyle.UNDECORATED,
-                Modality.APPLICATION_MODAL);
+                100
+        );
         initializeFinalPane();
         initializeScreen();
     }

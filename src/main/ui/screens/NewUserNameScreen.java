@@ -12,19 +12,19 @@ import ui.UserInterface;
 
 public class NewUserNameScreen extends Screen {
     private final UserInterface userInterface;
-    Label nameLabel;
-    TextField name;
-    Button newUserButton;
-    Pane pane;
+    private Label nameLabel;
+    private TextField name;
+    private Button newUserButton;
+    private Pane pane;
 
     public NewUserNameScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
     public void renderNewUserNameScreen() {
-        nameLabel = setScreenLabel();
-        name = setTextField();
-        newUserButton = setSubmitButton(name);
+        setScreenLabel();
+        setTextField();
+        setSubmitButton();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -38,27 +38,24 @@ public class NewUserNameScreen extends Screen {
         pane = vbox;
     }
 
-    public Button setSubmitButton(TextField name) {
-        Button newUserButton = new Button(">");
+    public void setSubmitButton() {
+        newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setAlignment(Pos.CENTER);
         setSubmitButtonListener(newUserButton, name);
-        return newUserButton;
     }
 
-    public TextField setTextField() {
-        TextField name = new TextField();
+    public void setTextField() {
+        name = new TextField();
         name.setMaxWidth(300);
         name.setStyle("-fx-font-size: 20px;");
         name.setAlignment(Pos.CENTER);
-        return name;
     }
 
-    public Label setScreenLabel() {
-        Label nameLabel = new Label("What's your name? Enter below: ");
+    public void setScreenLabel() {
+        nameLabel = new Label("What's your name? Enter below: ");
         nameLabel.setStyle("-fx-font-size: 45px; -fx-text-fill: #383838;");
         nameLabel.setAlignment(Pos.CENTER);
-        return nameLabel;
     }
 
     public void setSubmitButtonListener(Button newUserButton, TextField name) {

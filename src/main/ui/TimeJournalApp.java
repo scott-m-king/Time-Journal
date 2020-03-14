@@ -402,10 +402,6 @@ public class TimeJournalApp {
         return journalLog;
     }
 
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
     public ArrayList<String> getUserList() {
         return userList;
     }

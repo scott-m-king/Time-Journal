@@ -18,6 +18,12 @@ public class JournalLogScreen extends Screen {
     private final UserInterface userInterface;
     private Pane sideBar;
     private Button journalLogMenuButton;
+    private Button createNew;
+    private Button delete;
+    private Button edit;
+    private HBox buttonPane;
+    private JournalEntry selectedEntry;
+    private Text title;
     private Pane pane;
 
     public JournalLogScreen(UserInterface userInterface) {
@@ -25,58 +31,61 @@ public class JournalLogScreen extends Screen {
     }
 
     public void renderJournalLogScreen() {
-        this.sideBar = userInterface.getSideBar().getSideBarPane();
-        this.journalLogMenuButton = userInterface.getSideBar().getViewJournalLogButton();
+        this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
+        this.journalLogMenuButton = userInterface.getSideBarComponent().getViewJournalLogButton();
         initializeFinalPane();
+        journalTableSelectionListener();
         initializeScreen(pane, userInterface.getMainStage());
     }
 
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
-
-        Text title = new Text();
-        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
-        title.setText("Journal Entry Log");
-        title.setStyle("-fx-text-fill: #383838;");
-        AnchorPane.setLeftAnchor(title, 230.0);
-        AnchorPane.setTopAnchor(title, 30.0);
-
+        createPageTitle();
+        createButtonPane();
         journalLogMenuButton.setStyle("-fx-background-color:#787878");
-
-        setJournalTableColumns();
-
-        HBox buttons = setJournalLogButtons(sideBar);
-        buttons.setSpacing(15.0);
-        AnchorPane.setRightAnchor(buttons, 30.0);
-        AnchorPane.setTopAnchor(buttons, 30.0);
-
         pane.getChildren().addAll(
                 sideBar,
                 userInterface.getQuitButton(),
                 title,
                 userInterface.getJournalTableView(),
-                buttons);
+                buttonPane);
     }
 
-    public HBox setJournalLogButtons(Pane sideBar) {
-        HBox buttons = new HBox();
+    private void createPageTitle() {
+        title = new Text();
+        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
+        title.setText("Journal Entry Log");
+        title.setStyle("-fx-text-fill: #383838;");
+        AnchorPane.setLeftAnchor(title, 230.0);
+        AnchorPane.setTopAnchor(title, 30.0);
+    }
 
-        Button createNew = new Button("Create");
+    private void createButtonPane() {
+        renderTable();
+        setJournalLogButtons();
+        buttonPane.setSpacing(15.0);
+        AnchorPane.setRightAnchor(buttonPane, 30.0);
+        AnchorPane.setTopAnchor(buttonPane, 30.0);
+    }
+
+    public void setJournalLogButtons() {
+        buttonPane = new HBox();
+
+        createNew = new Button("Create");
         createNew.setStyle("-fx-min-width: 100;");
-        Button delete = new Button("Delete");
 
+        delete = new Button("Delete");
         delete.setStyle("-fx-min-width: 100;");
-        Button edit = new Button("Edit");
 
+        edit = new Button("Edit");
         edit.setStyle("-fx-min-width: 100;");
-        buttons.getChildren().addAll(edit, delete, createNew);
 
-        setJournalLogButtonListeners(createNew, edit);
-        return buttons;
+        buttonPane.getChildren().addAll(edit, delete, createNew);
+        setJournalLogButtonListeners();
     }
 
-    public void setJournalLogButtonListeners(Button createNew, Button edit) {
+    public void setJournalLogButtonListeners() {
         createNew.setOnAction(e -> {
             userInterface.clearButtonColours();
             userInterface
@@ -85,9 +94,30 @@ public class JournalLogScreen extends Screen {
         });
 
         edit.setOnAction(e -> {
-            ObservableList<JournalEntry> entrySelected = userInterface.getJournalTableView().getSelectionModel().getSelectedItems();
-            System.out.println(entrySelected.get(0).getDescription());
+            System.out.println(getSelectedEntry().getDescription());
         });
+
+        delete.setOnAction(e -> {
+            System.out.println(getSelectedEntry().getDescription());
+        });
+    }
+
+    public void journalTableSelectionListener() {
+        userInterface.getJournalTableView()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    try {
+                        selectedEntry = userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
+                        System.out.println(selectedEntry.getDescription());
+                    } catch (NullPointerException e) {
+                        System.out.println("no entry selected");
+                    }
+                });
+    }
+
+    private JournalEntry getSelectedEntry() {
+        return userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
     }
 
     public ObservableList<JournalEntry> getEntries() {
@@ -98,7 +128,7 @@ public class JournalLogScreen extends Screen {
         return entries;
     }
 
-    public void setJournalTableColumns() {
-        userInterface.getJournalTable().renderJournalTable(this, userInterface);
+    public void renderTable() {
+        userInterface.getJournalTableObject().renderJournalTable(this, userInterface);
     }
 }

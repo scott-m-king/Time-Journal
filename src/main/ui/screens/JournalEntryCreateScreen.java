@@ -21,6 +21,13 @@ public class JournalEntryCreateScreen extends Screen {
     private Pane pane;
     private Pane sideBar;
     private Text title;
+    private ComboBox<String> categoryListDurationString;
+    private ObservableList<Category> categoryListCategory;
+    private TextField descriptionField;
+    private TextField durationField;
+    private String descriptionEntry;
+    private String durationEntry;
+    private String categoryEntry;
 
     public JournalEntryCreateScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -29,7 +36,7 @@ public class JournalEntryCreateScreen extends Screen {
     public void createJournalEntryScreen() {
         title = createJournalEntrySetTitle();
         Button newJournalEntryButton = userInterface.getJournalEntryButton();
-        sideBar = userInterface.getSideBar().getSideBarPane();
+        sideBar = userInterface.getSideBarComponent().getSideBarPane();
         newJournalEntryButton.setStyle("-fx-background-color:#787878");
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
@@ -39,30 +46,31 @@ public class JournalEntryCreateScreen extends Screen {
     protected void initializeFinalPane() {
         pane = new AnchorPane();
 
-        Text descriptionLabel = createJournalSetLabel();
+        Button submit = setSubmitButton();
         TextField descriptionField = createJournalSetDescriptionField();
-        Text durationLabel = createJournalSetDurationLabel();
         TextField durationField = createJournalSetDurationField();
-        Text categoryLabel = createJournalSetCategoryLabel();
         ComboBox<String> categoryList = createJournalGenerateCategoryList();
-
-        Button submit = new Button("Submit");
-        AnchorPane.setBottomAnchor(submit, 30.0);
-        AnchorPane.setRightAnchor(submit, 30.0);
 
         pane.getChildren().addAll(
                 sideBar,
                 userInterface.getQuitButton(),
                 title,
-                durationLabel,
-                descriptionLabel,
-                categoryLabel,
+                createJournalSetDurationLabel(),
+                createJournalSetLabel(),
+                createJournalSetCategoryLabel(),
                 descriptionField,
                 categoryList,
                 durationField,
                 submit);
 
-        setJournalEntrySubmitListener(submit, descriptionField, durationField, categoryList);
+        setJournalEntrySubmitListener(submit);
+    }
+
+    private Button setSubmitButton() {
+        Button submit = new Button("Submit");
+        AnchorPane.setBottomAnchor(submit, 30.0);
+        AnchorPane.setRightAnchor(submit, 30.0);
+        return submit;
     }
 
     public Text createJournalEntrySetTitle() {
@@ -76,19 +84,19 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public ComboBox<String> createJournalGenerateCategoryList() {
-        ComboBox<String> categoryList = new ComboBox<>();
-        ObservableList<Category> listToAdd = userInterface.getCategoryListScreen().generateCategoryList();
+        categoryListDurationString = new ComboBox<>();
+        categoryListCategory = userInterface.getCategoryListScreen().generateCategoryList();
 
-        for (Category c : listToAdd) {
-            categoryList.getItems().add(c.getName());
+        for (Category c : categoryListCategory) {
+            categoryListDurationString.getItems().add(c.getDurationString());
         }
 
-        categoryList.setValue("Uncategorized");
+        categoryListDurationString.setValue(categoryListCategory.get(0).getDurationString());
 
-        AnchorPane.setTopAnchor(categoryList, 295.0);
-        AnchorPane.setLeftAnchor(categoryList, 230.0);
-        AnchorPane.setRightAnchor(categoryList, 30.0);
-        return categoryList;
+        AnchorPane.setTopAnchor(categoryListDurationString, 295.0);
+        AnchorPane.setLeftAnchor(categoryListDurationString, 230.0);
+        AnchorPane.setRightAnchor(categoryListDurationString, 30.0);
+        return categoryListDurationString;
     }
 
     public Text createJournalSetCategoryLabel() {
@@ -101,7 +109,7 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public TextField createJournalSetDurationField() {
-        TextField durationField = new TextField();
+        durationField = new TextField();
         AnchorPane.setTopAnchor(durationField, 215.0);
         AnchorPane.setLeftAnchor(durationField, 230.0);
         AnchorPane.setRightAnchor(durationField, 30.0);
@@ -118,7 +126,7 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public TextField createJournalSetDescriptionField() {
-        TextField descriptionField = new TextField();
+        descriptionField = new TextField();
         AnchorPane.setTopAnchor(descriptionField, 125.0);
         AnchorPane.setLeftAnchor(descriptionField, 230.0);
         AnchorPane.setRightAnchor(descriptionField, 30.0);
@@ -134,39 +142,62 @@ public class JournalEntryCreateScreen extends Screen {
         return descriptionLabel;
     }
 
-    public void setJournalEntrySubmitListener(
-            Button submit, TextField descriptionField, TextField durationField, ComboBox<String> categoryList) {
+    public void setJournalEntrySubmitListener(Button submit) {
         submit.setOnAction(e -> {
-            doCategoryEntry(descriptionField, durationField, categoryList);
+            doCategoryEntry();
         });
 
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                doCategoryEntry(descriptionField, durationField, categoryList);
+                doCategoryEntry();
             }
         });
     }
 
-    public void doCategoryEntry(TextField descriptionField, TextField durationField, ComboBox<String> categoryList) {
+    public void doCategoryEntry() {
         try {
-            String description = descriptionField.getText();
-            String duration = durationField.getText();
-            String category = categoryList.getSelectionModel().getSelectedItem();
-            userInterface.getSession().createNewJournalEntry(description, duration, category);
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setContentText("Entry successfully added!");
-            a.show();
-            descriptionField.clear();
-            durationField.clear();
-            categoryList.setValue("Uncategorized");
+            userInputToString();
+            userInterface.getSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);
+            alertSuccessfulEntry();
+            clearFields();
         } catch (NullEntryException e1) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
-            a.setContentText("Please make sure to fill in all fields.");
-            a.show();
+            alertNullFieldEntry();
         } catch (NumberFormatException e2) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
-            a.setContentText("You didn't enter a number for the duration. Please try again.");
-            a.show();
+            alertNumberFormatException();
         }
+    }
+
+    private void userInputToString() {
+        descriptionEntry = descriptionField.getText();
+        durationEntry = durationField.getText();
+        categoryEntry = categoryListCategory.get(
+                categoryListDurationString
+                        .getSelectionModel()
+                        .getSelectedIndex())
+                .getName();
+    }
+
+    private void clearFields() {
+        descriptionField.clear();
+        durationField.clear();
+        categoryListDurationString.setValue(categoryListCategory.get(0).getDurationString());
+    }
+
+    private void alertNumberFormatException() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("You didn't enter a number for the duration. Please try again.");
+        a.show();
+    }
+
+    private void alertNullFieldEntry() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("Please make sure to fill in all fields.");
+        a.show();
+    }
+
+    private void alertSuccessfulEntry() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText("Entry successfully added!");
+        a.show();
     }
 }

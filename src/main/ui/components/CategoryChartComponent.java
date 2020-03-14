@@ -6,8 +6,8 @@ import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.AnchorPane;
 
-public class CategoryChart {
-    public CategoryChart() {
+public class CategoryChartComponent {
+    public CategoryChartComponent() {
     }
 
     public PieChart generateCategoryChart() {

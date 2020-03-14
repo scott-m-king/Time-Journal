@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CategoryListScreen extends Screen {
-    private final UserInterface userInterface;
+    final UserInterface userInterface;
     private ListView<String> categoryDurationList;
     private TableView<JournalEntry> categoryJournalTable;
     private Pane sideBar;
@@ -32,8 +32,8 @@ public class CategoryListScreen extends Screen {
     }
 
     public void renderJournalLogScreen() {
-        this.sideBar = userInterface.getSideBar().getSideBarPane();
-        this.categoriesMenuButton = userInterface.getSideBar().getViewCategoryListButton();
+        this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
+        this.categoriesMenuButton = userInterface.getSideBarComponent().getViewCategoryListButton();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -88,6 +88,7 @@ public class CategoryListScreen extends Screen {
         return observableList;
     }
 
+
     public void categoryTableListener(Pane sideBar, Text title,
                                       String[] toFilter, ObservableList<Category> observableList,
                                       AnchorPane pane, HBox buttons) {
@@ -95,9 +96,12 @@ public class CategoryListScreen extends Screen {
                 (observable, oldValue, newValue) -> {
                     try {
                         int index = categoryDurationList.getSelectionModel().getSelectedIndex();
-                        userInterface.setCategoryCurrentlySelected(userInterface.getSession().getCategoryList().get(index).getName());
+                        userInterface.setCategoryCurrentlySelected(
+                                userInterface.getSession().getCategoryList().get(index).getName());
+
                         toFilter[0] = observableList.get(index).getName();
                         filterList(toFilter[0]);
+
                         pane.getChildren().clear();
                         pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, categoryDurationList,
                                 categoryJournalTable, buttons);
@@ -136,10 +140,10 @@ public class CategoryListScreen extends Screen {
         observableList.addAll(entries);
         return renderCategoryJournalEntryTable(
                 observableList,
-                userInterface.journalTableDateColumn(),
-                userInterface.journalTableCategoryColumn(),
-                userInterface.journalTableDurationColumn(),
-                userInterface.journalTableDescriptionColumn());
+                userInterface.getJournalTableObject().getDateColumn(),
+                userInterface.getJournalTableObject().getCategoryColumn(),
+                userInterface.getJournalTableObject().getDurationColumn(),
+                userInterface.getJournalTableObject().getDescriptionColumn());
     }
 
     public TableView<JournalEntry> renderCategoryJournalEntryTable(
@@ -183,7 +187,7 @@ public class CategoryListScreen extends Screen {
                 return;
             }
             if (!userInterface.getCategoryCurrentlySelected().equals("Uncategorized")) {
-                userInterface.getCategoryListScreen().confirmCategoryDelete(userInterface);
+                userInterface.getCategoryListScreen().confirmCategoryDelete();
             } else {
                 invalidCategoryDeleteAlert();
             }
@@ -194,7 +198,7 @@ public class CategoryListScreen extends Screen {
                 return;
             }
             if (!userInterface.getCategoryCurrentlySelected().equals("Uncategorized")) {
-                userInterface.editCategoryScreen();
+                userInterface.getEditCategoryPopup().initializeScreen();
             } else {
                 invalidCategoryEditAlert();
             }
@@ -213,47 +217,25 @@ public class CategoryListScreen extends Screen {
         a.show();
     }
 
-    public HBox makeCategoryButtons(TextField categoryName, Stage stage, String cameFrom) {
-        HBox hbox = new HBox();
-        hbox.setSpacing(10.0);
-
-        Button submit = new Button("Submit");
-        submit.setStyle("-fx-min-width: 100; -fx-min-height:35;");
-
-        Button cancel = new Button("Cancel");
-        cancel.setStyle("-fx-min-width: 100; -fx-min-height:35;");
-
-        hbox.getChildren().addAll(submit, cancel);
-        hbox.setAlignment(Pos.CENTER);
-
-        cancel.setOnAction(e -> stage.close());
-        categoryButtonListeners(categoryName, stage, cameFrom, submit);
-
-        return hbox;
-    }
-
-    public void categoryButtonListeners(TextField categoryName, Stage stage, String cameFrom, Button submit) {
-        if (cameFrom.equals("createCategoryScreen")) {
-            submit.setOnAction(e -> userInterface.createNewCategory(categoryName, stage));
-        } else {
-            userInterface.editCategory(submit, categoryName);
-        }
-    }
-
-    public void deleteCategory(UserInterface userInterface) {
+    public void deleteCategory() {
         if (userInterface.getCategoryCurrentlySelected() != null) {
             userInterface.getSession().deleteCategory(userInterface.getCategoryCurrentlySelected());
+            userInterface.viewAllCategories();
         }
     }
 
-    public void confirmCategoryDelete(UserInterface userInterface) {
+    public void confirmCategoryDelete() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Are you sure you want to delete this category? This cannot be undone.");
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
             a.close();
         } else if (result.get() == ButtonType.OK) {
-            deleteCategory(userInterface);
+            deleteCategory();
         }
+    }
+
+    public Pane getPane() {
+        return pane;
     }
 }

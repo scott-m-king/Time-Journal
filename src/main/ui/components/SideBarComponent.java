@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import ui.UserInterface;
 
-public class SideBar {
+public class SideBarComponent {
     private final UserInterface userInterface;
     private Button newJournalEntryButton;
     private Button homePageButton;
@@ -19,11 +19,11 @@ public class SideBar {
     private Button viewCategoryListButton;
     private Pane sideBarPane;
 
-    public SideBar(UserInterface userInterface) {
+    public SideBarComponent(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
-    public void makeSideBar() {
+    public void renderSideBar() {
         sideBarPane = populateSideBar();
         setSideBarButtonListeners(sideBarPane);
         initializeSideBar(sideBarPane);

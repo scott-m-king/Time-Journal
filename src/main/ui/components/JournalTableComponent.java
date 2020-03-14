@@ -10,14 +10,14 @@ import model.JournalEntry;
 import ui.UserInterface;
 import ui.screens.JournalLogScreen;
 
-public class JournalTable {
-    public TableColumn<JournalEntry, Integer> idColumn;
-    public TableColumn<JournalEntry, String> descriptionColumn;
-    public TableColumn<JournalEntry, Integer> durationColumn;
-    public TableColumn<JournalEntry, String> categoryColumn;
-    public TableColumn<JournalEntry, String> dateColumn;
+public class JournalTableComponent {
+    private TableColumn<JournalEntry, Integer> idColumn;
+    private TableColumn<JournalEntry, String> descriptionColumn;
+    private TableColumn<JournalEntry, Integer> durationColumn;
+    private TableColumn<JournalEntry, String> categoryColumn;
+    private TableColumn<JournalEntry, String> dateColumn;
 
-    public JournalTable() {
+    public JournalTableComponent() {
         idColumn();
         descriptionColumn();
         durationColumn();
