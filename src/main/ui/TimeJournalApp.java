@@ -84,27 +84,36 @@ public class TimeJournalApp {
     // EFFECTS: saves CategoryList and JournalLog to JSON files
     public void saveEntries() {
         try {
-            SaveWriter journalSave = new SaveWriter(new File("./data/users/"
-                    + currentUser + "/" + JOURNAL_SAVE_FILE));
-            journalSave.save(journalLog);
-            journalSave.close();
-
-            SaveWriter categorySave = new SaveWriter(new File("./data/users/"
-                    + currentUser + "/" + CATEGORY_SAVE_FILE));
-            categorySave.save(categoryList);
-            categorySave.close();
-
-            SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
-            userListSave.save(userList);
-            userListSave.close();
-
+            saveJournalLog();
+            saveCategoryList();
+            writeToFile();
         } catch (FileNotFoundException e) {
             new File("./data/users/" + currentUser + "/").mkdir();
             saveEntries();
         } catch (IOException e) {
-            e.printStackTrace();
             // programming error
+            System.out.println("We shouldn't have arrived here... Something's probably wrong with save file.");
         }
+    }
+
+    private void saveJournalLog() throws IOException {
+        SaveWriter journalSave = new SaveWriter(new File("./data/users/"
+                + currentUser + "/" + JOURNAL_SAVE_FILE));
+        journalSave.save(journalLog);
+        journalSave.close();
+    }
+
+    private void saveCategoryList() throws IOException {
+        SaveWriter categorySave = new SaveWriter(new File("./data/users/"
+                + currentUser + "/" + CATEGORY_SAVE_FILE));
+        categorySave.save(categoryList);
+        categorySave.close();
+    }
+
+    private void writeToFile() throws IOException {
+        SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
+        userListSave.save(userList);
+        userListSave.close();
     }
 
     // MODIFIES: this
@@ -117,7 +126,7 @@ public class TimeJournalApp {
         loadEntries();
     }
 
-    public String getUserWelcome() {
+    public String getUserName() {
         if (currentUser.charAt(currentUser.length() - 1) == 's') {
             return currentUser + "'\nTime Journal";
         } else {
@@ -133,11 +142,11 @@ public class TimeJournalApp {
                     + currentUser + "/" + JOURNAL_SAVE_FILE);
             SaveReader categoryReader = new SaveReader("./data/users/"
                     + currentUser + "/" + CATEGORY_SAVE_FILE);
-            journalLog = journalReader.readJournalEntries();
-            categoryList = categoryReader.readCategoryList();
-            journalLog.updateWithLoadedCategories(categoryList);
-            journalID = journalLog.getNextJournalID();
-            categoryID = categoryList.getNextCategoryID();
+            this.journalLog = journalReader.readJournalEntries();
+            this.categoryList = categoryReader.readCategoryList();
+            this.journalLog.updateWithLoadedCategories(categoryList);
+            this.journalID = journalLog.getNextJournalID();
+            this.categoryID = categoryList.getNextCategoryID();
             System.out.println("Save file successfully loaded. \n");
         } catch (FileNotFoundException e) {
             System.out.println("Save file does not exist. New session will be started.\n");
@@ -263,9 +272,13 @@ public class TimeJournalApp {
     //          - checks that the category exists
     //          - asks user what they want to rename the category to
     //          - renames category based on user input
-    public void editCategory(String changeFrom, String changeTo) throws CategoryExistsException {
+    public void editCategory(String changeFrom, String changeTo) throws CategoryExistsException, NullEntryException {
         if (categoryList.isDuplicateName(changeTo)) {
             throw new CategoryExistsException();
+        }
+
+        if (changeTo.equals("")) {
+            throw new NullEntryException();
         }
         categoryList.get(changeFrom).setName(changeTo);
     }
