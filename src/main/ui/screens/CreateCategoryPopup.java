@@ -16,22 +16,21 @@ import ui.UserInterface;
 public class CreateCategoryPopup extends Popup {
     private final UserInterface userInterface;
     private Stage stage;
+    private Pane pane;
 
     public CreateCategoryPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
-    public void renderScreen() {
-        stage = createStandardStage(
-        );
-
-        initializeScreen(initializeFinalPane(), stage);
+    public void renderCategoryPopup() {
+        stage = createStandardStage();
+        initializeFinalPane();
         userInterface.setMiddle(stage);
-        stage.show();
+        initializeScreen(pane, stage);
     }
 
     @Override
-    protected Pane initializeFinalPane() {
+    protected void initializeFinalPane() {
         VBox vbox = new VBox();
         vbox.setSpacing(20.0);
 
@@ -49,7 +48,7 @@ public class CreateCategoryPopup extends Popup {
         vbox.getChildren().addAll(text, categoryName, hbox);
         vbox.setAlignment(Pos.CENTER);
 
-        return vbox;
+        pane = vbox;
     }
 
     public void createNewCategory(TextField categoryName, Stage createCategoryStage) {

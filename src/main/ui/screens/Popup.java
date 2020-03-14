@@ -8,7 +8,7 @@ import javafx.stage.StageStyle;
 
 public abstract class Popup {
 
-    protected abstract Pane initializeFinalPane();
+    protected abstract void initializeFinalPane();
 
     protected Stage createStandardStage() {
         Stage stage = new Stage();
@@ -32,5 +32,6 @@ public abstract class Popup {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
+        stage.show();
     }
 }

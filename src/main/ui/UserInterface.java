@@ -39,7 +39,8 @@ public class UserInterface extends Application {
     private final CategoryChart categoryChart = new CategoryChart();
     private final CreateCategoryPopup createCategoryPopup = new CreateCategoryPopup(this);
     private final EditCategoryPopup editCategoryPopup = new EditCategoryPopup(this);
-    private final SaveScreen saveScreen = new SaveScreen(this);
+    private final SavePopup savePopup = new SavePopup(this);
+    private final WelcomeScreen welcomeScreen = new WelcomeScreen(this);
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private TableView<JournalEntry> journalTableView;
     private Button quitButton;
@@ -67,7 +68,7 @@ public class UserInterface extends Application {
         if (noSaveFile) {
             newUserWelcomeScreen.newUserWelcomeScreen();
         } else {
-            homePageScreen.selectUserScreen.selectUser();
+            welcomeScreen.renderWelcomeScreen();
         }
     }
 
@@ -90,7 +91,7 @@ public class UserInterface extends Application {
     }
 
     public void userSelect() {
-        userSelectScreen.userSelect();
+        userSelectScreen.renderUserSelectScreen();
     }
 
     public void makeSideBar() {
@@ -105,8 +106,8 @@ public class UserInterface extends Application {
         return categoryChart.generateCategoryChart();
     }
 
-    public void createJournalEntry(Pane sideBar, Button newJournalEntryMenuButton) {
-        journalEntryCreateScreen.createJournalEntryScreen(sideBar, newJournalEntryMenuButton);
+    public void createJournalEntry() {
+        journalEntryCreateScreen.createJournalEntryScreen();
     }
 
     public void viewJournalEntries() {
@@ -154,7 +155,7 @@ public class UserInterface extends Application {
     }
 
     public void saveSession() {
-        saveScreen.savePrompt();
+        savePopup.renderSavePopup();
     }
 
     public Stage getMainStage() {

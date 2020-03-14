@@ -14,9 +14,11 @@ import javafx.scene.text.Text;
 import model.Category;
 import ui.UserInterface;
 
+//TODO: REFACTOR!
+
 public class JournalEntryCreateScreen extends Screen {
     private final UserInterface userInterface;
-    private AnchorPane pane;
+    private Pane pane;
     private Pane sideBar;
     private Text title;
 
@@ -24,29 +26,17 @@ public class JournalEntryCreateScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    public void createJournalEntryScreen() {
+        title = createJournalEntrySetTitle();
+        Button newJournalEntryButton = userInterface.getJournalEntryButton();
+        sideBar = userInterface.getSideBar().getSideBarPane();
+        newJournalEntryButton.setStyle("-fx-background-color:#787878");
+        initializeFinalPane();
+        initializeScreen(pane, userInterface.getMainStage());
+    }
+
     @Override
-    protected Pane initializeFinalPane() {
-        return pane;
-    }
-
-    public void createJournalEntryScreen(Pane sideBar, Button newJournalEntryMenuButton) {
-        Text title = createJournalEntrySetTitle();
-        pane = createJournalEntryPageLayout(sideBar, title);
-        newJournalEntryMenuButton.setStyle("-fx-background-color:#787878");
-        initializeScreen(initializeFinalPane(), userInterface.getMainStage());
-    }
-
-    public Text createJournalEntrySetTitle() {
-        Text title = new Text();
-        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
-        title.setText("Create New Journal Entry");
-        title.setStyle("-fx-text-fill: #383838;");
-        AnchorPane.setLeftAnchor(title, 230.0);
-        AnchorPane.setTopAnchor(title, 30.0);
-        return title;
-    }
-
-    public AnchorPane createJournalEntryPageLayout(Pane sideBar, Text title) {
+    protected void initializeFinalPane() {
         pane = new AnchorPane();
 
         Text descriptionLabel = createJournalSetLabel();
@@ -60,22 +50,41 @@ public class JournalEntryCreateScreen extends Screen {
         AnchorPane.setBottomAnchor(submit, 30.0);
         AnchorPane.setRightAnchor(submit, 30.0);
 
-        pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, durationLabel, descriptionLabel, categoryLabel,
-                descriptionField, categoryList, durationField, submit);
+        pane.getChildren().addAll(
+                sideBar,
+                userInterface.getQuitButton(),
+                title,
+                durationLabel,
+                descriptionLabel,
+                categoryLabel,
+                descriptionField,
+                categoryList,
+                durationField,
+                submit);
 
-        setJournalEntrySubmitListener(submit, descriptionField, durationField, categoryList, pane);
-        return pane;
+        setJournalEntrySubmitListener(submit, descriptionField, durationField, categoryList);
+    }
+
+    public Text createJournalEntrySetTitle() {
+        Text title = new Text();
+        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
+        title.setText("Create New Journal Entry");
+        title.setStyle("-fx-text-fill: #383838;");
+        AnchorPane.setLeftAnchor(title, 230.0);
+        AnchorPane.setTopAnchor(title, 30.0);
+        return title;
     }
 
     public ComboBox<String> createJournalGenerateCategoryList() {
-        ComboBox<String> categoryList = new ComboBox<String>();
-        ObservableList<Category> listToAdd = userInterface.generateCategoryList();
+        ComboBox<String> categoryList = new ComboBox<>();
+        ObservableList<Category> listToAdd = userInterface.getCategoryListScreen().generateCategoryList();
 
         for (Category c : listToAdd) {
             categoryList.getItems().add(c.getName());
         }
 
         categoryList.setValue("Uncategorized");
+
         AnchorPane.setTopAnchor(categoryList, 295.0);
         AnchorPane.setLeftAnchor(categoryList, 230.0);
         AnchorPane.setRightAnchor(categoryList, 30.0);
@@ -126,8 +135,7 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public void setJournalEntrySubmitListener(
-            Button submit, TextField descriptionField, TextField durationField, ComboBox<String> categoryList,
-            AnchorPane pane) {
+            Button submit, TextField descriptionField, TextField durationField, ComboBox<String> categoryList) {
         submit.setOnAction(e -> {
             doCategoryEntry(descriptionField, durationField, categoryList);
         });

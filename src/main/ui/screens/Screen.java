@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public abstract class Screen {
 
-    protected abstract Pane initializeFinalPane();
+    protected abstract void initializeFinalPane();
 
     protected void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);

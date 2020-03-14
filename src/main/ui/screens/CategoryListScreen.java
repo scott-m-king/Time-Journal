@@ -25,6 +25,7 @@ public class CategoryListScreen extends Screen {
     private TableView<JournalEntry> categoryJournalTable;
     private Pane sideBar;
     private Button categoriesMenuButton;
+    private Pane pane;
 
     public CategoryListScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -33,12 +34,13 @@ public class CategoryListScreen extends Screen {
     public void renderJournalLogScreen() {
         this.sideBar = userInterface.getSideBar().getSideBarPane();
         this.categoriesMenuButton = userInterface.getSideBar().getViewCategoryListButton();
-        initializeScreen(initializeFinalPane(), userInterface.getMainStage());
+        initializeFinalPane();
+        initializeScreen(pane, userInterface.getMainStage());
     }
 
     @Override
-    protected Pane initializeFinalPane() {
-        AnchorPane pane = new AnchorPane();
+    protected void initializeFinalPane() {
+        pane = new AnchorPane();
         userInterface.setCategoryCurrentlySelected(null);
 
         Text title = new Text();
@@ -56,7 +58,7 @@ public class CategoryListScreen extends Screen {
 
         // string to filter with
         final String[] toFilter = new String[1];
-        categoryTableListener(sideBar, title, toFilter, observableList, pane, buttons);
+        categoryTableListener(sideBar, title, toFilter, observableList, (AnchorPane) pane, buttons);
 
         pane.getChildren().addAll(
                 sideBar,
@@ -66,8 +68,6 @@ public class CategoryListScreen extends Screen {
                 categoryJournalTable, buttons);
 
         categoriesMenuButton.setStyle("-fx-background-color:#787878");
-
-        return pane;
     }
 
     public ObservableList<Category> generateCategoryDurationListView() {
@@ -176,7 +176,7 @@ public class CategoryListScreen extends Screen {
     }
 
     public void setCategoryButtonListeners(Button createNew, Button delete, Button edit) {
-        createNew.setOnAction(e -> userInterface.getCreateCategoryPopup().renderScreen());
+        createNew.setOnAction(e -> userInterface.getCreateCategoryPopup().renderCategoryPopup());
 
         delete.setOnAction(e -> {
             if (userInterface.getCategoryCurrentlySelected() == null) {

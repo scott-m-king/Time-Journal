@@ -15,6 +15,7 @@ public class NewUserNameScreen extends Screen {
     Label nameLabel;
     TextField name;
     Button newUserButton;
+    Pane pane;
 
     public NewUserNameScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -24,16 +25,17 @@ public class NewUserNameScreen extends Screen {
         nameLabel = setScreenLabel();
         name = setTextField();
         newUserButton = setSubmitButton(name);
-        initializeScreen(initializeFinalPane(), userInterface.getMainStage());
+        initializeFinalPane();
+        initializeScreen(pane, userInterface.getMainStage());
     }
 
     @Override
-    protected Pane initializeFinalPane() {
+    protected void initializeFinalPane() {
         VBox vbox = new VBox();
         vbox.setSpacing(30);
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(nameLabel, name, newUserButton);
-        return vbox;
+        pane = vbox;
     }
 
     public Button setSubmitButton(TextField name) {

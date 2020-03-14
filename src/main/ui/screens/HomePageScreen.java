@@ -10,17 +10,15 @@ import ui.UserInterface;
 
 public class HomePageScreen extends Screen {
     private final UserInterface userInterface;
-    public final SelectUserScreen selectUserScreen;
-    private AnchorPane pane;
+    private Pane pane;
 
     public HomePageScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
-        this.selectUserScreen = new SelectUserScreen(userInterface);
     }
 
     @Override
-    protected Pane initializeFinalPane() {
-        return pane;
+    protected void initializeFinalPane() {
+        pane = new AnchorPane();
     }
 
     // https://docs.oracle.com/javafx/2/charts/pie-chart.htm

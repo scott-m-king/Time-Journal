@@ -18,6 +18,7 @@ public class JournalLogScreen extends Screen {
     private final UserInterface userInterface;
     private Pane sideBar;
     private Button journalLogMenuButton;
+    private Pane pane;
 
     public JournalLogScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -26,12 +27,13 @@ public class JournalLogScreen extends Screen {
     public void renderJournalLogScreen() {
         this.sideBar = userInterface.getSideBar().getSideBarPane();
         this.journalLogMenuButton = userInterface.getSideBar().getViewJournalLogButton();
-        initializeScreen(initializeFinalPane(), userInterface.getMainStage());
+        initializeFinalPane();
+        initializeScreen(pane, userInterface.getMainStage());
     }
 
     @Override
-    protected Pane initializeFinalPane() {
-        AnchorPane pane = new AnchorPane();
+    protected void initializeFinalPane() {
+        pane = new AnchorPane();
 
         Text title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
@@ -55,8 +57,6 @@ public class JournalLogScreen extends Screen {
                 title,
                 userInterface.getJournalTableView(),
                 buttons);
-
-        return pane;
     }
 
     public HBox setJournalLogButtons(Pane sideBar) {
@@ -72,16 +72,16 @@ public class JournalLogScreen extends Screen {
         edit.setStyle("-fx-min-width: 100;");
         buttons.getChildren().addAll(edit, delete, createNew);
 
-        setJournalLogButtonListeners(sideBar, createNew, edit);
+        setJournalLogButtonListeners(createNew, edit);
         return buttons;
     }
 
-    public void setJournalLogButtonListeners(Pane sideBar, Button createNew, Button edit) {
+    public void setJournalLogButtonListeners(Button createNew, Button edit) {
         createNew.setOnAction(e -> {
             userInterface.clearButtonColours();
             userInterface
                     .getJournalEntryCreateScreen()
-                    .createJournalEntryScreen(sideBar, userInterface.getJournalEntryButton());
+                    .createJournalEntryScreen();
         });
 
         edit.setOnAction(e -> {

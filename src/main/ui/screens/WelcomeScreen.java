@@ -5,23 +5,34 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
-public class SelectUserScreen {
+public class WelcomeScreen extends Screen {
     private final UserInterface userInterface;
+    private Pane pane;
 
-    public SelectUserScreen(UserInterface userInterface) {
+    public WelcomeScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
-    public void selectUser() {
+    public void renderWelcomeScreen() {
+        initializeFinalPane();
+        initializeScreen(pane, userInterface.getMainStage());
+        userInterface.getMainStage().show();
+    }
+
+    @Override
+    protected void initializeFinalPane() {
         Label title = setPageLabel();
         Button newUserButton = newUserButton();
         Button returningUserButton = returningUserButton();
-        GridPane grid = setGridPane(newUserButton, returningUserButton);
-        initializeScreen(title, grid);
-        userInterface.getMainStage().show();
+        GridPane gridPane = setGridPane(newUserButton, returningUserButton);
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(title, gridPane);
+        pane = vbox;
     }
 
     public Label setPageLabel() {
@@ -58,12 +69,5 @@ public class SelectUserScreen {
         newUserButton.setMinWidth(100);
         GridPane.setConstraints(newUserButton, 0, 0);
         return newUserButton;
-    }
-
-    public void initializeScreen(Label title, GridPane grid) {
-        VBox vbox = new VBox();
-        vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(title, grid);
-        userInterface.initializeScene(vbox, userInterface.getMainStage());
     }
 }

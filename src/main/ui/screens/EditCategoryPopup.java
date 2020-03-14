@@ -18,10 +18,11 @@ import ui.UserInterface;
 public class EditCategoryPopup extends Popup {
     private final UserInterface userInterface;
     private Stage stage;
-    Label label;
-    Text text;
-    TextField categoryName;
-    HBox buttons;
+    private Label label;
+    private Text text;
+    private TextField categoryName;
+    private HBox buttons;
+    private Pane pane;
 
     public EditCategoryPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -33,18 +34,18 @@ public class EditCategoryPopup extends Popup {
         buttons = userInterface
                 .getCategoryListScreen()
                 .makeCategoryButtons(categoryName, stage, "editCategoryScreen");
-        initializeScreen(initializeFinalPane(), stage);
+        initializeFinalPane();
         userInterface.setMiddle(stage);
-        stage.show();
+        initializeScreen(pane, stage);
     }
 
     @Override
-    protected Pane initializeFinalPane() {
+    protected void initializeFinalPane() {
         VBox screen = new VBox();
         screen.getChildren().addAll(label, text, categoryName, buttons);
         screen.setAlignment(Pos.CENTER);
         screen.setSpacing(15.0);
-        return screen;
+        pane = screen;
     }
 
     private void setFields() {

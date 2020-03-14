@@ -103,7 +103,7 @@ public class SideBar {
 
         newJournalEntryButton.setOnAction(e -> {
             userInterface.clearButtonColours();
-            userInterface.createJournalEntry(sideBar, newJournalEntryButton);
+            userInterface.createJournalEntry();
         });
 
         homePageButton.setOnAction(e -> {
