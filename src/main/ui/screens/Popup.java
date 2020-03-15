@@ -3,7 +3,6 @@ package ui.screens;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -56,13 +55,7 @@ public abstract class Popup {
         return hbox;
     }
 
-    public void setFormButtonListeners(
-            Stage stage,
-            String cameFrom,
-            Button submit,
-            Button cancel,
-            UserInterface ui) {
-
+    public void setFormButtonListeners(Stage stage, String cameFrom, Button submit, Button cancel, UserInterface ui) {
         cancel.setOnAction(e -> stage.close());
         switch (cameFrom) {
             case CREATE_CATEGORY:

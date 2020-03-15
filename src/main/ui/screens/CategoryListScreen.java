@@ -2,14 +2,12 @@ package ui.screens;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.Category;
 import model.CategoryList;
 import model.JournalEntry;
@@ -20,20 +18,31 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CategoryListScreen extends Screen {
-    final UserInterface userInterface;
-    private ListView<String> categoryDurationList;
+    private final UserInterface userInterface;
+    private ListView<String> categoryListView;
     private TableView<JournalEntry> categoryJournalTable;
     private Pane sideBar;
-    private Button categoriesMenuButton;
+    private String categoryCurrentSelected;
+    private ObservableList<JournalEntry> journalEntryObservableList;
+    private ObservableList<Category> categoryObservableList;
+    private TableColumn<JournalEntry, String> dateTableColumn;
+    private TableColumn<JournalEntry, String> categoryTableColumn;
+    private TableColumn<JournalEntry, Integer> durationTableColumn;
+    private TableColumn<JournalEntry, String> descriptionTableColumn;
+    private Text title;
+    private HBox buttons;
     private Pane pane;
 
     public CategoryListScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
-    public void renderJournalLogScreen() {
+    public void renderCategoryListScreen() {
+        categoryCurrentSelected = null;
         this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
-        this.categoriesMenuButton = userInterface.getSideBarComponent().getViewCategoryListButton();
+        Button categoriesMenuButton = userInterface.getSideBarComponent().getViewCategoryListButton();
+        categoriesMenuButton.setStyle("-fx-background-color:#787878");
+        setJournalEntryFieldColumns();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -41,185 +50,61 @@ public class CategoryListScreen extends Screen {
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
-        userInterface.setCategoryCurrentlySelected(null);
+        setMainLabel();
+        generateCategoryDurationListView();
+        setButtonLayout();
+        categoryTableListener();
+        pane.getChildren().addAll(
+                sideBar,
+                userInterface.getQuitButton(),
+                title,
+                categoryListView,
+                categoryJournalTable, buttons);
+    }
 
-        Text title = new Text();
+    private void setMainLabel() {
+        title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
         title.setText("Category List");
         title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
         AnchorPane.setTopAnchor(title, 30.0);
+    }
 
-        ObservableList<Category> observableList = generateCategoryDurationListView();
-        HBox buttons = setCategoryLogButtons();
-        buttons.setSpacing(15.0);
+    private void setButtonLayout() {
+        buttons = makeFormButtons(CATEGORY_LIST, userInterface);
         AnchorPane.setRightAnchor(buttons, 30.0);
         AnchorPane.setTopAnchor(buttons, 30.0);
-
-        // string to filter with
-        final String[] toFilter = new String[1];
-        categoryTableListener(sideBar, title, toFilter, observableList, (AnchorPane) pane, buttons);
-
-        pane.getChildren().addAll(
-                sideBar,
-                userInterface.getQuitButton(),
-                title,
-                categoryDurationList,
-                categoryJournalTable, buttons);
-
-        categoriesMenuButton.setStyle("-fx-background-color:#787878");
     }
 
-    public ObservableList<Category> generateCategoryDurationListView() {
-        categoryDurationList = new ListView<>();
-        ObservableList<Category> observableList = generateCategoryList();
-
-        for (Category category : observableList) {
-            categoryDurationList.getItems().add(category.getDurationString());
-        }
-
-        categoryDurationList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        categoryDurationList.setMaxHeight(275);
-        AnchorPane.setLeftAnchor(categoryDurationList, 230.0);
-        AnchorPane.setTopAnchor(categoryDurationList, 95.0);
-        AnchorPane.setRightAnchor(categoryDurationList, 30.0);
-        categoryJournalTable = makeCategoryJournalEntryTable(userInterface.getJournalLogScreen().getEntries());
-
-        return observableList;
-    }
-
-
-    public void categoryTableListener(Pane sideBar, Text title,
-                                      String[] toFilter, ObservableList<Category> observableList,
-                                      AnchorPane pane, HBox buttons) {
-        categoryDurationList.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    try {
-                        int index = categoryDurationList.getSelectionModel().getSelectedIndex();
-                        userInterface.setCategoryCurrentlySelected(
-                                userInterface.getSession().getCategoryList().get(index).getName());
-
-                        toFilter[0] = observableList.get(index).getName();
-                        filterList(toFilter[0]);
-
-                        pane.getChildren().clear();
-                        pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, categoryDurationList,
-                                categoryJournalTable, buttons);
-                    } catch (IndexOutOfBoundsException exception) {
-                        // no action
-                    }
-                }
-        );
-    }
-
-    public void filterList(String filterCondition) {
-        ObservableList<JournalEntry> entriesToFilter = userInterface.getJournalLogScreen().getEntries();
-        List<JournalEntry> result = entriesToFilter.stream()
-                .filter(journalEntry -> filterCondition.equals(journalEntry.getCategory().getName()))
-                .collect(Collectors.toList());
-        if (result.size() == 0) {
-            categoryJournalTable = makeCategoryJournalEntryTable(result);
-            categoryJournalTable.setPlaceholder(new Text("No entries for " + filterCondition));
+    private void setButtonColors() {
+        if (categoryCurrentSelected == null) {
+            delete.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
+            edit.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
         } else {
-            categoryJournalTable = makeCategoryJournalEntryTable(result);
+            delete.setStyle("-fx-background-color: #585858; -fx-min-width: 100;");
+            edit.setStyle("-fx-background-color: #585858; -fx-min-width: 100;");
         }
     }
 
-    public ObservableList<Category> generateCategoryList() {
-        ObservableList<Category> observableCategoryList = FXCollections.observableArrayList();
-        CategoryList categoryList = userInterface.getSession().getCategoryList();
-        for (int i = 0; i < categoryList.getSize(); i++) {
-            observableCategoryList.add(categoryList.get(i));
+    public void createButtonAction() {
+        userInterface.getCreateCategoryPopup().renderCategoryPopup();
+    }
+
+    public void deleteButtonAction() {
+        if (categoryCurrentSelected == null) {
+            return;
         }
-        return observableCategoryList;
-    }
-
-    public TableView<JournalEntry> makeCategoryJournalEntryTable(List<JournalEntry> entries) {
-        categoryJournalTable = new TableView<>();
-        ObservableList<JournalEntry> observableList = FXCollections.observableArrayList();
-        observableList.addAll(entries);
-        return renderCategoryJournalEntryTable(
-                observableList,
-                userInterface.getJournalTableObject().getDateColumn(),
-                userInterface.getJournalTableObject().getCategoryColumn(),
-                userInterface.getJournalTableObject().getDurationColumn(),
-                userInterface.getJournalTableObject().getDescriptionColumn());
-    }
-
-    public TableView<JournalEntry> renderCategoryJournalEntryTable(
-            ObservableList<JournalEntry> observableList,
-            TableColumn<JournalEntry, String> dateTableColumn,
-            TableColumn<JournalEntry, String> categoryTableColumn,
-            TableColumn<JournalEntry, Integer> durationTableColumn,
-            TableColumn<JournalEntry, String> descriptionTableColumn) {
-        categoryJournalTable.setItems(observableList);
-        categoryJournalTable.getColumns().addAll(
-                dateTableColumn, categoryTableColumn, durationTableColumn, descriptionTableColumn);
-        AnchorPane.setTopAnchor(categoryJournalTable, 385.0);
-        AnchorPane.setBottomAnchor(categoryJournalTable, 30.0);
-        AnchorPane.setRightAnchor(categoryJournalTable, 30.0);
-        AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
-        return categoryJournalTable;
-    }
-
-    public HBox setCategoryLogButtons() {
-        HBox buttons = new HBox();
-
-        Button createNew = new Button("Create");
-        createNew.setStyle("-fx-min-width: 100;");
-
-        Button delete = new Button("Delete");
-        delete.setStyle("-fx-min-width: 100;");
-
-        Button edit = new Button("Edit");
-        edit.setStyle("-fx-min-width: 100;");
-
-        buttons.getChildren().addAll(edit, delete, createNew);
-        setCategoryButtonListeners(createNew, delete, edit);
-        return buttons;
-    }
-
-    public void setCategoryButtonListeners(Button createNew, Button delete, Button edit) {
-        createNew.setOnAction(e -> userInterface.getCreateCategoryPopup().renderCategoryPopup());
-
-        delete.setOnAction(e -> {
-            if (userInterface.getCategoryCurrentlySelected() == null) {
-                return;
-            }
-            if (!userInterface.getCategoryCurrentlySelected().equals("Uncategorized")) {
-                userInterface.getCategoryListScreen().confirmCategoryDelete();
-            } else {
-                invalidCategoryDeleteAlert();
-            }
-        });
-
-        edit.setOnAction(e -> {
-            if (userInterface.getCategoryCurrentlySelected() == null) {
-                return;
-            }
-            if (!userInterface.getCategoryCurrentlySelected().equals("Uncategorized")) {
-                userInterface.getEditCategoryPopup().initializeScreen();
-            } else {
-                invalidCategoryEditAlert();
-            }
-        });
-    }
-
-    public void invalidCategoryEditAlert() {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setContentText("Cannot modify the Uncategorized category.");
-        a.show();
-    }
-
-    public void invalidCategoryDeleteAlert() {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setContentText("Sorry, you cannot delete the Uncategorized category.");
-        a.show();
+        if (!categoryCurrentSelected.equals("Uncategorized")) {
+            userInterface.getCategoryListScreen().confirmCategoryDelete();
+        } else {
+            invalidCategoryDeleteAlert();
+        }
     }
 
     public void deleteCategory() {
-        if (userInterface.getCategoryCurrentlySelected() != null) {
-            userInterface.getSession().deleteCategory(userInterface.getCategoryCurrentlySelected());
+        if (categoryCurrentSelected != null) {
+            userInterface.getSession().deleteCategory(categoryCurrentSelected);
             userInterface.viewAllCategories();
         }
     }
@@ -235,7 +120,134 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    public void invalidCategoryDeleteAlert() {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Sorry, you cannot delete the Uncategorized category.");
+        a.show();
+    }
+
+    public void editButtonAction() {
+        if (categoryCurrentSelected == null) {
+            return;
+        }
+        if (!categoryCurrentSelected.equals("Uncategorized")) {
+            userInterface.getEditCategoryPopup().initializeScreen();
+        } else {
+            invalidCategoryEditAlert();
+        }
+    }
+
+    public void invalidCategoryEditAlert() {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Cannot modify the Uncategorized category.");
+        a.show();
+    }
+
+    public void generateCategoryDurationListView() {
+        categoryListView = new ListView<>();
+        generateCategoryList();
+
+        for (Category category : categoryObservableList) {
+            categoryListView.getItems().add(category.getDurationString());
+        }
+        renderCategoryDurationListView();
+    }
+
+    public void generateCategoryList() {
+        categoryObservableList = FXCollections.observableArrayList();
+        CategoryList categoryList = userInterface.getSession().getCategoryList();
+        for (int i = 0; i < categoryList.getSize(); i++) {
+            categoryObservableList.add(categoryList.get(i));
+        }
+    }
+
+    private void renderCategoryDurationListView() {
+        categoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        categoryListView.setMaxHeight(275);
+        AnchorPane.setLeftAnchor(categoryListView, 230.0);
+        AnchorPane.setTopAnchor(categoryListView, 95.0);
+        AnchorPane.setRightAnchor(categoryListView, 30.0);
+        categoryJournalTable = renderFilteredJournalEntryTable(userInterface.getJournalLogScreen().getEntries());
+    }
+
+    public void categoryTableListener() {
+        categoryListView.getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((observable, oldValue, newValue) -> {
+                        try {
+                            int index = categoryListView.getSelectionModel().getSelectedIndex();
+                            categoryCurrentSelected = userInterface.getSession().getCategoryList().get(index).getName();
+                            setButtonColors();
+                            filterEntriesBasedOnCategory();
+                            pane.getChildren().clear();
+                            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, categoryListView,
+                                    categoryJournalTable, buttons);
+                        } catch (IndexOutOfBoundsException exception) {
+                            // no action
+                        }
+                    }
+            );
+    }
+
+    public void filterEntriesBasedOnCategory() {
+        final String[] filterCondition = new String[1];
+        filterCondition[0] = categoryCurrentSelected;
+        ObservableList<JournalEntry> entriesToFilter = userInterface.getJournalLogScreen().getEntries();
+        List<JournalEntry> filterResult = entriesToFilter.stream()
+                .filter(journalEntry -> filterCondition[0].equals(journalEntry.getCategory().getName()))
+                .collect(Collectors.toList());
+        filteredTable(filterCondition[0], filterResult);
+    }
+
+    private void filteredTable(String filterCondition, List<JournalEntry> filterResult) {
+        if (filterResult.size() == 0) {
+            categoryJournalTable = renderFilteredJournalEntryTable(filterResult);
+            categoryJournalTable.setPlaceholder(new Text("No entries for " + filterCondition));
+            categoryJournalTable.setSelectionModel(null);
+        } else {
+            categoryJournalTable = renderFilteredJournalEntryTable(filterResult);
+        }
+    }
+
+    public void setJournalEntryFieldColumns() {
+        dateTableColumn = userInterface.getJournalTableObject().getDateColumn();
+        categoryTableColumn = userInterface.getJournalTableObject().getCategoryColumn();
+        durationTableColumn = userInterface.getJournalTableObject().getDurationColumn();
+        descriptionTableColumn = userInterface.getJournalTableObject().getDescriptionColumn();
+    }
+
+    public TableView<JournalEntry> renderFilteredJournalEntryTable(List<JournalEntry> entries) {
+        categoryJournalTable = new TableView<>();
+        journalEntryObservableList = FXCollections.observableArrayList();
+        journalEntryObservableList.addAll(entries);
+        constructCategoryJournalEntryTable();
+        return categoryJournalTable;
+    }
+
+    public void constructCategoryJournalEntryTable() {
+        categoryJournalTable.setItems(journalEntryObservableList);
+        categoryJournalTable.getColumns().addAll(
+                dateTableColumn, categoryTableColumn, durationTableColumn, descriptionTableColumn);
+        AnchorPane.setTopAnchor(categoryJournalTable, 385.0);
+        AnchorPane.setBottomAnchor(categoryJournalTable, 30.0);
+        AnchorPane.setRightAnchor(categoryJournalTable, 30.0);
+        AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
+    }
+
     public Pane getPane() {
         return pane;
+    }
+
+    public String getCategoryCurrentSelected() {
+        return categoryCurrentSelected;
+    }
+
+    public void setCategoryCurrentSelected(String categoryName) {
+        categoryCurrentSelected = categoryName;
+    }
+
+    public ObservableList<Category> getCategoryObservableList() {
+        generateCategoryList();
+        return categoryObservableList;
     }
 }

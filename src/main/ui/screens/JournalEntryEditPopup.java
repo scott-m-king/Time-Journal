@@ -132,7 +132,7 @@ public class JournalEntryEditPopup extends Popup {
 
     private void setCategoryDropDown() {
         categoryDropDown = new ComboBox<>();
-        categoryDropDownCategories = userInterface.getCategoryListScreen().generateCategoryList();
+        categoryDropDownCategories = userInterface.getCategoryListScreen().getCategoryObservableList();
 
         for (Category c : categoryDropDownCategories) {
             categoryDropDown.getItems().add(c.getDurationString());
@@ -144,31 +144,36 @@ public class JournalEntryEditPopup extends Popup {
     }
 
     public void editJournalEntry() {
-        validateForm();
-        userInterface.getSession().editJournalEntryDescription(
-                selectedJournalEntry.getJournalID(),
-                descriptionField.getText());
-        userInterface.getSession().editJournalEntryDuration(
-                selectedJournalEntry.getJournalID(),
-                durationField.getText());
-        userInterface.getSession().editJournalEntryCategory(
-                selectedJournalEntry.getJournalID(),
-                categoryDropDownCategories.get(categoryDropDown.getSelectionModel().getSelectedIndex()).getName());
-        stage.close();
-        userInterface.getJournalLogScreen().renderJournalLogScreen();
-        alertSuccessfulEntry();
+        if (isFormValidated()) {
+            userInterface.getSession().editJournalEntryDescription(
+                    selectedJournalEntry.getJournalID(),
+                    descriptionField.getText());
+            userInterface.getSession().editJournalEntryDuration(
+                    selectedJournalEntry.getJournalID(),
+                    durationField.getText());
+            userInterface.getSession().editJournalEntryCategory(
+                    selectedJournalEntry.getJournalID(),
+                    categoryDropDownCategories.get(categoryDropDown.getSelectionModel().getSelectedIndex()).getName());
+            stage.close();
+            userInterface.getJournalLogScreen().renderJournalLogScreen();
+            alertSuccessfulEntry();
+        }
     }
 
-    private void validateForm() {
+    private boolean isFormValidated() {
         try {
             userInterface.getSession().checkValidForm(descriptionField.getText(), durationField.getText());
         } catch (NumberFormatException e) {
             alertNumberFormatException();
+            return false;
         } catch (NegativeNumberException e) {
             alertNegativeDuration();
+            return false;
         } catch (NullEntryException e) {
             alertNullFieldEntry();
+            return false;
         }
+        return true;
     }
 
     private void alertNumberFormatException() {

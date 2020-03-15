@@ -1,11 +1,8 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.JournalEntry;
@@ -16,7 +13,8 @@ import ui.components.SideBarComponent;
 
 import java.awt.*;
 
-//TODO: find way to get CategoryList page to refresh after each action (create new and selection)
+//TODO: find way to get CategoryList page to refresh after each action (create new and selection) (not working properly)
+//TODO: create an avatar page for new users to choose
 
 public class UserInterface extends Application {
     private NewUserWelcomeScreen newUserWelcomeScreen;
@@ -40,7 +38,6 @@ public class UserInterface extends Application {
     private Button quitButton;
     private TimeJournalApp session;
     private Stage mainStage;
-    private String categoryCurrentlySelected;
 
     public static final int WINDOW_WIDTH = 1000;
     public static final int WINDOW_HEIGHT = 700;
@@ -49,25 +46,26 @@ public class UserInterface extends Application {
     @Override
     public void start(Stage stage) {
         this.mainStage = stage;
-
         mainStage.setTitle("Time Journal");
         session = new TimeJournalApp();
         boolean noSaveFile = session.isFirstTime();
-
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainStage.setWidth(WINDOW_WIDTH);
-        mainStage.setHeight(WINDOW_HEIGHT);
-        mainStage.setMinWidth(WINDOW_WIDTH);
-        mainStage.setMinHeight(WINDOW_HEIGHT);
-
+        setMainStageDimensions();
         initializeAllScreens();
-        setMiddle(mainStage);
 
         if (noSaveFile) {
             newUserWelcomeScreen.renderNewUserWelcomeScreen();
         } else {
             welcomeScreen.renderWelcomeScreen();
         }
+    }
+
+    private void setMainStageDimensions() {
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainStage.setWidth(WINDOW_WIDTH);
+        mainStage.setHeight(WINDOW_HEIGHT);
+        mainStage.setMinWidth(WINDOW_WIDTH);
+        mainStage.setMinHeight(WINDOW_HEIGHT);
+        setMiddle(mainStage);
     }
 
     public void initializeAllScreens() {
@@ -98,7 +96,7 @@ public class UserInterface extends Application {
         // components
         sideBarComponent = new SideBarComponent(this);
         savePromptPopup = new SavePromptPopup(this);
-        categoryChartComponent = new CategoryChartComponent();
+        categoryChartComponent = new CategoryChartComponent(this);
         journalTableObject = new JournalTableComponent();
     }
 
@@ -126,10 +124,6 @@ public class UserInterface extends Application {
         homePageScreen.homePage(sideBar, homePageButton);
     }
 
-    public PieChart generateCategoryChart() {
-        return categoryChartComponent.generateCategoryChart();
-    }
-
     public void createJournalEntry() {
         journalEntryCreateScreen.createJournalEntryScreen();
     }
@@ -143,7 +137,7 @@ public class UserInterface extends Application {
     }
 
     public void viewAllCategories() {
-        categoryListScreen.renderJournalLogScreen();
+        categoryListScreen.renderCategoryListScreen();
     }
 
     public EditCategoryPopup getEditCategoryPopup() {
@@ -183,11 +177,7 @@ public class UserInterface extends Application {
     }
 
     public String getCategoryCurrentlySelected() {
-        return categoryCurrentlySelected;
-    }
-
-    public void setCategoryCurrentlySelected(String categoryCurrentlySelected) {
-        this.categoryCurrentlySelected = categoryCurrentlySelected;
+        return categoryListScreen.getCategoryCurrentSelected();
     }
 
     public Button getJournalEntryButton() {
@@ -206,12 +196,21 @@ public class UserInterface extends Application {
         return sideBarComponent;
     }
 
+    public CategoryChartComponent getCategoryChartComponent() {
+        return categoryChartComponent;
+    }
+
     public CreateCategoryPopup getCreateCategoryPopup() {
         return createCategoryPopup;
     }
 
     public JournalEntryEditPopup getJournalEntryEditPopup() {
         return journalEntryEditPopup;
+    }
+
+    public void removeListeners() {
+        categoryListScreen.setCategoryCurrentSelected(null);
+        journalLogScreen.setJournalEntryCurrentlySelected(null);
     }
 
     public void setMiddle(Stage s) {

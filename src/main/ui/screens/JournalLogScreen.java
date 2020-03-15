@@ -2,7 +2,9 @@ package ui.screens;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -13,14 +15,12 @@ import model.JournalLog;
 import ui.UserInterface;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class JournalLogScreen extends Screen {
     private final UserInterface userInterface;
     private Pane sideBar;
     private Button journalLogMenuButton;
-    private Button createNew;
-    private Button delete;
-    private Button edit;
     private HBox buttonPane;
     private JournalEntry selectedEntry;
     private Text title;
@@ -63,43 +63,48 @@ public class JournalLogScreen extends Screen {
 
     private void createButtonPane() {
         renderTable();
-        setJournalLogButtons();
-        buttonPane.setSpacing(15.0);
+        buttonPane = makeFormButtons(JOURNAL_LOG, userInterface);
         AnchorPane.setRightAnchor(buttonPane, 30.0);
         AnchorPane.setTopAnchor(buttonPane, 30.0);
     }
 
-    public void setJournalLogButtons() {
-        buttonPane = new HBox();
-
-        createNew = new Button("Create");
-        createNew.setStyle("-fx-min-width: 100;");
-
-        delete = new Button("Delete");
-        delete.setStyle("-fx-min-width: 100;");
-
-        edit = new Button("Edit");
-        edit.setStyle("-fx-min-width: 100;");
-
-        buttonPane.getChildren().addAll(edit, delete, createNew);
-        setJournalLogButtonListeners();
+    protected void createButtonAction() {
+        userInterface.clearButtonColours();
+        userInterface.getJournalEntryCreateScreen().createJournalEntryScreen();
     }
 
-    public void setJournalLogButtonListeners() {
-        createNew.setOnAction(e -> {
-            userInterface.clearButtonColours();
-            userInterface
-                    .getJournalEntryCreateScreen()
-                    .createJournalEntryScreen();
-        });
+    protected void editButtonAction() {
+        if (selectedEntry != null) {
+            try {
+                userInterface.getJournalEntryEditPopup().renderJournalEntryEditPopup();
+            } catch (NullPointerException e) {
+                // do nothing
+            }
+        }
+    }
 
-        edit.setOnAction(e -> {
-            userInterface.getJournalEntryEditPopup().renderJournalEntryEditPopup();
-        });
+    protected void deleteButtonAction() {
+        if (selectedEntry != null) {
+            deleteConfirmation();
+        }
+    }
 
-        delete.setOnAction(e -> {
-            System.out.println(getSelectedEntry().getDescription());
-        });
+    public void deleteConfirmation() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText("Are you sure you want to delete this entry? This cannot be undone.");
+        Optional<ButtonType> result = a.showAndWait();
+        if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
+            a.close();
+        } else if (result.get() == ButtonType.OK) {
+            deleteEntry();
+        }
+    }
+
+    public void deleteEntry() {
+        if (selectedEntry != null) {
+            userInterface.getSession().deleteJournalEntry(selectedEntry.getJournalID());
+            renderJournalLogScreen();
+        }
     }
 
     public void journalTableSelectionListener() {
@@ -109,10 +114,21 @@ public class JournalLogScreen extends Screen {
                 .addListener((observable, oldValue, newValue) -> {
                     try {
                         selectedEntry = userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
+                        setButtonColors();
                     } catch (NullPointerException e) {
                         // no action
                     }
                 });
+    }
+
+    private void setButtonColors() {
+        if (selectedEntry == null) {
+            delete.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
+            edit.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
+        } else {
+            delete.setStyle("-fx-background-color: #585858; -fx-min-width: 100;");
+            edit.setStyle("-fx-background-color: #585858; -fx-min-width: 100;");
+        }
     }
 
     public JournalEntry getSelectedEntry() {
@@ -129,5 +145,9 @@ public class JournalLogScreen extends Screen {
 
     public void renderTable() {
         userInterface.getJournalTableObject().renderJournalTable(this, userInterface);
+    }
+
+    public void setJournalEntryCurrentlySelected(JournalEntry entry) {
+        selectedEntry = entry;
     }
 }

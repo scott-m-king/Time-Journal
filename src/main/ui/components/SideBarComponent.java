@@ -17,6 +17,9 @@ public class SideBarComponent {
     private Button homePageButton;
     private Button viewJournalLogButton;
     private Button viewCategoryListButton;
+    private Label userName;
+    private Pane paneBackground;
+    private GridPane menuItems;
     private Pane sideBarPane;
 
     public SideBarComponent(UserInterface userInterface) {
@@ -31,18 +34,18 @@ public class SideBarComponent {
     }
 
     public Pane populateSideBar() {
-        Pane sideBar = setSideBarColorAndAnchors();
-        GridPane menuItems = createMenuItems();
-        sideBar.getChildren().add(menuItems);
-        return sideBar;
+        setSideBarColorAndAnchors();
+        createMenuItems();
+        paneBackground.getChildren().add(menuItems);
+        return paneBackground;
     }
 
-    public GridPane createMenuItems() {
-        GridPane menuItems = new GridPane();
+    public void createMenuItems() {
+        menuItems = new GridPane();
         menuItems.setPadding(new Insets(35, 0, 0, 10));
         menuItems.setVgap(15);
 
-        Label userName = sideBarWelcomeLabel();
+        sideBarWelcomeLabel();
         setSideBarButtons();
 
         menuItems.getChildren().addAll(
@@ -51,27 +54,24 @@ public class SideBarComponent {
                 homePageButton,
                 viewJournalLogButton,
                 viewCategoryListButton);
-        return menuItems;
     }
 
-    public Label sideBarWelcomeLabel() {
-        Label userName = new Label(userInterface.getSession().getUserName());
+    public void sideBarWelcomeLabel() {
+        userName = new Label(userInterface.getSession().getUserName());
         userName.setTextAlignment(TextAlignment.CENTER);
         userName.setWrapText(true);
         GridPane.setConstraints(userName, 0, 0);
         userName.setPadding(new Insets(0, 0, 15, 0));
         GridPane.setHalignment(userName, HPos.CENTER);
-        return userName;
     }
 
-    public Pane setSideBarColorAndAnchors() {
-        Pane sideBar = new Pane();
-        sideBar.setPrefWidth(200);
-        sideBar.setStyle("-fx-background-color:#383838");
-        AnchorPane.setTopAnchor(sideBar, 0.0);
-        AnchorPane.setBottomAnchor(sideBar, 0.0);
-        AnchorPane.setLeftAnchor(sideBar, 0.0);
-        return sideBar;
+    public void setSideBarColorAndAnchors() {
+        paneBackground = new Pane();
+        paneBackground.setPrefWidth(200);
+        paneBackground.setStyle("-fx-background-color:#383838");
+        AnchorPane.setTopAnchor(paneBackground, 0.0);
+        AnchorPane.setBottomAnchor(paneBackground, 0.0);
+        AnchorPane.setLeftAnchor(paneBackground, 0.0);
     }
 
     public void initializeSideBar(Pane sideBar) {
@@ -100,32 +100,50 @@ public class SideBarComponent {
     }
 
     public void setSideBarButtonListeners(Pane sideBar) {
+        setCreateJournalEntryButtonListener();
+        setHomePageButtonListener(sideBar);
+        setJournalLogButtonListener();
+        setCategoryListButtonListener();
+        setCloseAndSaveListeners();
+    }
 
-        newJournalEntryButton.setOnAction(e -> {
-            userInterface.clearButtonColours();
-            userInterface.createJournalEntry();
-        });
-
+    private void setHomePageButtonListener(Pane sideBar) {
         homePageButton.setOnAction(e -> {
+            userInterface.removeListeners();
             userInterface.clearButtonColours();
             userInterface.homePage(sideBar, homePageButton);
         });
+    }
 
+    private void setCreateJournalEntryButtonListener() {
+        newJournalEntryButton.setOnAction(e -> {
+            userInterface.removeListeners();
+            userInterface.clearButtonColours();
+            userInterface.createJournalEntry();
+        });
+    }
+
+    private void setJournalLogButtonListener() {
         viewJournalLogButton.setOnAction(e -> {
+            userInterface.removeListeners();
             userInterface.clearButtonColours();
             userInterface.viewJournalEntries();
         });
+    }
 
+    private void setCategoryListButtonListener() {
         viewCategoryListButton.setOnAction(e -> {
+            userInterface.removeListeners();
             userInterface.clearButtonColours();
             userInterface.viewAllCategories();
         });
+    }
 
+    private void setCloseAndSaveListeners() {
         userInterface.getMainStage().setOnCloseRequest(e -> {
             e.consume();
             userInterface.saveSession();
         });
-
         userInterface.getQuitButton().setOnAction(e -> userInterface.saveSession());
     }
 

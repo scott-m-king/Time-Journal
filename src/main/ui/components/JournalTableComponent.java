@@ -18,6 +18,10 @@ public class JournalTableComponent {
     private TableColumn<JournalEntry, String> dateColumn;
 
     public JournalTableComponent() {
+        initializeFields();
+    }
+
+    public void initializeFields() {
         idColumn();
         descriptionColumn();
         durationColumn();

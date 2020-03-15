@@ -99,7 +99,7 @@ public class CategoryList {
     }
 
     // EFFECTS: returns the CategoryList object as is. Used in updateWithLoadedCategories only
-    protected List<Category> getCategoryList() {
+    public List<Category> getCategoryList() {
         return categoryList;
     }
 

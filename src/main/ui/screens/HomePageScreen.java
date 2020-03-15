@@ -2,14 +2,21 @@ package ui.screens;
 
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import ui.UserInterface;
+
+// TODO: refactor to match other screen pages
 
 public class HomePageScreen extends Screen {
     private final UserInterface userInterface;
+    private PieChart chart;
+    private Label hoverLabel;
+    private Text hoverHelper;
     private Pane pane;
 
     public HomePageScreen(UserInterface userInterface) {
@@ -21,20 +28,35 @@ public class HomePageScreen extends Screen {
         pane = new AnchorPane();
     }
 
-    // https://docs.oracle.com/javafx/2/charts/pie-chart.htm
-
     public void homePage(Pane sideBar, Button homePageButton) {
         Text title = setHomePageTitle();
-        PieChart chart = userInterface.generateCategoryChart();
-        pane = createPane(sideBar, homePageButton, title, chart);
+        chart = userInterface.getCategoryChartComponent().generateCategoryChart();
+        pane = createPane(sideBar, homePageButton, title);
         initializeScreen(pane, userInterface.getMainStage());
     }
 
-    private AnchorPane createPane(Pane sideBar, Button homePageButton, Text title, PieChart chart) {
+    private AnchorPane createPane(Pane sideBar, Button homePageButton, Text title) {
         AnchorPane pane = new AnchorPane();
-        pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, chart);
+        setHoverLabel();
+        setHoverHelper();
+        pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, chart, hoverLabel, hoverHelper);
         homePageButton.setStyle("-fx-background-color:#787878");
         return pane;
+    }
+
+    private void setHoverLabel() {
+        hoverLabel = userInterface.getCategoryChartComponent().setHoverEffects(chart);
+        AnchorPane.setTopAnchor(hoverLabel, 40.0);
+        AnchorPane.setRightAnchor(hoverLabel, 30.0);
+    }
+
+    private void setHoverHelper() {
+        hoverHelper = new Text("Hover over a category for more details");
+        hoverHelper.setTextAlignment(TextAlignment.CENTER);
+        hoverHelper.setStyle("-fx-font-size: 16;");
+        AnchorPane.setBottomAnchor(hoverHelper, 15.0);
+        AnchorPane.setRightAnchor(hoverHelper, 30.0);
+        AnchorPane.setLeftAnchor(hoverHelper, 230.0);
     }
 
     public Text setHomePageTitle() {

@@ -25,7 +25,6 @@ import java.util.Scanner;
 public class TimeJournalApp {
     private CategoryList categoryList;     // declaration of new CategoryList
     private JournalLog journalLog;         // declaration of new JournalLog
-    private Scanner input;                 // scanner object to take in user input
     private int journalID = 1;             // starting ID of first journal entry, incremented by 1 for each new entry
     private int categoryID = 1;            // starting ID of first category (after Uncategorized)
     private String currentUser;            // current session user
@@ -37,10 +36,22 @@ public class TimeJournalApp {
 
     // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
     public TimeJournalApp() {
-        input = new Scanner(System.in);
         categoryList = new CategoryList();
         journalLog = new JournalLog();
         userList = new ArrayList<>();
+    }
+
+    // Getters
+    public CategoryList getCategoryList() {
+        return categoryList;
+    }
+
+    public JournalLog getJournalLog() {
+        return journalLog;
+    }
+
+    public ArrayList<String> getUserList() {
+        return userList;
     }
 
     public boolean isFirstTime() {
@@ -175,86 +186,18 @@ public class TimeJournalApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new journal entry and adds it to journalLog
-    public void createNewJournalEntry(String description, String durationEntry, String categoryEntry)
-            throws NullEntryException, NumberFormatException {
-        if (description.equals("") || durationEntry.equals("")) {
-            throw new NullEntryException();
-        } else {
-            int durationFinal = Integer.parseInt(durationEntry);
-            Category category = categoryList.get(categoryEntry);
-            JournalEntry newEntry = new JournalEntry(
-                    journalID++, description, category.getCategoryID(), category, durationFinal);
-            journalLog.add(newEntry);
-        }
-    }
-
-    // EFFECTS: validates user input to make sure it's a positive integer
-    // problem: inputs starting with integer and ending in string - eg. "45 minutes"
-    private int inputIntegerValidation(String question, String list) {
-        input.nextLine();
-        int choice;
-        do {
-            System.out.println(question);
-            while (!input.hasNextInt()) {
-                System.out.println(list);
-                System.out.println("Invalid entry. " + question);
-                input.nextLine();
-            }
-            choice = input.nextInt();
-        } while (choice <= 0);
-        return choice;
-    }
-
-    // EFFECTS: displays list of journal entries and gives user choice to edit/delete/go back to home
-    private void journalLogMenu() {
-        if (journalLog.getSize() == 0) {
-            System.out.println("You currently have no journal entries. \n");
-        } else {
-            boolean toContinue = true;
-            while (toContinue) {
-                System.out.println(journalLog.printLog());
-                editDeleteMenu();
-                String choice = input.next();
-                if (choice.equals("1")) {
-                    editJournalEntry();
-                    toContinue = false;
-                } else if (choice.equals("2")) {
-                    deleteJournalEntry();
-                    toContinue = false;
-                } else if (!choice.equals("3")) {
-                    System.out.println("Sorry, that's an invalid choice. \n");
-                } else {
-                    toContinue = false;
-                }
-            }
-        }
-    }
-
-    // EFFECTS: displays list of edit options for viewEditJournalLog and viewEditCategoryList
-    private void editDeleteMenu() {
-        System.out.println("What would you like to do? (Enter number)");
-        System.out.println("1. Edit");
-        System.out.println("2. Delete");
-        System.out.println("3. Back to main menu");
+    public void createNewJournalEntry(String description, String durationEntry, String categoryEntry) {
+        int durationFinal = Integer.parseInt(durationEntry);
+        Category category = categoryList.get(categoryEntry);
+        JournalEntry newEntry = new JournalEntry(
+                journalID++, description, category.getCategoryID(), category, durationFinal);
+        journalLog.add(newEntry);
     }
 
     // MODIFIES: this
     // EFFECTS: asks user which journal entry to delete and deletes it from journalLog
-    private void deleteJournalEntry() {
-        if (journalLog.getSize() == 0) {
-            System.out.println("Nothing to delete - your journal log is currently empty.\n");
-        } else {
-            System.out.println(journalLog.printLog());
-            String question = "Enter the ID number of the journal entry you would like to delete:";
-            int choice = inputIntegerValidation(question, journalLog.printLog());
-            if (journalLog.hasID(choice)) {
-                journalLog.delete(choice);
-                System.out.println("The entry has successfully been deleted.");
-            } else {
-                System.out.println("Sorry, that entry does not exist.");
-            }
-        }
-        journalLogMenu();
+    public void deleteJournalEntry(int toDelete) {
+        journalLog.delete(toDelete);
     }
 
     // MODIFIES: this
@@ -285,32 +228,12 @@ public class TimeJournalApp {
         categoryList.get(changeFrom).setName(changeTo);
     }
 
-    // MODIFIES: this
-    // EFFECTS: - asks user which journal entry to edit
-    //          - checks if journal entry exists
-    //          - edits journal entry
-    private void editJournalEntry() {
-        boolean toContinue = true;
-        while (toContinue) {
-            System.out.println(journalLog.printLog());
-            String question = "Which entry would you like to edit? Enter ID number";
-            int editChoice = inputIntegerValidation(question, journalLog.printLog());
-            if (journalLog.hasID(editChoice)) {
-                toContinue = false;
-            } else {
-                System.out.println("Sorry, that was an invalid choice.\n");
-                toContinue = true;
-            }
-        }
-        journalLogMenu();
-    }
-
-    public void checkValidForm(String inputDescription, String inputDuration)
+    public void checkValidForm(String description, String duration)
             throws NumberFormatException, NullEntryException, NegativeNumberException {
-        if (inputDuration == null || inputDescription == null) {
+        if (duration == null || duration.equals("") || description == null || description.equals("")) {
             throw new NullEntryException();
         }
-        int newDuration = Integer.parseInt(inputDuration);
+        int newDuration = Integer.parseInt(duration);
         if (newDuration < 0) {
             throw new NegativeNumberException();
         }
@@ -347,17 +270,12 @@ public class TimeJournalApp {
         journalLog.getValue(journalID).setCategory(toCategory);
     }
 
-    // Getters
-    public CategoryList getCategoryList() {
-        return categoryList;
-    }
-
-    public JournalLog getJournalLog() {
-        return journalLog;
-    }
-
-    public ArrayList<String> getUserList() {
-        return userList;
+    public int getTotalCategoryDuration() {
+        int totalDuration = 0;
+        for (int i = 0; i < categoryList.getSize(); i++) {
+            totalDuration += categoryList.get(i).getDuration();
+        }
+        return totalDuration;
     }
 
 }

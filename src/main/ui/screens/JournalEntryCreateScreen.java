@@ -1,5 +1,6 @@
 package ui.screens;
 
+import exceptions.NegativeNumberException;
 import exceptions.NullEntryException;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -85,7 +86,7 @@ public class JournalEntryCreateScreen extends Screen {
 
     public ComboBox<String> createJournalGenerateCategoryList() {
         categoryListDurationString = new ComboBox<>();
-        categoryListCategory = userInterface.getCategoryListScreen().generateCategoryList();
+        categoryListCategory = userInterface.getCategoryListScreen().getCategoryObservableList();
 
         for (Category c : categoryListCategory) {
             categoryListDurationString.getItems().add(c.getDurationString());
@@ -155,16 +156,28 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public void doCategoryEntry() {
-        try {
+        if (isFormValidated()) {
             userInputToString();
             userInterface.getSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);
             alertSuccessfulEntry();
             clearFields();
-        } catch (NullEntryException e1) {
-            alertNullFieldEntry();
-        } catch (NumberFormatException e2) {
-            alertNumberFormatException();
         }
+    }
+
+    private boolean isFormValidated() {
+        try {
+            userInterface.getSession().checkValidForm(descriptionField.getText(), durationField.getText());
+        } catch (NumberFormatException e) {
+            alertNumberFormatException();
+            return false;
+        } catch (NegativeNumberException e) {
+            alertNegativeDuration();
+            return false;
+        } catch (NullEntryException e) {
+            alertNullFieldEntry();
+            return false;
+        }
+        return true;
     }
 
     private void userInputToString() {
@@ -198,6 +211,12 @@ public class JournalEntryCreateScreen extends Screen {
     private void alertSuccessfulEntry() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Entry successfully added!");
+        a.show();
+    }
+
+    private void alertNegativeDuration() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("Please enter a positive duration.");
         a.show();
     }
 }
