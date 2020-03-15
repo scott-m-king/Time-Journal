@@ -25,6 +25,7 @@ public class UserInterface extends Application {
     private UserSelectScreen userSelectScreen;
     private SideBarComponent sideBarComponent;
     private JournalEntryCreateScreen journalEntryCreateScreen;
+    private JournalEntryEditPopup journalEntryEditPopup;
     private JournalLogScreen journalLogScreen;
     private HomePageScreen homePageScreen;
     private CategoryListScreen categoryListScreen;
@@ -87,6 +88,7 @@ public class UserInterface extends Application {
 
         // view journal log
         journalLogScreen = new JournalLogScreen(this);
+        journalEntryEditPopup = new JournalEntryEditPopup(this);
 
         // category list
         categoryListScreen = new CategoryListScreen(this);
@@ -206,6 +208,10 @@ public class UserInterface extends Application {
 
     public CreateCategoryPopup getCreateCategoryPopup() {
         return createCategoryPopup;
+    }
+
+    public JournalEntryEditPopup getJournalEntryEditPopup() {
+        return journalEntryEditPopup;
     }
 
     public void setMiddle(Stage s) {

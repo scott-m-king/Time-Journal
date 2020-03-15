@@ -94,7 +94,7 @@ public class JournalLogScreen extends Screen {
         });
 
         edit.setOnAction(e -> {
-            System.out.println(getSelectedEntry().getDescription());
+            userInterface.getJournalEntryEditPopup().renderJournalEntryEditPopup();
         });
 
         delete.setOnAction(e -> {
@@ -109,14 +109,13 @@ public class JournalLogScreen extends Screen {
                 .addListener((observable, oldValue, newValue) -> {
                     try {
                         selectedEntry = userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
-                        System.out.println(selectedEntry.getDescription());
                     } catch (NullPointerException e) {
-                        System.out.println("no entry selected");
+                        // no action
                     }
                 });
     }
 
-    private JournalEntry getSelectedEntry() {
+    public JournalEntry getSelectedEntry() {
         return userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
     }
 

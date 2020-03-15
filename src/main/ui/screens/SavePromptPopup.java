@@ -17,28 +17,25 @@ public class SavePromptPopup extends Popup {
     private Button yes;
     private Button no;
     private Button cancel;
-    private HBox choice;
+    private HBox buttonPane;
     private Pane pane;
-    private Stage saveStage;
+    private Stage stage;
 
     public SavePromptPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
     public void renderSavePopup() {
-        saveStage = createPopupStage(
-                300,
-                100
-        );
+        stage = createPopupStage(300, 100);
         initializeFinalPane();
         initializeScreen();
     }
 
     private void initializeScreen() {
         Scene scene = new Scene(pane);
-        saveStage.setScene(scene);
-        userInterface.setMiddle(saveStage);
-        saveStage.show();
+        stage.setScene(scene);
+        userInterface.setMiddle(stage);
+        stage.show();
     }
 
     @Override
@@ -52,19 +49,19 @@ public class SavePromptPopup extends Popup {
         GridPane.setConstraints(text, 0, 0);
 
         setButtonLayout();
-        gridPane.getChildren().addAll(text, choice);
+        gridPane.getChildren().addAll(text, buttonPane);
         pane = gridPane;
     }
 
     private void setButtonLayout() {
-        choice = new HBox();
+        buttonPane = new HBox();
         yes = new Button("Yes");
         no = new Button("No");
         cancel = new Button("Cancel");
-        choice.getChildren().addAll(yes, no, cancel);
-        choice.setAlignment(Pos.CENTER);
-        choice.setSpacing(5.0);
-        GridPane.setConstraints(choice, 0, 1);
+        buttonPane.getChildren().addAll(yes, no, cancel);
+        buttonPane.setAlignment(Pos.CENTER);
+        buttonPane.setSpacing(5.0);
+        GridPane.setConstraints(buttonPane, 0, 1);
         saveButtonListeners();
     }
 
@@ -81,6 +78,6 @@ public class SavePromptPopup extends Popup {
             System.exit(0);
         });
 
-        cancel.setOnAction(e -> saveStage.close());
+        cancel.setOnAction(e -> stage.close());
     }
 }

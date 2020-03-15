@@ -38,10 +38,9 @@ public class CreateCategoryPopup extends Popup {
         vbox.setSpacing(20.0);
         setMainLabel();
         setTextField();
-        HBox buttonPane = makeFormButtons(categoryName, stage, CREATE_CATEGORY, userInterface);
+        HBox buttonPane = makeFormButtons(stage, CREATE_CATEGORY, userInterface);
         vbox.getChildren().addAll(mainLabel, categoryName, buttonPane);
         vbox.setAlignment(Pos.CENTER);
-
         pane = vbox;
     }
 
@@ -58,7 +57,7 @@ public class CreateCategoryPopup extends Popup {
         categoryName.setStyle("-fx-font-size:14px;");
     }
 
-    public void createNewCategory(TextField categoryName) {
+    public void createNewCategory() {
         try {
             userInterface.getSession().createNewCategory(categoryName.getText());
             addSuccessfulAlert();

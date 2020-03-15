@@ -30,7 +30,7 @@ public class EditCategoryPopup extends Popup {
     public void initializeScreen() {
         stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         setFields();
-        buttons = makeFormButtons(categoryName, stage, EDIT_CATEGORY, userInterface);
+        buttons = makeFormButtons(stage, EDIT_CATEGORY, userInterface);
         initializeFinalPane();
         userInterface.setMiddle(stage);
         initializeScreen(pane, stage);
@@ -55,7 +55,7 @@ public class EditCategoryPopup extends Popup {
         categoryName.setMaxWidth(300);
     }
 
-    public void editCategory(TextField categoryName) {
+    public void editCategory() {
         try {
             userInterface.getSession().editCategory(userInterface.getCategoryCurrentlySelected(),
                     categoryName.getText());

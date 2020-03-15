@@ -1,6 +1,8 @@
 package ui;
 
+import com.sun.tools.corba.se.idl.constExpr.Negative;
 import exceptions.CategoryExistsException;
+import exceptions.NegativeNumberException;
 import exceptions.NullEntryException;
 import model.Category;
 import model.CategoryList;
@@ -294,7 +296,6 @@ public class TimeJournalApp {
             String question = "Which entry would you like to edit? Enter ID number";
             int editChoice = inputIntegerValidation(question, journalLog.printLog());
             if (journalLog.hasID(editChoice)) {
-                editJournalEntryMenu(editChoice);
                 toContinue = false;
             } else {
                 System.out.println("Sorry, that was an invalid choice.\n");
@@ -304,93 +305,46 @@ public class TimeJournalApp {
         journalLogMenu();
     }
 
-    // REQUIRES: valid journal ID
-    // MODIFIES: this
-    // EFFECTS: - asks user what field of journal entry they want to edit
-    //          - edits journal entry
-    private void editJournalEntryMenu(int journalID) {
-        boolean toContinue = true;
-        while (toContinue) {
-            System.out.println("Select what to edit: ");
-            System.out.println("1. Category");
-            System.out.println("2. Duration");
-            System.out.println("3. Description");
-            String choice = input.next();
-            if (choice.equals("1")) {
-                editJournalEntryCategory(journalID);
-                toContinue = false;
-            } else if (choice.equals("2")) {
-                editJournalEntryDuration(journalID);
-                toContinue = false;
-            } else if (choice.equals("3")) {
-                editJournalEntryDescription(journalID);
-                toContinue = false;
-            } else {
-                System.out.println("Sorry, please select another option.\n");
-                toContinue = true;
-            }
+    public void checkValidForm(String inputDescription, String inputDuration)
+            throws NumberFormatException, NullEntryException, NegativeNumberException {
+        if (inputDuration == null || inputDescription == null) {
+            throw new NullEntryException();
         }
-    }
-
-    // REQUIRES: valid journal ID
-    // MODIFIES: this
-    // EFFECTS: modifies journal entry category field based on user input
-    private void editJournalEntryCategory(int journalID) {
-        boolean toContinue = true;
-        while (toContinue) {
-            System.out.println(categoryList.printList());
-            int changeTo = inputIntegerValidation("What would you like to change the category to? "
-                    +  "Enter number below.", categoryList.printList());
-            if (changeTo > 0 && changeTo <= categoryList.getSize()) {
-                editJournalEntryCategoryHelper(changeTo, journalID);
-                System.out.println("You have successfully edited the entry.\n");
-                toContinue = false;
-            } else {
-                System.out.println("Sorry, that category does not exist. \n");
-                toContinue = true;
-            }
+        int newDuration = Integer.parseInt(inputDuration);
+        if (newDuration < 0) {
+            throw new NegativeNumberException();
         }
-    }
-
-    // REQUIRES: valid journal ID and positive duration
-    // MODIFIES: this
-    // EFFECTS: helper for editJournalEntryCategory - updates category duration of category in which journal entry
-    //          is being changed to
-    private void editJournalEntryCategoryHelper(int changeTo, int journalID) {
-        Category toCategory = categoryList.get(changeTo - 1);
-        System.out.println(journalID);
-        Category fromCategory = journalLog.getValue(journalID).getCategory();
-        int toCategoryDuration = toCategory.getDuration();
-        int journalEntryDuration = journalLog.getValue(journalID).getDuration();
-
-        toCategory.setDuration(toCategoryDuration + journalEntryDuration);
-        fromCategory.setDuration(fromCategory.getDuration() - journalEntryDuration);
-        journalLog.getValue(journalID).setCategory(toCategory);
-    }
-
-    // REQUIRES: valid journal ID
-    // MODIFIES: this
-    // EFFECTS: edits journal entry duration field based on user input
-    private void editJournalEntryDuration(int journalID) {
-        int newDuration = inputIntegerValidation("What would you like to change the duration to? "
-                + "Enter number in minutes below:", "");
-        int oldDuration = journalLog.getValue(journalID).getDuration();
-        Category affectedCategory = journalLog.getValue(journalID).getCategory();
-
-        affectedCategory.setDuration(affectedCategory.getDuration() - oldDuration + newDuration);
-        journalLog.getValue(journalID).setDuration(newDuration);
-        System.out.println("You have successfully edited the entry.\n");
     }
 
     // REQUIRES: valid journal ID
     // MODIFIES: this
     // EFFECTS: edits journal entry description field based on user input
-    private void editJournalEntryDescription(int journalID) {
-        System.out.println("What would you like to change the description to? This will overwrite the current one.");
-        input.nextLine();
-        String changeTo = input.nextLine();
+    public void editJournalEntryDescription(int journalID, String changeTo) {
         journalLog.getValue(journalID).setDescription(changeTo);
-        System.out.println("You have successfully edited the entry.\n");
+    }
+
+    // REQUIRES: valid journal ID and positive duration
+    // MODIFIES: this
+    // EFFECTS: edits journal entry duration field based on user input
+    public void editJournalEntryDuration(int journalID, String inputDuration) {
+        int newDuration = Integer.parseInt(inputDuration);
+        int oldDuration = journalLog.getValue(journalID).getDuration();
+        Category affectedCategory = journalLog.getValue(journalID).getCategory();
+        affectedCategory.setDuration(affectedCategory.getDuration() - oldDuration + newDuration);
+        journalLog.getValue(journalID).setDuration(newDuration);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: helper for editJournalEntryCategory - updates category duration of category in which journal entry
+    //          is being changed to
+    public void editJournalEntryCategory(int journalID, String changeTo) {
+        Category toCategory = categoryList.get(changeTo);
+        Category fromCategory = journalLog.getValue(journalID).getCategory();
+        int toCategoryDuration = toCategory.getDuration();
+        int journalEntryDuration = journalLog.getValue(journalID).getDuration();
+        toCategory.setDuration(toCategoryDuration + journalEntryDuration);
+        fromCategory.setDuration(fromCategory.getDuration() - journalEntryDuration);
+        journalLog.getValue(journalID).setCategory(toCategory);
     }
 
     // Getters

@@ -14,6 +14,8 @@ import ui.UserInterface;
 public abstract class Popup {
     public static final int STANDARD_POPUP_WIDTH = 400;
     public static final int STANDARD_POPUP_HEIGHT = 250;
+    public static final String EDIT_JOURNAL_ENTRY = "editJournalEntry";
+    public static final String CREATE_JOURNAL_ENTRY = "createJournalEntry";
     public static final String EDIT_CATEGORY = "editCategoryScreen";
     public static final String CREATE_CATEGORY = "createCategoryScreen";
 
@@ -35,8 +37,8 @@ public abstract class Popup {
         stage.show();
     }
 
-    // THIS STAYS HERE!! called by Create and Edit category popups
-    protected HBox makeFormButtons(TextField categoryName, Stage stage, String cameFrom, UserInterface ui) {
+    // THIS STAYS HERE!! called by popups that edit anything
+    protected HBox makeFormButtons(Stage stage, String cameFrom, UserInterface ui) {
         HBox hbox = new HBox();
         hbox.setSpacing(10.0);
 
@@ -49,18 +51,29 @@ public abstract class Popup {
         hbox.getChildren().addAll(submit, cancel);
         hbox.setAlignment(Pos.CENTER);
 
-        setFormButtonListeners(categoryName, stage, cameFrom, submit, cancel, ui);
+        setFormButtonListeners(stage, cameFrom, submit, cancel, ui);
 
         return hbox;
     }
 
     public void setFormButtonListeners(
-            TextField categoryName, Stage stage, String cameFrom, Button submit, Button cancel, UserInterface ui) {
+            Stage stage,
+            String cameFrom,
+            Button submit,
+            Button cancel,
+            UserInterface ui) {
+
         cancel.setOnAction(e -> stage.close());
-        if (cameFrom.equals("createCategoryScreen")) {
-            submit.setOnAction(e -> ui.getCreateCategoryPopup().createNewCategory(categoryName));
-        } else {
-            submit.setOnAction(e -> ui.getEditCategoryPopup().editCategory(categoryName));
+        switch (cameFrom) {
+            case CREATE_CATEGORY:
+                submit.setOnAction(e -> ui.getCreateCategoryPopup().createNewCategory());
+                break;
+            case EDIT_CATEGORY:
+                submit.setOnAction(e -> ui.getEditCategoryPopup().editCategory());
+                break;
+            case EDIT_JOURNAL_ENTRY:
+                submit.setOnAction(e -> ui.getJournalEntryEditPopup().editJournalEntry());
+                break;
         }
     }
 }
