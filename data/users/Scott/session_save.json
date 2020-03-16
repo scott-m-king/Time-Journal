@@ -1,0 +1,95 @@
+{
+  "categoryList": {
+    "categoryList": [
+      {
+        "categoryID": 0,
+        "name": "Uncategorized",
+        "duration": 15
+      },
+      {
+        "categoryID": 3,
+        "name": "Transportation",
+        "duration": 0
+      },
+      {
+        "categoryID": 4,
+        "name": "Sleep",
+        "duration": 20
+      },
+      {
+        "categoryID": 5,
+        "name": "School",
+        "duration": 60
+      },
+      {
+        "categoryID": 6,
+        "name": "Eat",
+        "duration": 0
+      },
+      {
+        "categoryID": 7,
+        "name": "Social",
+        "duration": 120
+      }
+    ]
+  },
+  "journalLog": {
+    "journalLog": {
+      "1": {
+        "journalID": 1,
+        "date": "2020-03-16",
+        "description": "Took a nap",
+        "categoryID": 4,
+        "category": {
+          "categoryID": 4,
+          "name": "Sleep",
+          "duration": 20
+        },
+        "duration": 20
+      },
+      "3": {
+        "journalID": 3,
+        "date": "2020-03-16",
+        "description": "Did CPSC 210 homework",
+        "categoryID": 5,
+        "category": {
+          "categoryID": 5,
+          "name": "School",
+          "duration": 60
+        },
+        "duration": 60
+      },
+      "4": {
+        "journalID": 4,
+        "date": "2020-03-16",
+        "description": "Did random stuff",
+        "categoryID": 0,
+        "category": {
+          "categoryID": 0,
+          "name": "Uncategorized",
+          "duration": 15
+        },
+        "duration": 15
+      },
+      "5": {
+        "journalID": 5,
+        "date": "2020-03-16",
+        "description": "Had dinner with friends",
+        "categoryID": 7,
+        "category": {
+          "categoryID": 7,
+          "name": "Social",
+          "duration": 120
+        },
+        "duration": 120
+      }
+    }
+  },
+  "journalID": 6,
+  "categoryID": 8,
+  "currentUser": "Scott",
+  "userList": [
+    "Scott",
+    "Bass"
+  ]
+}

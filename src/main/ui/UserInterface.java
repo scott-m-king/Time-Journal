@@ -39,7 +39,7 @@ public class UserInterface extends Application {
     private Dimension screenSize;
     private TableView<JournalEntry> journalTableView;
     private Button quitButton;
-    private TimeJournalApp session;
+    private UserSession currentSession;
     private Stage mainStage;
 
     public static final int WINDOW_WIDTH = 1000;
@@ -50,8 +50,8 @@ public class UserInterface extends Application {
     public void start(Stage stage) {
         this.mainStage = stage;
         mainStage.setTitle("Time Journal");
-        session = new TimeJournalApp();
-        boolean noSaveFile = session.isFirstTime();
+        currentSession = new UserSession();
+        boolean noSaveFile = currentSession.isFirstTime();
         setMainStageDimensions();
         initializeAllScreens();
         if (noSaveFile) {
@@ -148,8 +148,8 @@ public class UserInterface extends Application {
         return mainStage;
     }
 
-    public TimeJournalApp getSession() {
-        return session;
+    public UserSession getCurrentSession() {
+        return currentSession;
     }
 
     public Button getQuitButton() {

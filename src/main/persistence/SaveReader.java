@@ -1,8 +1,7 @@
 package persistence;
 
 import com.google.gson.Gson;
-import model.CategoryList;
-import model.JournalLog;
+import ui.UserSession;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,13 +21,8 @@ public class SaveReader {
     }
 
     // EFFECTS: deserializes JournalEntry save file and returns reconstructed object
-    public JournalLog readJournalEntries() {
-        return gson.fromJson(fileReader, JournalLog.class);
-    }
-
-    // EFFECTS: deserializes CategoryList save file and returns reconstructed object
-    public CategoryList readCategoryList() {
-        return gson.fromJson(fileReader, CategoryList.class);
+    public UserSession readUserSession() {
+        return gson.fromJson(fileReader, UserSession.class);
     }
 
     // EFFECTS: deserializes user list save file and returns reconstructed object

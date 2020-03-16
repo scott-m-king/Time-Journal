@@ -104,14 +104,16 @@ public class CategoryListScreen extends Screen {
 
     public void deleteCategory() {
         if (categoryCurrentSelected != null) {
-            userInterface.getSession().deleteCategory(categoryCurrentSelected);
+            userInterface.getCurrentSession().deleteCategory(categoryCurrentSelected);
             userInterface.viewAllCategories();
         }
     }
 
     public void confirmCategoryDelete() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setContentText("Are you sure you want to delete this category? This cannot be undone.");
+        a.setContentText("Are you sure you want to delete this category? All entries assigned with '"
+                + categoryCurrentSelected
+                + "' will be reassigned to 'Uncategorized'. This cannot be undone.");
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent() || result.get() == ButtonType.CANCEL) {
             a.close();
@@ -155,7 +157,7 @@ public class CategoryListScreen extends Screen {
 
     public void generateCategoryList() {
         categoryObservableList = FXCollections.observableArrayList();
-        CategoryList categoryList = userInterface.getSession().getCategoryList();
+        CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
         for (int i = 0; i < categoryList.getSize(); i++) {
             categoryObservableList.add(categoryList.get(i));
         }
@@ -176,7 +178,12 @@ public class CategoryListScreen extends Screen {
                     .addListener((observable, oldValue, newValue) -> {
                         try {
                             int index = categoryListView.getSelectionModel().getSelectedIndex();
-                            categoryCurrentSelected = userInterface.getSession().getCategoryList().get(index).getName();
+                            categoryCurrentSelected =
+                                    userInterface
+                                    .getCurrentSession()
+                                    .getCategoryList()
+                                    .get(index)
+                                    .getName();
                             setButtonColors();
                             filterEntriesBasedOnCategory();
                             pane.getChildren().clear();

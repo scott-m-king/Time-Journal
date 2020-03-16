@@ -63,7 +63,7 @@ public class FirstNewCategoryScreen extends Screen {
     public void setButtonHandler(Button startJournal, TextField categoryName) {
         startJournal.setOnAction(e -> {
             try {
-                userInterface.getSession().createNewCategory(categoryName.getText());
+                userInterface.getCurrentSession().createNewCategory(categoryName.getText());
                 userInterface.getSideBarComponent().renderSideBar();
             } catch (NullEntryException e1) {
                 Alert a = new Alert(Alert.AlertType.WARNING);

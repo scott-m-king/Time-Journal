@@ -6,12 +6,12 @@ import java.time.LocalDate;
 
 // Represents a Journal Entry with a unique ID, date stamp, description, assigned category, and duration
 public class JournalEntry {
-    @Expose private int journalID;         // unique ID for each journal entry used to access value in journalLog
-    @Expose private String date;           // current system date
-    @Expose private String description;    // user-inputted description for journal entry
-    @Expose private int categoryID;        // corresponding category ID (for deserialization purposes)
-    private Category category;             // reference to Category object user assigned to this journal entry
-    @Expose private Integer duration;      // amount of time spent on this entry
+    private int journalID;         // unique ID for each journal entry used to access value in journalLog
+    private String date;           // current system date
+    private String description;    // user-inputted description for journal entry
+    private int categoryID;        // corresponding category ID (for deserialization purposes)
+    private Category category;     // reference to Category object user assigned to this journal entry
+    private Integer duration;      // amount of time spent on this entry
 
     // Constructor
     public JournalEntry(int journalID, String description, int categoryID,  Category category, int duration) {

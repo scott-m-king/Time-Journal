@@ -61,7 +61,7 @@ public class NewUserNameScreen extends Screen {
     public void setSubmitButtonListener(Button newUserButton, TextField name) {
         newUserButton.setOnAction(e -> {
             try {
-                userInterface.getSession().setCurrentUser(name.getText());
+                userInterface.getCurrentSession().setCurrentUser(name.getText());
                 userInterface.getNewUserAvatarScreen().renderNewUserAvatarScreen();
             } catch (NullEntryException exception) {
                 Alert a = new Alert(Alert.AlertType.WARNING);

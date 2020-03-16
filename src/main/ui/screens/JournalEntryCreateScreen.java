@@ -158,7 +158,7 @@ public class JournalEntryCreateScreen extends Screen {
     public void doCategoryEntry() {
         if (isFormValidated()) {
             userInputToString();
-            userInterface.getSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);
+            userInterface.getCurrentSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);
             alertSuccessfulEntry();
             clearFields();
         }
@@ -166,7 +166,7 @@ public class JournalEntryCreateScreen extends Screen {
 
     private boolean isFormValidated() {
         try {
-            userInterface.getSession().checkValidForm(descriptionField.getText(), durationField.getText());
+            userInterface.getCurrentSession().checkValidForm(descriptionField.getText(), durationField.getText());
         } catch (NumberFormatException e) {
             alertNumberFormatException();
             return false;

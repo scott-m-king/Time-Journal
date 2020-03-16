@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import ui.UserInterface;
 
@@ -65,13 +64,12 @@ public class CreateCategoryPopup extends Popup {
 
     public void createNewCategory() {
         try {
-            userInterface.getSession().createNewCategory(categoryName.getText());
+            userInterface.getCurrentSession().createNewCategory(categoryName.getText());
             userInterface.getCategoryListScreen().renderCategoryListScreen();
-            addSuccessfulAlert();
             stage.close();
-        } catch (NullEntryException e1) {
+        } catch (NullEntryException e) {
             nullEntryAlert();
-        } catch (CategoryExistsException exception) {
+        } catch (CategoryExistsException e) {
             categoryAlreadyExistsAlert();
         }
     }
@@ -85,12 +83,6 @@ public class CreateCategoryPopup extends Popup {
     private void nullEntryAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("You must enter a name for your category.");
-        a.show();
-    }
-
-    private void addSuccessfulAlert() {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setContentText("You've successfully added the category.");
         a.show();
     }
 

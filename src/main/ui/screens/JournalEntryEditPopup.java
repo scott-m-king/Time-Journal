@@ -145,13 +145,13 @@ public class JournalEntryEditPopup extends Popup {
 
     public void editJournalEntry() {
         if (isFormValidated()) {
-            userInterface.getSession().editJournalEntryDescription(
+            userInterface.getCurrentSession().editJournalEntryDescription(
                     selectedJournalEntry.getJournalID(),
                     descriptionField.getText());
-            userInterface.getSession().editJournalEntryDuration(
+            userInterface.getCurrentSession().editJournalEntryDuration(
                     selectedJournalEntry.getJournalID(),
                     durationField.getText());
-            userInterface.getSession().editJournalEntryCategory(
+            userInterface.getCurrentSession().editJournalEntryCategory(
                     selectedJournalEntry.getJournalID(),
                     categoryDropDownCategories.get(categoryDropDown.getSelectionModel().getSelectedIndex()).getName());
             stage.close();
@@ -162,7 +162,7 @@ public class JournalEntryEditPopup extends Popup {
 
     private boolean isFormValidated() {
         try {
-            userInterface.getSession().checkValidForm(descriptionField.getText(), durationField.getText());
+            userInterface.getCurrentSession().checkValidForm(descriptionField.getText(), durationField.getText());
         } catch (NumberFormatException e) {
             alertNumberFormatException();
             return false;

@@ -57,7 +57,7 @@ public class SideBarComponent {
     }
 
     public void sideBarWelcomeLabel() {
-        userName = new Label(userInterface.getSession().getUserName());
+        userName = new Label(userInterface.getCurrentSession().getUserName());
         userName.setTextAlignment(TextAlignment.CENTER);
         userName.setWrapText(true);
         GridPane.setConstraints(userName, 0, 0);

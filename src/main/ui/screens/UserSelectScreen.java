@@ -53,7 +53,7 @@ public class UserSelectScreen extends Screen {
         comboBox.setMinWidth(200);
         comboBox.setStyle("-fx-font-size: 15px;");
 
-        ArrayList<String> list = userInterface.getSession().getUserList();
+        ArrayList<String> list = userInterface.getCurrentSession().getUserList();
 
         for (String s : list) {
             comboBox.getItems().add(s);
@@ -69,7 +69,7 @@ public class UserSelectScreen extends Screen {
     public void submitButtonListener() {
         submit.setOnAction(e -> {
             try {
-                userInterface.getSession().selectUser(comboBox.getSelectionModel().getSelectedItem());
+                userInterface.getCurrentSession().selectUser(comboBox.getSelectionModel().getSelectedItem());
                 userInterface.getSideBarComponent().renderSideBar();
             } catch (NullEntryException exception) {
                 Alert a = new Alert(Alert.AlertType.WARNING);

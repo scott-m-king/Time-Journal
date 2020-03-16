@@ -2,7 +2,7 @@ package persistence;
 
 import com.google.gson.*;
 import model.*;
-import ui.TimeJournalApp;
+import ui.UserSession;
 
 import java.io.IOException;
 import java.io.FileWriter;
@@ -22,23 +22,6 @@ public class SaveWriter {
         writer = new FileWriter(file);
     }
 
-    // MODIFIES: this, user journal_save.json file
-    // EFFECTS: serializes JournalLog object to JSON and writes to user save file
-    public void save(JournalLog j) {
-        gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setPrettyPrinting()
-                .create();
-        gson.toJson(j, writer);
-    }
-
-    // MODIFIES: this, user category_save.json file
-    // EFFECTS: serializes JournalLog object to JSON and writes to user save file
-    public void save(CategoryList c) {
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        gson.toJson(c, writer);
-    }
-
     // MODIFIES: this, ./data/users_save.json
     // EFFECTS: serializes user list to JSON and writes to save file
     public void save(ArrayList<String> userList) {
@@ -46,7 +29,7 @@ public class SaveWriter {
         gson.toJson(userList, writer);
     }
 
-    public void save(TimeJournalApp userSession) {
+    public void save(UserSession userSession) {
         gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(userSession, writer);
     }

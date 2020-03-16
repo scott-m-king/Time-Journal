@@ -1,6 +1,5 @@
 package ui.screens;
 
-import javafx.beans.value.ChangeListener;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,7 +40,7 @@ public class HomePageScreen extends Screen {
         AnchorPane pane = new AnchorPane();
         setHoverLabelForChart();
         setHoverToolTip();
-        if (userInterface.getSession().getJournalLog().getSize() == 0) {
+        if (userInterface.getCurrentSession().getJournalLog().getSize() == 0) {
             setLabelIfNoEntries();
             pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, text);
         } else {

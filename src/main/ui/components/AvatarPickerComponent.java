@@ -1,6 +1,6 @@
 package ui.components;
 
-// Icons made by https://www.flaticon.com/authors/freepik from https://www.flaticon.com/
+// Icons made by Freepik (https://www.flaticon.com/authors/freepik) from www.flaticon.com
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,15 +11,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class AvatarPickerComponent {
-    private ImageView boyImage;
-    private ImageView boy1Image;
-    private ImageView girlImage;
-    private ImageView girl1Image;
-    private ImageView manImage;
-    private ImageView man1Image;
-    private ImageView man2Image;
-    private ImageView woman1Image;
-    private ImageView woman2Image;
+    private ImageView image1;
+    private ImageView image2;
+    private ImageView image3;
+    private ImageView image4;
+    private ImageView image5;
+    private ImageView image6;
+    private ImageView image7;
+    private ImageView image8;
+    private ImageView image9;
     private ObservableList<ImageView> avatarObservableList;
     private ImageView selectedAvatarImageView;
     private GridPane grid;
@@ -28,69 +28,68 @@ public class AvatarPickerComponent {
     private int previouslySelectedPosition;
 
     public static final int IMAGE_DIMENSION = 125;
+    public static final String IMAGE_1 = "File:data/resources/dog.png";
+    public static final String IMAGE_2 = "File:data/resources/bee.png";
+    public static final String IMAGE_3 = "File:data/resources/cloud.png";
+    public static final String IMAGE_4 = "File:data/resources/coffee.png";
+    public static final String IMAGE_5 = "File:data/resources/balloon.png";
+    public static final String IMAGE_6 = "File:data/resources/ladybug.png";
+    public static final String IMAGE_7 = "File:data/resources/pigeon.png";
+    public static final String IMAGE_8 = "File:data/resources/sandwich.png";
+    public static final String IMAGE_9 = "File:data/resources/sun.png";
 
     public AvatarPickerComponent() {
     }
 
     public GridPane renderAvatarPicker() {
+        setImagesFromResources();
+        makeAvatarObservableList();
+        setImagePositionsInGrid();
+        updateSelectedAvatar();
+        populateGridPane();
+        return grid;
+    }
+
+    private void populateGridPane() {
         grid = new GridPane();
         grid.setVgap(15);
         grid.setHgap(15);
         grid.setAlignment(Pos.CENTER);
-        setImagesFromResources();
-        setImageConstraints();
-        makeAvatarObservableList();
-        updateSelectedAvatar();
         grid.getChildren().addAll(avatarObservableList);
-        return grid;
     }
 
     private void setImagesFromResources() {
-        boyImage = new ImageView(new Image("File:data/resources/boy.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        boy1Image = new ImageView(new Image("File:data/resources/boy-1.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        girlImage = new ImageView(new Image("File:data/resources/girl.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        girl1Image = new ImageView(new Image("File:data/resources/girl-1.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        manImage = new ImageView(new Image("File:data/resources/man.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        man1Image = new ImageView(new Image("File:data/resources/man-1.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        man2Image = new ImageView(new Image("File:data/resources/man-2.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        woman1Image = new ImageView(new Image("File:data/resources/man-3.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-        woman2Image = new ImageView(new Image("File:data/resources/man-4.png",
-                IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
-    }
-
-    private void setImageConstraints() {
-        GridPane.setConstraints(boyImage, 0, 0);
-        GridPane.setConstraints(boy1Image, 1, 0);
-        GridPane.setConstraints(girlImage, 2, 0);
-        GridPane.setConstraints(girl1Image, 0, 1);
-        GridPane.setConstraints(manImage, 1, 1);
-        GridPane.setConstraints(man1Image, 2, 1);
-        GridPane.setConstraints(man2Image, 0, 2);
-        GridPane.setConstraints(woman1Image, 1, 2);
-        GridPane.setConstraints(woman2Image, 2, 2);
+        image1 = new ImageView(new Image(IMAGE_1, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image2 = new ImageView(new Image(IMAGE_2, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image3 = new ImageView(new Image(IMAGE_3, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image4 = new ImageView(new Image(IMAGE_4, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image5 = new ImageView(new Image(IMAGE_5, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image6 = new ImageView(new Image(IMAGE_6, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image7 = new ImageView(new Image(IMAGE_7, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image8 = new ImageView(new Image(IMAGE_8, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
+        image9 = new ImageView(new Image(IMAGE_9, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
     }
 
     public void makeAvatarObservableList() {
         avatarObservableList = FXCollections.observableArrayList();
-        avatarObservableList.add(boyImage);
-        avatarObservableList.add(boy1Image);
-        avatarObservableList.add(girlImage);
-        avatarObservableList.add(girl1Image);
-        avatarObservableList.add(manImage);
-        avatarObservableList.add(man1Image);
-        avatarObservableList.add(man2Image);
-        avatarObservableList.add(woman1Image);
-        avatarObservableList.add(woman2Image);
+        avatarObservableList.add(image1);
+        avatarObservableList.add(image2);
+        avatarObservableList.add(image3);
+        avatarObservableList.add(image4);
+        avatarObservableList.add(image5);
+        avatarObservableList.add(image6);
+        avatarObservableList.add(image7);
+        avatarObservableList.add(image8);
+        avatarObservableList.add(image9);
     }
 
+    private void setImagePositionsInGrid() {
+        for (int i = 0; i < avatarObservableList.size(); i++) {
+            GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
+        }
+    }
+
+    // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
     private void updateSelectedAvatar() {
         for (int i = 0; i < avatarObservableList.size(); i++) {
             ImageView imageView = avatarObservableList.get(i);
@@ -103,38 +102,41 @@ public class AvatarPickerComponent {
                     event -> imageView.setStyle("-fx-cursor: default;"));
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 selectedAvatarImageView = new ImageView(imageView.getImage());
-                putPreviousImageBack();
-                grid.getChildren().remove(imageView);
-                putBorderedIntoGrid(finalI);
-                storeImageViewForLater(imageView, selectedAvatarImageView, finalI);
+                makeSelectionVFX(imageView, finalI);
             });
         }
     }
 
-    public void storeImageViewForLater(ImageView unBordered, ImageView bordered, int position) {
-        previouslySelectedImageViewUnBordered = unBordered;
-        previouslySelectedImageViewBordered = bordered;
-        previouslySelectedPosition = position;
+    private void makeSelectionVFX(ImageView imageView, int finalI) {
+        putBackNoBorderImage();
+        grid.getChildren().remove(imageView);
+        putInSelectedImage(finalI);
+        storeNoBorderImage(imageView, selectedAvatarImageView, finalI);
     }
 
-    public void putPreviousImageBack() {
+    public void putBackNoBorderImage() {
         if (previouslySelectedImageViewUnBordered != null) {
-            grid.getChildren().remove(selectedAvatarImageView);
             int col = previouslySelectedPosition % 3;
             int row = previouslySelectedPosition / 3;
+            grid.getChildren().remove(selectedAvatarImageView);
             GridPane.setConstraints(previouslySelectedImageViewUnBordered, col, row);
             grid.getChildren().remove(previouslySelectedImageViewBordered);
             grid.getChildren().add(previouslySelectedImageViewUnBordered);
         }
     }
 
-    // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
-    public void putBorderedIntoGrid(int i) {
+    public void putInSelectedImage(int i) {
         int col = i % 3;
         int row = i / 3;
-        selectedAvatarImageView.setStyle("-fx-effect: dropshadow(three-pass-box, #383838, 30, 0, 0, 0)");
+        selectedAvatarImageView.setStyle("-fx-effect: dropshadow(three-pass-box, #383838, 40, 0, 0, 0)");
         GridPane.setConstraints(selectedAvatarImageView, col, row);
         grid.getChildren().add(selectedAvatarImageView);
+    }
+
+    public void storeNoBorderImage(ImageView unBordered, ImageView bordered, int position) {
+        previouslySelectedImageViewUnBordered = unBordered;
+        previouslySelectedImageViewBordered = bordered;
+        previouslySelectedPosition = position;
     }
 
     public Image getSelectedAvatarImage() {

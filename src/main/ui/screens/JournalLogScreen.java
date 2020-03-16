@@ -102,7 +102,7 @@ public class JournalLogScreen extends Screen {
 
     public void deleteEntry() {
         if (selectedEntry != null) {
-            userInterface.getSession().deleteJournalEntry(selectedEntry.getJournalID());
+            userInterface.getCurrentSession().deleteJournalEntry(selectedEntry.getJournalID());
             renderJournalLogScreen();
         }
     }
@@ -137,7 +137,7 @@ public class JournalLogScreen extends Screen {
 
     public ObservableList<JournalEntry> getEntries() {
         ObservableList<JournalEntry> entries = FXCollections.observableArrayList();
-        JournalLog journalLog = userInterface.getSession().getJournalLog();
+        JournalLog journalLog = userInterface.getCurrentSession().getJournalLog();
         ArrayList<JournalEntry> entryList = journalLog.getEntriesAsList();
         entries.addAll(entryList);
         return entries;

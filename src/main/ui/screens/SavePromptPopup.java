@@ -67,8 +67,7 @@ public class SavePromptPopup extends Popup {
 
     public void saveButtonListeners() {
         yes.setOnAction(e -> {
-            userInterface.getSession().saveEntries();
-            userInterface.getSession().endSession();
+            userInterface.getCurrentSession().saveEntries();
             Platform.exit();
             System.exit(0);
         });

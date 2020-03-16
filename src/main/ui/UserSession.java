@@ -1,6 +1,5 @@
 package ui;
 
-import com.sun.tools.corba.se.idl.constExpr.Negative;
 import exceptions.CategoryExistsException;
 import exceptions.NegativeNumberException;
 import exceptions.NullEntryException;
@@ -15,14 +14,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Design inspired by Teller App: https://github.students.cs.ubc.ca/CPSC210/TellerApp
  */
 
-// Time Journal Application
-public class TimeJournalApp {
+// Represents a user session
+public class UserSession {
     private CategoryList categoryList;     // declaration of new CategoryList
     private JournalLog journalLog;         // declaration of new JournalLog
     private int journalID = 1;             // starting ID of first journal entry, incremented by 1 for each new entry
@@ -31,12 +29,10 @@ public class TimeJournalApp {
     private ArrayList<String> userList;    // list of all users
 
     public static final String USER_SAVE_FILE = "./data/users_save.json";
-    public static final String JOURNAL_SAVE_FILE = "journal_save.json";
-    public static final String CATEGORY_SAVE_FILE = "category_save.json";
     public static final String SESSION_SAVE_FILE = "session_save.json";
 
     // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
-    public TimeJournalApp() {
+    public UserSession() {
         categoryList = new CategoryList();
         journalLog = new JournalLog();
         userList = new ArrayList<>();
@@ -89,17 +85,10 @@ public class TimeJournalApp {
         categoryList.add(uncategorized);
     }
 
-    // EFFECTS: ends user session and prompts to save or not
-    public void endSession() {
-        System.out.println("See you next time, " + currentUser + "!");
-    }
-
     // MODIFIES: save files
     // EFFECTS: saves CategoryList and JournalLog to JSON files
     public void saveEntries() {
         try {
-            saveJournalLog();
-            saveCategoryList();
             saveUserSession();
             writeToFile();
         } catch (FileNotFoundException e) {
@@ -109,20 +98,6 @@ public class TimeJournalApp {
             // programming error
             System.out.println("We shouldn't have arrived here... Something's probably wrong with save file.");
         }
-    }
-
-    private void saveJournalLog() throws IOException {
-        SaveWriter journalSave = new SaveWriter(new File("./data/users/"
-                + currentUser + "/" + JOURNAL_SAVE_FILE));
-        journalSave.save(journalLog);
-        journalSave.close();
-    }
-
-    private void saveCategoryList() throws IOException {
-        SaveWriter categorySave = new SaveWriter(new File("./data/users/"
-                + currentUser + "/" + CATEGORY_SAVE_FILE));
-        categorySave.save(categoryList);
-        categorySave.close();
     }
 
     private void saveUserSession() throws IOException {
@@ -163,14 +138,9 @@ public class TimeJournalApp {
     private void loadEntries() {
         try {
             SaveReader journalReader = new SaveReader("./data/users/"
-                    + currentUser + "/" + JOURNAL_SAVE_FILE);
-            SaveReader categoryReader = new SaveReader("./data/users/"
-                    + currentUser + "/" + CATEGORY_SAVE_FILE);
-            this.journalLog = journalReader.readJournalEntries();
-            this.categoryList = categoryReader.readCategoryList();
-            this.journalLog.updateWithLoadedCategories(categoryList);
-            this.journalID = journalLog.getNextJournalID();
-            this.categoryID = categoryList.getNextCategoryID();
+                    + currentUser + "/" + SESSION_SAVE_FILE);
+            UserSession loadedSession = journalReader.readUserSession();
+            loadSessionFields(loadedSession);
             System.out.println("Save file successfully loaded. \n");
         } catch (FileNotFoundException e) {
             System.out.println("Save file does not exist. New session will be started.\n");
@@ -179,6 +149,16 @@ public class TimeJournalApp {
             System.out.println("Invalid save file. New session will be started. \n");
             newSession();
         }
+    }
+
+    private void loadSessionFields(UserSession loadedSession) {
+        this.journalLog = loadedSession.getJournalLog();
+        this.categoryList = loadedSession.getCategoryList();
+        this.journalLog.updateWithLoadedCategories(categoryList);
+        if (!(journalLog.getSize() == 0)) {
+            this.journalID = journalLog.getNextJournalID();
+        }
+        this.categoryID = categoryList.getNextCategoryID();
     }
 
     // MODIFIES: this

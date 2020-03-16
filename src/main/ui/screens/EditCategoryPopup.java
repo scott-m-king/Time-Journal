@@ -57,7 +57,7 @@ public class EditCategoryPopup extends Popup {
 
     public void editCategory() {
         try {
-            userInterface.getSession().editCategory(userInterface.getCategoryCurrentlySelected(),
+            userInterface.getCurrentSession().editCategory(userInterface.getCategoryCurrentlySelected(),
                     categoryName.getText());
             stage.close();
             userInterface.viewAllCategories();
