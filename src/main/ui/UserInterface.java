@@ -216,6 +216,10 @@ public class UserInterface extends Application {
         return newUserAvatarScreen;
     }
 
+    public NewUserNameScreen getNewUserNameScreen() {
+        return newUserNameScreen;
+    }
+
     public void removeListeners() {
         categoryListScreen.setCategoryCurrentSelected(null);
         journalLogScreen.setJournalEntryCurrentlySelected(null);

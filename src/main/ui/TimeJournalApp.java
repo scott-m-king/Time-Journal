@@ -33,6 +33,7 @@ public class TimeJournalApp {
     public static final String USER_SAVE_FILE = "./data/users_save.json";
     public static final String JOURNAL_SAVE_FILE = "journal_save.json";
     public static final String CATEGORY_SAVE_FILE = "category_save.json";
+    public static final String SESSION_SAVE_FILE = "session_save.json";
 
     // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
     public TimeJournalApp() {
@@ -99,6 +100,7 @@ public class TimeJournalApp {
         try {
             saveJournalLog();
             saveCategoryList();
+            saveUserSession();
             writeToFile();
         } catch (FileNotFoundException e) {
             new File("./data/users/" + currentUser + "/").mkdir();
@@ -121,6 +123,15 @@ public class TimeJournalApp {
                 + currentUser + "/" + CATEGORY_SAVE_FILE));
         categorySave.save(categoryList);
         categorySave.close();
+    }
+
+    private void saveUserSession() throws IOException {
+        SaveWriter sessionSave = new SaveWriter(new File("./data/users/"
+                + currentUser
+                + "/"
+                + SESSION_SAVE_FILE));
+        sessionSave.save(this);
+        sessionSave.close();
     }
 
     private void writeToFile() throws IOException {

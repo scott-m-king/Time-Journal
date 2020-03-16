@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-
 public class AvatarPickerComponent {
     private ImageView boyImage;
     private ImageView boy1Image;

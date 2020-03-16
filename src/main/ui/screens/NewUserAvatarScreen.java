@@ -55,7 +55,7 @@ public class NewUserAvatarScreen extends Screen {
     public void setSubmitButtonListener() {
         newUserButton.setOnAction(e -> {
             try {
-                userInterface.getSession().setCurrentUser("Test");
+                userInterface.getSession().setCurrentUser(userInterface.getNewUserNameScreen().getUserName());
                 userInterface.getSession().newSession();
                 userInterface.getFirstNewCategoryScreen().renderFirstNewCategoryScreen();
             } catch (NullEntryException exception) {

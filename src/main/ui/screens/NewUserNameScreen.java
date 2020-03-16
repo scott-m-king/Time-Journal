@@ -13,7 +13,7 @@ import ui.UserInterface;
 public class NewUserNameScreen extends Screen {
     private final UserInterface userInterface;
     private Label nameLabel;
-    private TextField name;
+    private TextField userName;
     private Button newUserButton;
     private Pane pane;
 
@@ -34,7 +34,7 @@ public class NewUserNameScreen extends Screen {
         VBox vbox = new VBox();
         vbox.setSpacing(30);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(nameLabel, name, newUserButton);
+        vbox.getChildren().addAll(nameLabel, userName, newUserButton);
         pane = vbox;
     }
 
@@ -42,14 +42,14 @@ public class NewUserNameScreen extends Screen {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setAlignment(Pos.CENTER);
-        setSubmitButtonListener(newUserButton, name);
+        setSubmitButtonListener(newUserButton, userName);
     }
 
     public void setTextField() {
-        name = new TextField();
-        name.setMaxWidth(300);
-        name.setStyle("-fx-font-size: 20px;");
-        name.setAlignment(Pos.CENTER);
+        userName = new TextField();
+        userName.setMaxWidth(300);
+        userName.setStyle("-fx-font-size: 20px;");
+        userName.setAlignment(Pos.CENTER);
     }
 
     public void setScreenLabel() {
@@ -69,5 +69,9 @@ public class NewUserNameScreen extends Screen {
                 a.show();
             }
         });
+    }
+
+    public String getUserName() {
+        return userName.getText();
     }
 }

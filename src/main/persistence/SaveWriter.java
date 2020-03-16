@@ -2,6 +2,7 @@ package persistence;
 
 import com.google.gson.*;
 import model.*;
+import ui.TimeJournalApp;
 
 import java.io.IOException;
 import java.io.FileWriter;
@@ -43,6 +44,11 @@ public class SaveWriter {
     public void save(ArrayList<String> userList) {
         gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(userList, writer);
+    }
+
+    public void save(TimeJournalApp userSession) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(userSession, writer);
     }
 
     // MODIFIES: this
