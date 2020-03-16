@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.JournalEntry;
+import ui.components.AvatarPickerComponent;
 import ui.screens.*;
 import ui.components.CategoryChartComponent;
 import ui.components.JournalTableComponent;
@@ -19,6 +20,8 @@ import java.awt.*;
 public class UserInterface extends Application {
     private NewUserWelcomeScreen newUserWelcomeScreen;
     private NewUserNameScreen newUserNameScreen;
+    private NewUserAvatarScreen newUserAvatarScreen;
+    private AvatarPickerComponent avatarPickerComponent;
     private FirstNewCategoryScreen firstNewCategoryScreen;
     private UserSelectScreen userSelectScreen;
     private SideBarComponent sideBarComponent;
@@ -71,7 +74,9 @@ public class UserInterface extends Application {
     public void initializeAllScreens() {
         // completely new user
         newUserWelcomeScreen = new NewUserWelcomeScreen(this);
+        avatarPickerComponent = new AvatarPickerComponent();
         newUserNameScreen = new NewUserNameScreen(this);
+        newUserAvatarScreen = new NewUserAvatarScreen(this);
         firstNewCategoryScreen = new FirstNewCategoryScreen(this);
 
         // save files already exist
@@ -106,10 +111,6 @@ public class UserInterface extends Application {
 
     public void newUserNameScreen() {
         newUserNameScreen.renderNewUserNameScreen();
-    }
-
-    public void firstNewCategory() {
-        firstNewCategoryScreen.renderFirstNewCategoryScreen();
     }
 
     public void userSelect() {
@@ -206,6 +207,18 @@ public class UserInterface extends Application {
 
     public JournalEntryEditPopup getJournalEntryEditPopup() {
         return journalEntryEditPopup;
+    }
+
+    public AvatarPickerComponent getAvatarPickerComponent() {
+        return avatarPickerComponent;
+    }
+
+    public FirstNewCategoryScreen getFirstNewCategoryScreen() {
+        return firstNewCategoryScreen;
+    }
+
+    public NewUserAvatarScreen getNewUserAvatarScreen() {
+        return newUserAvatarScreen;
     }
 
     public void removeListeners() {

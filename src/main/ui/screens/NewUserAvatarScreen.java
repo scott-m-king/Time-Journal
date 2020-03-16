@@ -6,25 +6,26 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
-public class NewUserNameScreen extends Screen {
+public class NewUserAvatarScreen extends Screen {
     private final UserInterface userInterface;
     private Label nameLabel;
-    private TextField name;
     private Button newUserButton;
+    private GridPane imagePane;
     private Pane pane;
 
-    public NewUserNameScreen(UserInterface userInterface) {
+    public NewUserAvatarScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
 
-    public void renderNewUserNameScreen() {
+    public void renderNewUserAvatarScreen() {
         setScreenLabel();
-        setTextField();
         setSubmitButton();
+        imagePane = userInterface.getAvatarPickerComponent().renderAvatarPicker();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -34,7 +35,7 @@ public class NewUserNameScreen extends Screen {
         VBox vbox = new VBox();
         vbox.setSpacing(30);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(nameLabel, name, newUserButton, userInterface.getAvatarPickerComponent().renderAvatarPicker());
+        vbox.getChildren().addAll(nameLabel, imagePane, newUserButton);
         pane = vbox;
     }
 
@@ -42,28 +43,21 @@ public class NewUserNameScreen extends Screen {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setAlignment(Pos.CENTER);
-        setSubmitButtonListener(newUserButton, name);
-    }
-
-    public void setTextField() {
-        name = new TextField();
-        name.setMaxWidth(300);
-        name.setStyle("-fx-font-size: 20px;");
-        name.setAlignment(Pos.CENTER);
+        setSubmitButtonListener();
     }
 
     public void setScreenLabel() {
-        nameLabel = new Label("What's your name? Enter below: ");
+        nameLabel = new Label("Choose an avatar below:");
         nameLabel.setStyle("-fx-font-size: 45px; -fx-text-fill: #383838;");
         nameLabel.setAlignment(Pos.CENTER);
     }
 
-    public void setSubmitButtonListener(Button newUserButton, TextField name) {
+    public void setSubmitButtonListener() {
         newUserButton.setOnAction(e -> {
             try {
-                userInterface.getSession().setCurrentUser(name.getText());
+                userInterface.getSession().setCurrentUser("Test");
                 userInterface.getSession().newSession();
-                userInterface.getNewUserAvatarScreen().renderNewUserAvatarScreen();
+                userInterface.getFirstNewCategoryScreen().renderFirstNewCategoryScreen();
             } catch (NullEntryException exception) {
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setContentText("You must enter at least one character for your name.");

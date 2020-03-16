@@ -1,5 +1,6 @@
 package ui.screens;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ public class HomePageScreen extends Screen {
     private final UserInterface userInterface;
     private PieChart chart;
     private Label hoverLabel;
+    private Label text;
     private Text hoverHelper;
     private Pane pane;
 
@@ -37,24 +39,47 @@ public class HomePageScreen extends Screen {
 
     private AnchorPane createPane(Pane sideBar, Button homePageButton, Text title) {
         AnchorPane pane = new AnchorPane();
-        setHoverLabel();
-        setHoverHelper();
-        pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, chart, hoverLabel, hoverHelper);
+        setHoverLabelForChart();
+        setHoverToolTip();
+        if (userInterface.getSession().getJournalLog().getSize() == 0) {
+            setLabelIfNoEntries();
+            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, text);
+        } else {
+            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, chart, hoverLabel, hoverHelper);
+        }
         homePageButton.setStyle("-fx-background-color:#787878");
         return pane;
     }
 
-    private void setHoverLabel() {
+    private void setLabelIfNoEntries() {
+        text = new Label("You currently have no journal entries. "
+                + "A chart with your category data will be displayed here after you enter your first journal entry. "
+                + "\n\nClick here to enter your first journal entry.");
+        AnchorPane.setTopAnchor(text, 30.0);
+        AnchorPane.setBottomAnchor(text, 30.0);
+        AnchorPane.setLeftAnchor(text, 230.0);
+        AnchorPane.setRightAnchor(text, 30.0);
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setWrapText(true);
+        text.setStyle("-fx-text-fill:#585858;");
+
+//        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+//                text.setTranslateX(((userInterface.getMainStage().getWidth() - 200) / 2));
+//        userInterface.getMainStage().widthProperty().addListener(stageSizeListener);
+//        userInterface.getMainStage().heightProperty().addListener(stageSizeListener);
+    }
+
+    private void setHoverLabelForChart() {
         hoverLabel = userInterface.getCategoryChartComponent().setHoverEffects(chart);
         AnchorPane.setTopAnchor(hoverLabel, 40.0);
         AnchorPane.setRightAnchor(hoverLabel, 30.0);
     }
 
-    private void setHoverHelper() {
+    private void setHoverToolTip() {
         hoverHelper = new Text("Hover over a category for more details");
         hoverHelper.setTextAlignment(TextAlignment.CENTER);
         hoverHelper.setStyle("-fx-font-size: 16;");
-        AnchorPane.setBottomAnchor(hoverHelper, 15.0);
+        AnchorPane.setBottomAnchor(hoverHelper, 30.0);
         AnchorPane.setRightAnchor(hoverHelper, 30.0);
         AnchorPane.setLeftAnchor(hoverHelper, 230.0);
     }
