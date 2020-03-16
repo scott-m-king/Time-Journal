@@ -70,7 +70,7 @@ public class UserSelectScreen extends Screen {
         submit.setOnAction(e -> {
             try {
                 userInterface.getSession().selectUser(comboBox.getSelectionModel().getSelectedItem());
-                userInterface.makeSideBar();
+                userInterface.getSideBarComponent().renderSideBar();
             } catch (NullEntryException exception) {
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setContentText("Please select a user.");

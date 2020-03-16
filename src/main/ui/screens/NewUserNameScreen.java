@@ -34,7 +34,7 @@ public class NewUserNameScreen extends Screen {
         VBox vbox = new VBox();
         vbox.setSpacing(30);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(nameLabel, name, newUserButton, userInterface.getAvatarPickerComponent().renderAvatarPicker());
+        vbox.getChildren().addAll(nameLabel, name, newUserButton);
         pane = vbox;
     }
 
@@ -62,7 +62,6 @@ public class NewUserNameScreen extends Screen {
         newUserButton.setOnAction(e -> {
             try {
                 userInterface.getSession().setCurrentUser(name.getText());
-                userInterface.getSession().newSession();
                 userInterface.getNewUserAvatarScreen().renderNewUserAvatarScreen();
             } catch (NullEntryException exception) {
                 Alert a = new Alert(Alert.AlertType.WARNING);

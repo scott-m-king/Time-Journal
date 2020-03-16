@@ -5,13 +5,10 @@ package ui.components;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 
 public class AvatarPickerComponent {
@@ -27,6 +24,9 @@ public class AvatarPickerComponent {
     private ObservableList<ImageView> avatarObservableList;
     private ImageView selectedAvatarImageView;
     private GridPane grid;
+    private ImageView previouslySelectedImageViewUnBordered;
+    private ImageView previouslySelectedImageViewBordered;
+    private int previouslySelectedPosition;
 
     public static final int IMAGE_DIMENSION = 125;
 
@@ -97,24 +97,45 @@ public class AvatarPickerComponent {
             ImageView imageView = avatarObservableList.get(i);
             int finalI = i;
             imageView.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    event -> imageView.setStyle("-fx-cursor: hand;"));
+                    event -> imageView.setStyle(
+                            "-fx-cursor: hand; "
+                            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)"));
             imageView.addEventHandler(MouseEvent.MOUSE_EXITED,
                     event -> imageView.setStyle("-fx-cursor: default;"));
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                selectedAvatarImageView = imageView;
+                selectedAvatarImageView = new ImageView(imageView.getImage());
+                putPreviousImageBack();
                 grid.getChildren().remove(imageView);
-                setSelectedImage(finalI);
-                grid.getChildren().add(selectedAvatarImageView);
+                putBorderedIntoGrid(finalI);
+                storeImageViewForLater(imageView, selectedAvatarImageView, finalI);
             });
         }
     }
 
-    public void setSelectedImage(int i) {
-        System.out.println(i);
+    public void storeImageViewForLater(ImageView unBordered, ImageView bordered, int position) {
+        previouslySelectedImageViewUnBordered = unBordered;
+        previouslySelectedImageViewBordered = bordered;
+        previouslySelectedPosition = position;
+    }
+
+    public void putPreviousImageBack() {
+        if (previouslySelectedImageViewUnBordered != null) {
+            grid.getChildren().remove(selectedAvatarImageView);
+            int col = previouslySelectedPosition % 3;
+            int row = previouslySelectedPosition / 3;
+            GridPane.setConstraints(previouslySelectedImageViewUnBordered, col, row);
+            grid.getChildren().remove(previouslySelectedImageViewBordered);
+            grid.getChildren().add(previouslySelectedImageViewUnBordered);
+        }
+    }
+
+    // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
+    public void putBorderedIntoGrid(int i) {
         int col = i % 3;
         int row = i / 3;
-        System.out.println(col + ", " + row);
+        selectedAvatarImageView.setStyle("-fx-effect: dropshadow(three-pass-box, #383838, 30, 0, 0, 0)");
         GridPane.setConstraints(selectedAvatarImageView, col, row);
+        grid.getChildren().add(selectedAvatarImageView);
     }
 
     public Image getSelectedAvatarImage() {

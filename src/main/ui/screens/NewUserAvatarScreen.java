@@ -59,10 +59,14 @@ public class NewUserAvatarScreen extends Screen {
                 userInterface.getSession().newSession();
                 userInterface.getFirstNewCategoryScreen().renderFirstNewCategoryScreen();
             } catch (NullEntryException exception) {
-                Alert a = new Alert(Alert.AlertType.WARNING);
-                a.setContentText("You must enter at least one character for your name.");
-                a.show();
+                nullEntryAlert();
             }
         });
+    }
+
+    private void nullEntryAlert() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText("You must enter at least one character for your name.");
+        a.show();
     }
 }

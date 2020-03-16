@@ -54,7 +54,6 @@ public class UserInterface extends Application {
         boolean noSaveFile = session.isFirstTime();
         setMainStageDimensions();
         initializeAllScreens();
-
         if (noSaveFile) {
             newUserWelcomeScreen.renderNewUserWelcomeScreen();
         } else {
@@ -115,10 +114,6 @@ public class UserInterface extends Application {
 
     public void userSelect() {
         userSelectScreen.renderUserSelectScreen();
-    }
-
-    public void makeSideBar() {
-        sideBarComponent.renderSideBar();
     }
 
     public void homePage(Pane sideBar, Button homePageButton) {
