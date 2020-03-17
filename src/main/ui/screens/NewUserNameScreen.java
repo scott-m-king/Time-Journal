@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
@@ -27,6 +28,7 @@ public class NewUserNameScreen extends Screen {
         setSubmitButton();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
+        setEnterListener();
     }
 
     @Override
@@ -42,7 +44,7 @@ public class NewUserNameScreen extends Screen {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setAlignment(Pos.CENTER);
-        setSubmitButtonListener(newUserButton, userName);
+        setSubmitButtonListener(newUserButton);
     }
 
     public void setTextField() {
@@ -58,15 +60,27 @@ public class NewUserNameScreen extends Screen {
         nameLabel.setAlignment(Pos.CENTER);
     }
 
-    public void setSubmitButtonListener(Button newUserButton, TextField name) {
+    public void setSubmitButtonListener(Button newUserButton) {
         newUserButton.setOnAction(e -> {
-            try {
-                userInterface.getCurrentSession().setCurrentUser(name.getText());
-                userInterface.getNewUserAvatarScreen().renderNewUserAvatarScreen();
-            } catch (NullEntryException exception) {
-                Alert a = new Alert(Alert.AlertType.WARNING);
-                a.setContentText("You must enter at least one character for your name.");
-                a.show();
+            submitForm();
+        });
+    }
+
+    private void submitForm() {
+        try {
+            userInterface.getCurrentSession().setCurrentUser(userName.getText());
+            userInterface.getNewUserAvatarScreen().renderNewUserAvatarScreen();
+        } catch (NullEntryException exception) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText("You must enter at least one character for your name.");
+            a.show();
+        }
+    }
+
+    public void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                submitForm();
             }
         });
     }

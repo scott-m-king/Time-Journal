@@ -19,7 +19,6 @@ import ui.UserInterface;
 
 public class JournalEntryCreateScreen extends Screen {
     private final UserInterface userInterface;
-    private Pane pane;
     private Pane sideBar;
     private Text title;
     private ComboBox<String> categoryListDurationString;
@@ -29,6 +28,7 @@ public class JournalEntryCreateScreen extends Screen {
     private String descriptionEntry;
     private String durationEntry;
     private String categoryEntry;
+    private Pane pane;
 
     public JournalEntryCreateScreen(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -60,8 +60,8 @@ public class JournalEntryCreateScreen extends Screen {
                 createJournalSetLabel(),
                 createJournalSetCategoryLabel(),
                 descriptionField,
-                categoryList,
                 durationField,
+                categoryList,
                 submit);
 
         setJournalEntrySubmitListener(submit);
@@ -145,17 +145,17 @@ public class JournalEntryCreateScreen extends Screen {
 
     public void setJournalEntrySubmitListener(Button submit) {
         submit.setOnAction(e -> {
-            doCategoryEntry();
+            doJournalEntry();
         });
 
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                doCategoryEntry();
+                doJournalEntry();
             }
         });
     }
 
-    public void doCategoryEntry() {
+    public void doJournalEntry() {
         if (isFormValidated()) {
             userInputToString();
             userInterface.getCurrentSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);

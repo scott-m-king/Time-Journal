@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,7 @@ public class CreateCategoryPopup extends Popup {
         initializeFinalPane();
         userInterface.setMiddle(stage);
         initializeScreen(pane, stage);
+        setEnterListener();
     }
 
     @Override
@@ -84,6 +86,14 @@ public class CreateCategoryPopup extends Popup {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("You must enter a name for your category.");
         a.show();
+    }
+
+    private void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                createNewCategory();
+            }
+        });
     }
 
 }

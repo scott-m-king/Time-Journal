@@ -3,6 +3,8 @@ package ui.screens;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -52,8 +54,7 @@ public class HomePageScreen extends Screen {
 
     private void setLabelIfNoEntries() {
         text = new Label("You currently have no journal entries. "
-                + "A chart with your category data will be displayed here after you enter your first journal entry. "
-                + "\n\nClick here to enter your first journal entry.");
+                + "A chart with your category data will be displayed here after you enter your first journal entry. ");
         AnchorPane.setTopAnchor(text, 30.0);
         AnchorPane.setBottomAnchor(text, 30.0);
         AnchorPane.setLeftAnchor(text, 230.0);
@@ -61,11 +62,6 @@ public class HomePageScreen extends Screen {
         text.setTextAlignment(TextAlignment.CENTER);
         text.setWrapText(true);
         text.setStyle("-fx-text-fill:#585858;");
-
-//        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
-//                text.setTranslateX(((userInterface.getMainStage().getWidth() - 200) / 2));
-//        userInterface.getMainStage().widthProperty().addListener(stageSizeListener);
-//        userInterface.getMainStage().heightProperty().addListener(stageSizeListener);
     }
 
     private void setHoverLabelForChart() {

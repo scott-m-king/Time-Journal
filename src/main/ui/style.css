@@ -1,3 +1,12 @@
+.root{
+    -fx-font-family: "Roboto";
+}
+
+.button:hover {
+    -fx-scale-y: 1.1;
+    -fx-cursor: hand;
+}
+
 .button {
     -fx-text-fill: #FFFFFF;
     -fx-background-color: #585858;

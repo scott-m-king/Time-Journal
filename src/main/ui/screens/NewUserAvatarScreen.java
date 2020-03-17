@@ -23,8 +23,8 @@ public class NewUserAvatarScreen extends Screen {
 
     public void renderNewUserAvatarScreen() {
         setScreenLabel();
-        setSubmitButton();
         imagePane = userInterface.getAvatarPickerComponent().renderAvatarPicker();
+        setSubmitButton();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -46,7 +46,7 @@ public class NewUserAvatarScreen extends Screen {
     }
 
     public void setScreenLabel() {
-        nameLabel = new Label("Choose an avatar below:");
+        nameLabel = new Label("Choose an avatar");
         nameLabel.setStyle("-fx-font-size: 45px; -fx-text-fill: #383838;");
         nameLabel.setAlignment(Pos.CENTER);
     }
@@ -56,6 +56,9 @@ public class NewUserAvatarScreen extends Screen {
             try {
                 userInterface.getCurrentSession().setCurrentUser(userInterface.getNewUserNameScreen().getUserName());
                 userInterface.getCurrentSession().newSession();
+                userInterface.getCurrentSession().setUserAvatar(userInterface
+                        .getAvatarPickerComponent()
+                        .getSelectedAvatarImageURL());
                 userInterface.getFirstNewCategoryScreen().renderFirstNewCategoryScreen();
             } catch (NullEntryException exception) {
                 nullEntryAlert();

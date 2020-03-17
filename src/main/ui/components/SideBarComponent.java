@@ -2,13 +2,14 @@ package ui.components;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import ui.UserInterface;
 
 public class SideBarComponent {
@@ -18,9 +19,12 @@ public class SideBarComponent {
     private Button viewJournalLogButton;
     private Button viewCategoryListButton;
     private Label userName;
+    private Label timeJournal;
     private Pane paneBackground;
+    private ImageView userAvatar;
     private GridPane menuItems;
     private Pane sideBarPane;
+    private VBox vbox;
 
     public SideBarComponent(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -42,14 +46,15 @@ public class SideBarComponent {
 
     public void createMenuItems() {
         menuItems = new GridPane();
-        menuItems.setPadding(new Insets(35, 0, 0, 10));
+        menuItems.setPadding(new Insets(15, 0, 0, 10));
         menuItems.setVgap(15);
 
         sideBarWelcomeLabel();
         setSideBarButtons();
 
         menuItems.getChildren().addAll(
-                userName,
+                vbox,
+                timeJournal,
                 newJournalEntryButton,
                 homePageButton,
                 viewJournalLogButton,
@@ -57,12 +62,26 @@ public class SideBarComponent {
     }
 
     public void sideBarWelcomeLabel() {
+        userAvatar = new ImageView(new Image(userInterface.getCurrentSession().getUserAvatar(), 100, 100, false, true));
         userName = new Label(userInterface.getCurrentSession().getUserName());
-        userName.setTextAlignment(TextAlignment.CENTER);
+        userName.setStyle("-fx-font-size: 22px;");
         userName.setWrapText(true);
-        GridPane.setConstraints(userName, 0, 0);
-        userName.setPadding(new Insets(0, 0, 15, 0));
-        GridPane.setHalignment(userName, HPos.CENTER);
+
+        timeJournal = new Label("Time Journal");
+        timeJournal.setStyle("-fx-font-size: 28px;");
+        timeJournal.setAlignment(Pos.CENTER);
+
+        vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setMinWidth(180);
+        vbox.setMaxWidth(180);
+        vbox.getChildren().addAll(userAvatar, userName);
+
+        GridPane.setConstraints(timeJournal, 0, 0);
+        GridPane.setHalignment(timeJournal, HPos.CENTER);
+        GridPane.setConstraints(vbox, 0, 1);
+        GridPane.setHalignment(vbox, HPos.CENTER);
     }
 
     public void setSideBarColorAndAnchors() {
@@ -83,16 +102,16 @@ public class SideBarComponent {
 
     public void setSideBarButtons() {
         homePageButton = new Button("Home");
-        GridPane.setConstraints(homePageButton, 0, 1);
+        GridPane.setConstraints(homePageButton, 0, 2);
 
         newJournalEntryButton = new Button("Create Journal Entry");
-        GridPane.setConstraints(newJournalEntryButton, 0, 2);
+        GridPane.setConstraints(newJournalEntryButton, 0, 3);
 
         viewJournalLogButton = new Button("Journal Entry Log");
-        GridPane.setConstraints(viewJournalLogButton, 0, 3);
+        GridPane.setConstraints(viewJournalLogButton, 0, 4);
 
         viewCategoryListButton = new Button("Category List");
-        GridPane.setConstraints(viewCategoryListButton, 0, 4);
+        GridPane.setConstraints(viewCategoryListButton, 0, 5);
 
         userInterface.setQuitButton(new Button("Exit"));
         AnchorPane.setBottomAnchor(userInterface.getQuitButton(), 14.0);

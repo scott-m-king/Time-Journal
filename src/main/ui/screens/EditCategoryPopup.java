@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -34,6 +35,7 @@ public class EditCategoryPopup extends Popup {
         initializeFinalPane();
         userInterface.setMiddle(stage);
         initializeScreen(pane, stage);
+        setEnterListener();
     }
 
     @Override
@@ -78,5 +80,13 @@ public class EditCategoryPopup extends Popup {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("That category name already exists.");
         a.show();
+    }
+
+    private void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                editCategory();
+            }
+        });
     }
 }

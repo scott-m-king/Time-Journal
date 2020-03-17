@@ -26,6 +26,7 @@ public class UserSession {
     private int journalID = 1;             // starting ID of first journal entry, incremented by 1 for each new entry
     private int categoryID = 1;            // starting ID of first category (after Uncategorized)
     private String currentUser;            // current session user
+    private String userAvatar;
     private ArrayList<String> userList;    // list of all users
 
     public static final String USER_SAVE_FILE = "./data/users_save.json";
@@ -38,7 +39,7 @@ public class UserSession {
         userList = new ArrayList<>();
     }
 
-    // Getters
+    // Getters and setters
     public CategoryList getCategoryList() {
         return categoryList;
     }
@@ -49,6 +50,14 @@ public class UserSession {
 
     public ArrayList<String> getUserList() {
         return userList;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String fileName) {
+        this.userAvatar = fileName;
     }
 
     public boolean isFirstTime() {
@@ -90,7 +99,7 @@ public class UserSession {
     public void saveEntries() {
         try {
             saveUserSession();
-            writeToFile();
+            saveUserList();
         } catch (FileNotFoundException e) {
             new File("./data/users/" + currentUser + "/").mkdir();
             saveEntries();
@@ -109,7 +118,7 @@ public class UserSession {
         sessionSave.close();
     }
 
-    private void writeToFile() throws IOException {
+    private void saveUserList() throws IOException {
         SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
         userListSave.save(userList);
         userListSave.close();
@@ -126,11 +135,7 @@ public class UserSession {
     }
 
     public String getUserName() {
-        if (currentUser.charAt(currentUser.length() - 1) == 's') {
-            return currentUser + "'\nTime Journal";
-        } else {
-            return currentUser + "'s\nTime Journal";
-        }
+        return currentUser;
     }
 
     // MODIFIES: this
@@ -154,6 +159,7 @@ public class UserSession {
     private void loadSessionFields(UserSession loadedSession) {
         this.journalLog = loadedSession.getJournalLog();
         this.categoryList = loadedSession.getCategoryList();
+        this.userAvatar = loadedSession.getUserAvatar();
         this.journalLog.updateWithLoadedCategories(categoryList);
         if (!(journalLog.getSize() == 0)) {
             this.journalID = journalLog.getNextJournalID();

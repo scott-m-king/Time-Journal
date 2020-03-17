@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
@@ -24,6 +25,7 @@ public class NewUserWelcomeScreen extends Screen {
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
         userInterface.getMainStage().show();
+        setEnterListener();
     }
 
     @Override
@@ -44,5 +46,13 @@ public class NewUserWelcomeScreen extends Screen {
         title = new Label("Welcome to Time Journal");
         title.setStyle("-fx-font-size: 60px; -fx-text-fill: #383838;");
         title.setPadding(new Insets(0, 0, 75, 0));
+    }
+
+    private void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                userInterface.newUserNameScreen();
+            }
+        });
     }
 }

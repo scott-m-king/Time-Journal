@@ -10,6 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AvatarPickerComponent {
     private ImageView image1;
     private ImageView image2;
@@ -26,6 +29,7 @@ public class AvatarPickerComponent {
     private ImageView previouslySelectedImageViewUnBordered;
     private ImageView previouslySelectedImageViewBordered;
     private int previouslySelectedPosition;
+    private String selectedAvatarURL;
 
     public static final int IMAGE_DIMENSION = 125;
     public static final String IMAGE_1 = "File:data/resources/dog.png";
@@ -83,9 +87,25 @@ public class AvatarPickerComponent {
         avatarObservableList.add(image9);
     }
 
+    private List<String> listOfImageURLs() {
+        List<String> imageURLs = new ArrayList<>();
+        imageURLs.add(IMAGE_1);
+        imageURLs.add(IMAGE_2);
+        imageURLs.add(IMAGE_3);
+        imageURLs.add(IMAGE_4);
+        imageURLs.add(IMAGE_5);
+        imageURLs.add(IMAGE_6);
+        imageURLs.add(IMAGE_7);
+        imageURLs.add(IMAGE_8);
+        imageURLs.add(IMAGE_9);
+        return imageURLs;
+    }
+
     private void setImagePositionsInGrid() {
+        List<String> listOfURLs = listOfImageURLs();
         for (int i = 0; i < avatarObservableList.size(); i++) {
             GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
+            avatarObservableList.get(i).setId(listOfURLs.get(i));
         }
     }
 
@@ -102,6 +122,7 @@ public class AvatarPickerComponent {
                     event -> imageView.setStyle("-fx-cursor: default;"));
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 selectedAvatarImageView = new ImageView(imageView.getImage());
+                selectedAvatarURL = imageView.getId();
                 makeSelectionVFX(imageView, finalI);
             });
         }
@@ -139,7 +160,7 @@ public class AvatarPickerComponent {
         previouslySelectedPosition = position;
     }
 
-    public Image getSelectedAvatarImage() {
-        return selectedAvatarImageView.getImage();
+    public String getSelectedAvatarImageURL() {
+        return selectedAvatarURL;
     }
 }
