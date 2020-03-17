@@ -62,6 +62,7 @@ public class EditCategoryPopup extends Popup {
             userInterface.getCurrentSession().editCategory(userInterface.getCategoryCurrentlySelected(),
                     categoryName.getText());
             stage.close();
+            playSuccessSound();
             userInterface.viewAllCategories();
         } catch (CategoryExistsException exception1) {
             categoryAlreadyExistsAlert();

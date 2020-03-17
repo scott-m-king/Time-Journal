@@ -4,13 +4,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import ui.UserInterface;
+
+import static ui.screens.Popup.FAILURE_SOUND;
+import static ui.screens.Popup.SUCCESS_SOUND;
 
 public abstract class Screen {
     protected Button edit;
     protected Button delete;
     protected Button create;
+    protected AudioClip mediaPlayer;
 
     public static final String JOURNAL_LOG = "journalLog";
     public static final String CATEGORY_LIST = "categoryList";
@@ -56,5 +61,15 @@ public abstract class Screen {
                 create.setOnAction(e -> ui.getCategoryListScreen().createButtonAction());
                 break;
         }
+    }
+
+    public void playSuccessSound() {
+        mediaPlayer = new AudioClip(SUCCESS_SOUND);
+        mediaPlayer.play();
+    }
+
+    public void playDeleteSound() {
+        mediaPlayer = new AudioClip(FAILURE_SOUND);
+        mediaPlayer.play();
     }
 }

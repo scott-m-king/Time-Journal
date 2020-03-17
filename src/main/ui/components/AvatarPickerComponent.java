@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AvatarPickerComponent {
     private ImageView image1;
@@ -87,6 +88,14 @@ public class AvatarPickerComponent {
         avatarObservableList.add(image9);
     }
 
+    private void setImagePositionsInGrid() {
+        List<String> listOfURLs = listOfImageURLs();
+        for (int i = 0; i < avatarObservableList.size(); i++) {
+            GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
+            avatarObservableList.get(i).setId(listOfURLs.get(i));
+        }
+    }
+
     private List<String> listOfImageURLs() {
         List<String> imageURLs = new ArrayList<>();
         imageURLs.add(IMAGE_1);
@@ -101,23 +110,13 @@ public class AvatarPickerComponent {
         return imageURLs;
     }
 
-    private void setImagePositionsInGrid() {
-        List<String> listOfURLs = listOfImageURLs();
-        for (int i = 0; i < avatarObservableList.size(); i++) {
-            GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
-            avatarObservableList.get(i).setId(listOfURLs.get(i));
-        }
-    }
-
     // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
     private void updateSelectedAvatar() {
         for (int i = 0; i < avatarObservableList.size(); i++) {
             ImageView imageView = avatarObservableList.get(i);
             int finalI = i;
-            imageView.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    event -> imageView.setStyle(
-                            "-fx-cursor: hand; "
-                            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)"));
+            imageView.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> imageView.setStyle("-fx-cursor: hand; "
+                    + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)"));
             imageView.addEventHandler(MouseEvent.MOUSE_EXITED,
                     event -> imageView.setStyle("-fx-cursor: default;"));
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -147,9 +146,13 @@ public class AvatarPickerComponent {
     }
 
     public void putInSelectedImage(int i) {
+        int r = new Random().nextInt(255);
+        int g = new Random().nextInt(255);
+        int b = new Random().nextInt(255);
         int col = i % 3;
         int row = i / 3;
-        selectedAvatarImageView.setStyle("-fx-effect: dropshadow(three-pass-box, #383838, 40, 0, 0, 0)");
+        selectedAvatarImageView.setStyle(
+                "-fx-effect: dropshadow(three-pass-box, rgba(" + r + "," + g + "," + b + ",0.8), 45, 0, 0, 0)");
         GridPane.setConstraints(selectedAvatarImageView, col, row);
         grid.getChildren().add(selectedAvatarImageView);
     }

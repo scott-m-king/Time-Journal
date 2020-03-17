@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import ui.UserInterface;
 
 public class SideBarComponent {
@@ -49,7 +48,7 @@ public class SideBarComponent {
         menuItems.setPadding(new Insets(15, 0, 0, 10));
         menuItems.setVgap(15);
 
-        sideBarWelcomeLabel();
+        setSideBarTitleAndUser();
         setSideBarButtons();
 
         menuItems.getChildren().addAll(
@@ -61,27 +60,42 @@ public class SideBarComponent {
                 viewCategoryListButton);
     }
 
-    public void sideBarWelcomeLabel() {
-        userAvatar = new ImageView(new Image(userInterface.getCurrentSession().getUserAvatar(), 100, 100, false, true));
-        userName = new Label(userInterface.getCurrentSession().getUserName());
-        userName.setStyle("-fx-font-size: 22px;");
-        userName.setWrapText(true);
+    public void setSideBarTitleAndUser() {
+        setAvatarAndName();
+        setTitle();
+        setVBox();
+        GridPane.setConstraints(timeJournal, 0, 0);
+        GridPane.setHalignment(timeJournal, HPos.CENTER);
+        GridPane.setConstraints(vbox, 0, 1);
+        GridPane.setHalignment(vbox, HPos.CENTER);
+    }
 
-        timeJournal = new Label("Time Journal");
-        timeJournal.setStyle("-fx-font-size: 28px;");
-        timeJournal.setAlignment(Pos.CENTER);
-
+    private void setVBox() {
         vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
         vbox.setMinWidth(180);
         vbox.setMaxWidth(180);
         vbox.getChildren().addAll(userAvatar, userName);
+    }
 
-        GridPane.setConstraints(timeJournal, 0, 0);
-        GridPane.setHalignment(timeJournal, HPos.CENTER);
-        GridPane.setConstraints(vbox, 0, 1);
-        GridPane.setHalignment(vbox, HPos.CENTER);
+    private void setTitle() {
+        timeJournal = new Label("Time Journal");
+        timeJournal.setStyle("-fx-font-size: 25px;");
+        timeJournal.setAlignment(Pos.CENTER);
+    }
+
+    private void setAvatarAndName() {
+        userAvatar = new ImageView(new Image(userInterface
+                .getCurrentSession()
+                .getUserAvatar(),
+                100,
+                100,
+                false,
+                true));
+        userName = new Label(userInterface.getCurrentSession().getUserName());
+        userName.setStyle("-fx-font-size: 22px;");
+        userName.setWrapText(true);
     }
 
     public void setSideBarColorAndAnchors() {

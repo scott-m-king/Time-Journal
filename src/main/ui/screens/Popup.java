@@ -3,21 +3,25 @@ package ui.screens;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ui.UserInterface;
 
 public abstract class Popup {
+    protected AudioClip mediaPlayer;
+
     public static final int STANDARD_POPUP_WIDTH = 400;
     public static final int STANDARD_POPUP_HEIGHT = 250;
     public static final String EDIT_JOURNAL_ENTRY = "editJournalEntry";
     public static final String CREATE_JOURNAL_ENTRY = "createJournalEntry";
     public static final String EDIT_CATEGORY = "editCategoryScreen";
     public static final String CREATE_CATEGORY = "createCategoryScreen";
+    public static final String SUCCESS_SOUND = "File:data/resources/success.mp3";
+    public static final String FAILURE_SOUND = "File:data/resources/failure.mp3";
 
     protected abstract void initializeFinalPane();
 
@@ -69,5 +73,15 @@ public abstract class Popup {
                 submit.setOnAction(e -> ui.getJournalEntryEditPopup().editJournalEntry());
                 break;
         }
+    }
+
+    public void playSuccessSound() {
+        mediaPlayer = new AudioClip(SUCCESS_SOUND);
+        mediaPlayer.play();
+    }
+
+    public void playDeleteSound() {
+        mediaPlayer = new AudioClip(FAILURE_SOUND);
+        mediaPlayer.play();
     }
 }

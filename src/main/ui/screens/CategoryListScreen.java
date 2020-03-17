@@ -105,6 +105,7 @@ public class CategoryListScreen extends Screen {
     public void deleteCategory() {
         if (categoryCurrentSelected != null) {
             userInterface.getCurrentSession().deleteCategory(categoryCurrentSelected);
+            playDeleteSound();
             userInterface.viewAllCategories();
         }
     }

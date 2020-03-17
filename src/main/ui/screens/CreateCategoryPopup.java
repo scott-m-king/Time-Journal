@@ -67,8 +67,9 @@ public class CreateCategoryPopup extends Popup {
     public void createNewCategory() {
         try {
             userInterface.getCurrentSession().createNewCategory(categoryName.getText());
-            userInterface.getCategoryListScreen().renderCategoryListScreen();
+            playSuccessSound();
             stage.close();
+            userInterface.getCategoryListScreen().renderCategoryListScreen();
         } catch (NullEntryException e) {
             nullEntryAlert();
         } catch (CategoryExistsException e) {
@@ -95,5 +96,4 @@ public class CreateCategoryPopup extends Popup {
             }
         });
     }
-
 }

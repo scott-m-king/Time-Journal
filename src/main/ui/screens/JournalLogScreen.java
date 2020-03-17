@@ -70,7 +70,7 @@ public class JournalLogScreen extends Screen {
 
     protected void createButtonAction() {
         userInterface.clearButtonColours();
-        userInterface.getJournalEntryCreateScreen().createJournalEntryScreen();
+        userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
     }
 
     protected void editButtonAction() {
@@ -103,6 +103,7 @@ public class JournalLogScreen extends Screen {
     public void deleteEntry() {
         if (selectedEntry != null) {
             userInterface.getCurrentSession().deleteJournalEntry(selectedEntry.getJournalID());
+            playDeleteSound();
             renderJournalLogScreen();
         }
     }

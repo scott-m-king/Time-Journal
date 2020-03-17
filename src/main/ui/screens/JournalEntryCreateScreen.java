@@ -34,7 +34,7 @@ public class JournalEntryCreateScreen extends Screen {
         this.userInterface = userInterface;
     }
 
-    public void createJournalEntryScreen() {
+    public void renderJournalEntryCreateScreen() {
         title = createJournalEntrySetTitle();
         Button newJournalEntryButton = userInterface.getJournalEntryButton();
         sideBar = userInterface.getSideBarComponent().getSideBarPane();
@@ -159,8 +159,9 @@ public class JournalEntryCreateScreen extends Screen {
         if (isFormValidated()) {
             userInputToString();
             userInterface.getCurrentSession().createNewJournalEntry(descriptionEntry, durationEntry, categoryEntry);
-            alertSuccessfulEntry();
+            playSuccessSound();
             clearFields();
+            alertSuccessfulEntry();
         }
     }
 
@@ -194,6 +195,8 @@ public class JournalEntryCreateScreen extends Screen {
         descriptionField.clear();
         durationField.clear();
         categoryListDurationString.setValue(categoryListCategory.get(0).getDurationString());
+        pane.getChildren().clear();
+        renderJournalEntryCreateScreen();
     }
 
     private void alertNumberFormatException() {

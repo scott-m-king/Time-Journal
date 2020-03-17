@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -48,6 +49,7 @@ public class JournalEntryEditPopup extends Popup {
         setButtonLayout();
         initializeFinalPane();
         initializeScreen(pane, stage);
+        setEnterListener();
     }
 
     @Override
@@ -156,6 +158,7 @@ public class JournalEntryEditPopup extends Popup {
                     categoryDropDownCategories.get(categoryDropDown.getSelectionModel().getSelectedIndex()).getName());
             stage.close();
             userInterface.getJournalLogScreen().renderJournalLogScreen();
+            playSuccessSound();
             alertSuccessfulEntry();
         }
     }
@@ -198,5 +201,13 @@ public class JournalEntryEditPopup extends Popup {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please enter a positive duration.");
         a.show();
+    }
+
+    private void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                editJournalEntry();
+            }
+        });
     }
 }

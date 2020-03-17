@@ -121,7 +121,7 @@ public class UserInterface extends Application {
     }
 
     public void createJournalEntry() {
-        journalEntryCreateScreen.createJournalEntryScreen();
+        journalEntryCreateScreen.renderJournalEntryCreateScreen();
     }
 
     public void viewJournalEntries() {

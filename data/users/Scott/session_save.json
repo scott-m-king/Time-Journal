@@ -1,0 +1,143 @@
+{
+  "categoryList": {
+    "categoryList": [
+      {
+        "categoryID": 0,
+        "name": "Uncategorized",
+        "duration": 15
+      },
+      {
+        "categoryID": 2,
+        "name": "School",
+        "duration": 300
+      },
+      {
+        "categoryID": 3,
+        "name": "Transportation",
+        "duration": 75
+      },
+      {
+        "categoryID": 4,
+        "name": "Social",
+        "duration": 165
+      },
+      {
+        "categoryID": 5,
+        "name": "Exercise",
+        "duration": 60
+      },
+      {
+        "categoryID": 6,
+        "name": "Sleep",
+        "duration": 30
+      }
+    ]
+  },
+  "journalLog": {
+    "journalLog": {
+      "1": {
+        "journalID": 1,
+        "date": "2020-03-16",
+        "description": "Took a nap",
+        "categoryID": 6,
+        "category": {
+          "categoryID": 6,
+          "name": "Sleep",
+          "duration": 30
+        },
+        "duration": 30
+      },
+      "2": {
+        "journalID": 2,
+        "date": "2020-03-16",
+        "description": "Took the bus to school",
+        "categoryID": 3,
+        "category": {
+          "categoryID": 3,
+          "name": "Transportation",
+          "duration": 75
+        },
+        "duration": 60
+      },
+      "3": {
+        "journalID": 3,
+        "date": "2020-03-16",
+        "description": "Walked from ICICS to Buchanan C",
+        "categoryID": 3,
+        "category": {
+          "categoryID": 3,
+          "name": "Transportation",
+          "duration": 75
+        },
+        "duration": 15
+      },
+      "4": {
+        "journalID": 4,
+        "date": "2020-03-16",
+        "description": "Worked on 210 Phase 3",
+        "categoryID": 2,
+        "category": {
+          "categoryID": 2,
+          "name": "School",
+          "duration": 300
+        },
+        "duration": 300
+      },
+      "6": {
+        "journalID": 6,
+        "date": "2020-03-16",
+        "description": "Watched a movie",
+        "categoryID": 4,
+        "category": {
+          "categoryID": 4,
+          "name": "Social",
+          "duration": 165
+        },
+        "duration": 150
+      },
+      "7": {
+        "journalID": 7,
+        "date": "2020-03-16",
+        "description": "Went to the gym ",
+        "categoryID": 5,
+        "category": {
+          "categoryID": 5,
+          "name": "Exercise",
+          "duration": 60
+        },
+        "duration": 60
+      },
+      "9": {
+        "journalID": 9,
+        "date": "2020-03-16",
+        "description": "Did random stuff",
+        "categoryID": 0,
+        "category": {
+          "categoryID": 0,
+          "name": "Uncategorized",
+          "duration": 15
+        },
+        "duration": 15
+      },
+      "10": {
+        "journalID": 10,
+        "date": "2020-03-17",
+        "description": "Chatted with friends",
+        "categoryID": 4,
+        "category": {
+          "categoryID": 4,
+          "name": "Social",
+          "duration": 165
+        },
+        "duration": 15
+      }
+    }
+  },
+  "journalID": 11,
+  "categoryID": 7,
+  "currentUser": "Scott",
+  "userAvatar": "File:data/resources/sandwich.png",
+  "userList": [
+    "Scott"
+  ]
+}
