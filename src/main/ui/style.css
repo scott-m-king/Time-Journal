@@ -30,16 +30,3 @@
     -fx-text-fill:#383838;
     -fx-font-size:20px;
 }
-
-/* https://stackoverflow.com/questions/28253169/javafx-how-to-make-the-border-of-imageview-when-i-click-the-imageview */
-
-.image-view-wrapper-on:border {
-    -fx-border-color: black;
-    -fx-border-style: solid;
-    -fx-border-width: 5;
-}
-
-.image-view-wrapper-off:border {
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
-}

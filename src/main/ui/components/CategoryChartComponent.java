@@ -42,7 +42,7 @@ public class CategoryChartComponent {
 
     public Label setHoverEffects(PieChart chart) {
         final Label caption = new Label("");
-        caption.setStyle("-fx-font: 22 arial; -fx-text-fill: #383838 ");
+        caption.setStyle("-fx-font-size: 22; -fx-text-fill: #383838 ");
         for (final PieChart.Data data : chart.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
                     event -> setHoverLabel(caption, data));
