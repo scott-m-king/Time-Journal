@@ -48,6 +48,14 @@ public class EditCategoryPopup extends Popup {
     }
 
     private void setFields() {
+        setLabel();
+        text = new Text("What would you like to change the name of the category to?");
+        text.setStyle("-fx-font-size:15px;");
+        categoryName = new TextField();
+        categoryName.setMaxWidth(300);
+    }
+
+    private void setLabel() {
         label = new Label(
                 "Editing "
                 + userInterface.getCategoryListScreen().getCategoryCurrentSelected()
@@ -55,10 +63,6 @@ public class EditCategoryPopup extends Popup {
         );
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-text-fill:#383838; -fx-font-size:25px;");
-        text = new Text("What would you like to change the name of the category to?");
-        text.setStyle("-fx-font-size:15px;");
-        categoryName = new TextField();
-        categoryName.setMaxWidth(300);
     }
 
     public void editCategory() {
