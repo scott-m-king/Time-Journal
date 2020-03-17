@@ -3,8 +3,6 @@ package ui.screens;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -44,9 +42,16 @@ public class HomePageScreen extends Screen {
         setHoverToolTip();
         if (userInterface.getCurrentSession().getJournalLog().getSize() == 0) {
             setLabelIfNoEntries();
-            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, text);
+            pane.getChildren().addAll(sideBar, userInterface.getSideBarComponent().getQuitButton(), title, text);
         } else {
-            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, chart, hoverLabel, hoverHelper);
+            pane.getChildren().addAll(
+                    sideBar,
+                    userInterface.getSideBarComponent().getQuitButton(),
+                    title,
+                    chart,
+                    hoverLabel,
+                    hoverHelper
+            );
         }
         homePageButton.setStyle("-fx-background-color:#787878");
         return pane;

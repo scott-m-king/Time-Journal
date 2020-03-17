@@ -9,7 +9,7 @@ import java.util.Map;
 
 // Represents a HashMap of journal entries with journalEntry.id as key, and associated journalEntry as value
 public class JournalLog {
-    @Expose private Map<Integer, JournalEntry> journalLog;
+    @Expose private final Map<Integer, JournalEntry> journalLog;
 
     // Constructor
     public JournalLog() {

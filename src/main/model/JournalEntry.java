@@ -1,13 +1,11 @@
 package model;
 
-import com.google.gson.annotations.Expose;
-
 import java.time.LocalDate;
 
 // Represents a Journal Entry with a unique ID, date stamp, description, assigned category, and duration
 public class JournalEntry {
-    private int journalID;         // unique ID for each journal entry used to access value in journalLog
-    private String date;           // current system date
+    private final int journalID;         // unique ID for each journal entry used to access value in journalLog
+    private final String date;           // current system date
     private String description;    // user-inputted description for journal entry
     private int categoryID;        // corresponding category ID (for deserialization purposes)
     private Category category;     // reference to Category object user assigned to this journal entry

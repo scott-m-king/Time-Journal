@@ -36,7 +36,7 @@ public class JournalEntryCreateScreen extends Screen {
 
     public void renderJournalEntryCreateScreen() {
         title = createJournalEntrySetTitle();
-        Button newJournalEntryButton = userInterface.getJournalEntryButton();
+        Button newJournalEntryButton = userInterface.getSideBarComponent().getNewJournalEntryButton();
         sideBar = userInterface.getSideBarComponent().getSideBarPane();
         newJournalEntryButton.setStyle("-fx-background-color:#787878");
         initializeFinalPane();
@@ -54,7 +54,7 @@ public class JournalEntryCreateScreen extends Screen {
 
         pane.getChildren().addAll(
                 sideBar,
-                userInterface.getQuitButton(),
+                userInterface.getSideBarComponent().getQuitButton(),
                 title,
                 createJournalSetDurationLabel(),
                 createJournalSetLabel(),
@@ -144,9 +144,7 @@ public class JournalEntryCreateScreen extends Screen {
     }
 
     public void setJournalEntrySubmitListener(Button submit) {
-        submit.setOnAction(e -> {
-            doJournalEntry();
-        });
+        submit.setOnAction(e -> doJournalEntry());
 
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

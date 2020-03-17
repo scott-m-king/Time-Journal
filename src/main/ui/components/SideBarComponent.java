@@ -17,6 +17,7 @@ public class SideBarComponent {
     private Button homePageButton;
     private Button viewJournalLogButton;
     private Button viewCategoryListButton;
+    private Button quit;
     private Label userName;
     private Label timeJournal;
     private Pane paneBackground;
@@ -89,8 +90,8 @@ public class SideBarComponent {
         userAvatar = new ImageView(new Image(userInterface
                 .getCurrentSession()
                 .getUserAvatar(),
-                100,
-                100,
+                105,
+                105,
                 false,
                 true));
         userName = new Label(userInterface.getCurrentSession().getUserName());
@@ -111,7 +112,7 @@ public class SideBarComponent {
         AnchorPane anchorPane = new AnchorPane();
         Scene scene = new Scene(anchorPane);
         scene.getStylesheets().add("ui/style.css");
-        anchorPane.getChildren().addAll(sideBar, userInterface.getQuitButton());
+        anchorPane.getChildren().addAll(sideBar, quit);
     }
 
     public void setSideBarButtons() {
@@ -127,9 +128,9 @@ public class SideBarComponent {
         viewCategoryListButton = new Button("Category List");
         GridPane.setConstraints(viewCategoryListButton, 0, 5);
 
-        userInterface.setQuitButton(new Button("Exit"));
-        AnchorPane.setBottomAnchor(userInterface.getQuitButton(), 14.0);
-        AnchorPane.setLeftAnchor(userInterface.getQuitButton(), 10.0);
+        quit = new Button("Exit");
+        AnchorPane.setBottomAnchor(quit, 14.0);
+        AnchorPane.setLeftAnchor(quit, 10.0);
     }
 
     public void setSideBarButtonListeners(Pane sideBar) {
@@ -152,7 +153,7 @@ public class SideBarComponent {
         newJournalEntryButton.setOnAction(e -> {
             userInterface.removeListeners();
             userInterface.clearButtonColours();
-            userInterface.createJournalEntry();
+            userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
         });
     }
 
@@ -160,7 +161,7 @@ public class SideBarComponent {
         viewJournalLogButton.setOnAction(e -> {
             userInterface.removeListeners();
             userInterface.clearButtonColours();
-            userInterface.viewJournalEntries();
+            userInterface.getJournalLogScreen().renderJournalLogScreen();
         });
     }
 
@@ -168,16 +169,16 @@ public class SideBarComponent {
         viewCategoryListButton.setOnAction(e -> {
             userInterface.removeListeners();
             userInterface.clearButtonColours();
-            userInterface.viewAllCategories();
+            userInterface.getCategoryListScreen().renderCategoryListScreen();
         });
     }
 
     private void setCloseAndSaveListeners() {
         userInterface.getMainStage().setOnCloseRequest(e -> {
             e.consume();
-            userInterface.saveSession();
+            userInterface.getSavePromptPopup().renderSavePopup();
         });
-        userInterface.getQuitButton().setOnAction(e -> userInterface.saveSession());
+        quit.setOnAction(e -> userInterface.getSavePromptPopup().renderSavePopup());
     }
 
     public Button getNewJournalEntryButton() {
@@ -198,5 +199,9 @@ public class SideBarComponent {
 
     public Pane getSideBarPane() {
         return sideBarPane;
+    }
+
+    public Button getQuitButton() {
+        return quit;
     }
 }

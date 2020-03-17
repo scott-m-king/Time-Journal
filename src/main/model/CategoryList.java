@@ -6,7 +6,7 @@ import java.util.List;
 
 // Represents an ArrayList of categories
 public class CategoryList {
-    private List<Category> categoryList;
+    private final List<Category> categoryList;
 
     // Constructor
     public CategoryList() {

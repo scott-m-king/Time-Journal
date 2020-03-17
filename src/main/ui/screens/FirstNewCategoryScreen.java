@@ -63,9 +63,7 @@ public class FirstNewCategoryScreen extends Screen {
     }
 
     public void setButtonHandler(Button startJournal) {
-        startJournal.setOnAction(e -> {
-            submitForm();
-        });
+        startJournal.setOnAction(e -> submitForm());
     }
 
     public void setEnterListener() {

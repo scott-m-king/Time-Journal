@@ -222,6 +222,7 @@ public class UserSession {
         if (changeTo.equals("")) {
             throw new NullEntryException();
         }
+
         categoryList.get(changeFrom).setName(changeTo);
     }
 

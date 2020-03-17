@@ -152,7 +152,7 @@ public class AvatarPickerComponent {
         int col = i % 3;
         int row = i / 3;
         selectedAvatarImageView.setStyle(
-                "-fx-effect: dropshadow(three-pass-box, rgba(" + r + "," + g + "," + b + ",0.8), 45, 0, 0, 0)");
+                "-fx-effect: dropshadow(three-pass-box, rgba(" + r + "," + g + "," + b + ",0.9), 45, 0, 0, 0)");
         GridPane.setConstraints(selectedAvatarImageView, col, row);
         grid.getChildren().add(selectedAvatarImageView);
     }

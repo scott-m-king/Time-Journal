@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import model.Category;
 import model.CategoryList;
 import model.JournalEntry;
+import model.JournalLog;
 import ui.UserInterface;
 
 import java.util.List;
@@ -56,10 +57,11 @@ public class CategoryListScreen extends Screen {
         categoryTableListener();
         pane.getChildren().addAll(
                 sideBar,
-                userInterface.getQuitButton(),
+                userInterface.getSideBarComponent().getQuitButton(),
                 title,
                 categoryListView,
-                categoryJournalTable, buttons);
+                categoryJournalTable,
+                buttons);
     }
 
     private void setMainLabel() {
@@ -106,7 +108,7 @@ public class CategoryListScreen extends Screen {
         if (categoryCurrentSelected != null) {
             userInterface.getCurrentSession().deleteCategory(categoryCurrentSelected);
             playDeleteSound();
-            userInterface.viewAllCategories();
+            userInterface.getCategoryListScreen().renderCategoryListScreen();
         }
     }
 
@@ -170,7 +172,8 @@ public class CategoryListScreen extends Screen {
         AnchorPane.setLeftAnchor(categoryListView, 230.0);
         AnchorPane.setTopAnchor(categoryListView, 95.0);
         AnchorPane.setRightAnchor(categoryListView, 30.0);
-        categoryJournalTable = renderFilteredJournalEntryTable(userInterface.getJournalLogScreen().getEntries());
+        categoryJournalTable = renderFilteredJournalEntryTable(FXCollections.observableArrayList());
+        categoryJournalTable.setPlaceholder(new Text("Select a category to see entries."));
     }
 
     public void categoryTableListener() {
@@ -178,23 +181,32 @@ public class CategoryListScreen extends Screen {
                     .selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> {
                         try {
-                            int index = categoryListView.getSelectionModel().getSelectedIndex();
-                            categoryCurrentSelected =
-                                    userInterface
-                                    .getCurrentSession()
-                                    .getCategoryList()
-                                    .get(index)
-                                    .getName();
-                            setButtonColors();
-                            filterEntriesBasedOnCategory();
-                            pane.getChildren().clear();
-                            pane.getChildren().addAll(sideBar, userInterface.getQuitButton(), title, categoryListView,
-                                    categoryJournalTable, buttons);
+                            initiateFilter();
                         } catch (IndexOutOfBoundsException exception) {
                             // no action
                         }
                     }
             );
+    }
+
+    private void initiateFilter() {
+        int index = categoryListView.getSelectionModel().getSelectedIndex();
+        categoryCurrentSelected =
+                userInterface
+                .getCurrentSession()
+                .getCategoryList()
+                .get(index)
+                .getName();
+        setButtonColors();
+        filterEntriesBasedOnCategory();
+        pane.getChildren().clear();
+        pane.getChildren().addAll(
+                sideBar,
+                userInterface.getSideBarComponent().getQuitButton(),
+                title,
+                categoryListView,
+                categoryJournalTable,
+                buttons);
     }
 
     public void filterEntriesBasedOnCategory() {

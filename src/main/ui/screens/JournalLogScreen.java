@@ -46,7 +46,7 @@ public class JournalLogScreen extends Screen {
         journalLogMenuButton.setStyle("-fx-background-color:#787878");
         pane.getChildren().addAll(
                 sideBar,
-                userInterface.getQuitButton(),
+                userInterface.getSideBarComponent().getQuitButton(),
                 title,
                 userInterface.getJournalTableView(),
                 buttonPane);

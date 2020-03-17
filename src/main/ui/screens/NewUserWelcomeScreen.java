@@ -39,7 +39,7 @@ public class NewUserWelcomeScreen extends Screen {
     public void setButton() {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
-        newUserButton.setOnAction(e -> userInterface.newUserNameScreen());
+        newUserButton.setOnAction(e -> userInterface.getNewUserNameScreen().renderNewUserNameScreen());
     }
 
     public void setLabel() {
@@ -51,7 +51,7 @@ public class NewUserWelcomeScreen extends Screen {
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                userInterface.newUserNameScreen();
+                userInterface.getNewUserNameScreen().renderNewUserNameScreen();
             }
         });
     }

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JournalLogTest {
     private JournalLog testJournal;
     private Category testCategory;
-    private Category uncategorized = new Category(0, "Uncategorized");
+    private final Category uncategorized = new Category(0, "Uncategorized");
     private CategoryList testCategoryList;
 
     @BeforeEach

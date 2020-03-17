@@ -61,9 +61,7 @@ public class NewUserNameScreen extends Screen {
     }
 
     public void setSubmitButtonListener(Button newUserButton) {
-        newUserButton.setOnAction(e -> {
-            submitForm();
-        });
+        newUserButton.setOnAction(e -> submitForm());
     }
 
     private void submitForm() {

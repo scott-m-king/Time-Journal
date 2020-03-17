@@ -79,9 +79,4 @@ public abstract class Popup {
         mediaPlayer = new AudioClip(SUCCESS_SOUND);
         mediaPlayer.play();
     }
-
-    public void playDeleteSound() {
-        mediaPlayer = new AudioClip(FAILURE_SOUND);
-        mediaPlayer.play();
-    }
 }

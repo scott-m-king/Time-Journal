@@ -13,7 +13,7 @@ import ui.UserInterface;
 // https://docs.oracle.com/javafx/2/charts/pie-chart.htm
 
 public class CategoryChartComponent {
-    private UserInterface userInterface;
+    private final UserInterface userInterface;
 
     public CategoryChartComponent(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -45,9 +45,7 @@ public class CategoryChartComponent {
         caption.setStyle("-fx-font: 22 arial; -fx-text-fill: #383838 ");
         for (final PieChart.Data data : chart.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    event -> {
-                        setHoverLabel(caption, data);
-                    });
+                    event -> setHoverLabel(caption, data));
         }
         return caption;
     }

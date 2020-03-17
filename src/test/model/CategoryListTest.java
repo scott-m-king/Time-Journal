@@ -9,12 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CategoryListTest {
     private CategoryList testList;
     private Category testCategory;
-    private Category uncategorized;
 
     @BeforeEach
     public void runBefore() {
         testList = new CategoryList();
-        uncategorized = new Category(0, "Uncategorized");
+        Category uncategorized = new Category(0, "Uncategorized");
         testCategory = new Category(1, "test");
         testList.add(uncategorized);
         testList.add(testCategory);

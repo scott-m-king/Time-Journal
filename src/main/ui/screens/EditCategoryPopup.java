@@ -48,7 +48,11 @@ public class EditCategoryPopup extends Popup {
     }
 
     private void setFields() {
-        label = new Label("Editing " + userInterface.getCategoryCurrentlySelected() + " category");
+        label = new Label(
+                "Editing "
+                + userInterface.getCategoryListScreen().getCategoryCurrentSelected()
+                + " category"
+        );
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-text-fill:#383838; -fx-font-size:25px;");
         text = new Text("What would you like to change the name of the category to?");
@@ -59,11 +63,12 @@ public class EditCategoryPopup extends Popup {
 
     public void editCategory() {
         try {
-            userInterface.getCurrentSession().editCategory(userInterface.getCategoryCurrentlySelected(),
-                    categoryName.getText());
+            userInterface.getCurrentSession().editCategory(userInterface
+                            .getCategoryListScreen()
+                            .getCategoryCurrentSelected(), categoryName.getText());
             stage.close();
             playSuccessSound();
-            userInterface.viewAllCategories();
+            userInterface.getCategoryListScreen().renderCategoryListScreen();
         } catch (CategoryExistsException exception1) {
             categoryAlreadyExistsAlert();
         } catch (NullEntryException exception2) {

@@ -34,7 +34,7 @@ public class JournalEntryEditPopup extends Popup {
     private Pane pane;
     private Stage stage;
 
-    public static String LABEL_TEXT_SIZE = "-fx-font-size:17px;";
+    public static final String LABEL_TEXT_SIZE = "-fx-font-size:17px;";
 
     public JournalEntryEditPopup(UserInterface userInterface) {
         this.userInterface = userInterface;

@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -54,8 +53,8 @@ public class WelcomeScreen extends Screen {
     }
 
     public void setButtonListeners(Button newUserButton, Button returningUserButton) {
-        newUserButton.setOnAction(e -> userInterface.newUserWelcomeScreen());
-        returningUserButton.setOnAction(e -> userInterface.userSelect());
+        newUserButton.setOnAction(e -> userInterface.getNewUserWelcomeScreen().renderNewUserWelcomeScreen());
+        returningUserButton.setOnAction(e -> userInterface.getUserSelectScreen().renderUserSelectScreen());
     }
 
     public Button returningUserButton() {

@@ -19,17 +19,17 @@
       {
         "categoryID": 4,
         "name": "Social",
-        "duration": 165
+        "duration": 150
       },
       {
         "categoryID": 5,
         "name": "Exercise",
-        "duration": 60
+        "duration": 120
       },
       {
         "categoryID": 6,
         "name": "Sleep",
-        "duration": 30
+        "duration": 150
       }
     ]
   },
@@ -43,7 +43,7 @@
         "category": {
           "categoryID": 6,
           "name": "Sleep",
-          "duration": 30
+          "duration": 150
         },
         "duration": 30
       },
@@ -91,7 +91,7 @@
         "category": {
           "categoryID": 4,
           "name": "Social",
-          "duration": 165
+          "duration": 150
         },
         "duration": 150
       },
@@ -103,7 +103,7 @@
         "category": {
           "categoryID": 5,
           "name": "Exercise",
-          "duration": 60
+          "duration": 120
         },
         "duration": 60
       },
@@ -119,21 +119,33 @@
         },
         "duration": 15
       },
-      "10": {
-        "journalID": 10,
+      "11": {
+        "journalID": 11,
         "date": "2020-03-17",
-        "description": "Chatted with friends",
-        "categoryID": 4,
+        "description": "Took a long nap",
+        "categoryID": 6,
         "category": {
-          "categoryID": 4,
-          "name": "Social",
-          "duration": 165
+          "categoryID": 6,
+          "name": "Sleep",
+          "duration": 150
         },
-        "duration": 15
+        "duration": 120
+      },
+      "12": {
+        "journalID": 12,
+        "date": "2020-03-17",
+        "description": "Went for a walk",
+        "categoryID": 5,
+        "category": {
+          "categoryID": 5,
+          "name": "Exercise",
+          "duration": 120
+        },
+        "duration": 60
       }
     }
   },
-  "journalID": 11,
+  "journalID": 13,
   "categoryID": 7,
   "currentUser": "Scott",
   "userAvatar": "File:data/resources/sandwich.png",

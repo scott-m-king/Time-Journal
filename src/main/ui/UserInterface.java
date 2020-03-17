@@ -38,7 +38,6 @@ public class UserInterface extends Application {
     private WelcomeScreen welcomeScreen;
     private Dimension screenSize;
     private TableView<JournalEntry> journalTableView;
-    private Button quitButton;
     private UserSession currentSession;
     private Stage mainStage;
 
@@ -52,8 +51,10 @@ public class UserInterface extends Application {
         mainStage.setTitle("Time Journal");
         currentSession = new UserSession();
         boolean noSaveFile = currentSession.isFirstTime();
+
         setMainStageDimensions();
         initializeAllScreens();
+
         if (noSaveFile) {
             newUserWelcomeScreen.renderNewUserWelcomeScreen();
         } else {
@@ -104,104 +105,16 @@ public class UserInterface extends Application {
         journalTableObject = new JournalTableComponent();
     }
 
-    public void newUserWelcomeScreen() {
-        newUserWelcomeScreen.renderNewUserWelcomeScreen();
+    public NewUserWelcomeScreen getNewUserWelcomeScreen() {
+        return newUserWelcomeScreen;
     }
 
-    public void newUserNameScreen() {
-        newUserNameScreen.renderNewUserNameScreen();
+    public NewUserNameScreen getNewUserNameScreen() {
+        return newUserNameScreen;
     }
 
-    public void userSelect() {
-        userSelectScreen.renderUserSelectScreen();
-    }
-
-    public void homePage(Pane sideBar, Button homePageButton) {
-        homePageScreen.homePage(sideBar, homePageButton);
-    }
-
-    public void createJournalEntry() {
-        journalEntryCreateScreen.renderJournalEntryCreateScreen();
-    }
-
-    public void viewJournalEntries() {
-        journalLogScreen.renderJournalLogScreen();
-    }
-
-    public JournalTableComponent getJournalTableObject() {
-        return journalTableObject;
-    }
-
-    public void viewAllCategories() {
-        categoryListScreen.renderCategoryListScreen();
-    }
-
-    public EditCategoryPopup getEditCategoryPopup() {
-        return editCategoryPopup;
-    }
-
-    public void saveSession() {
-        savePromptPopup.renderSavePopup();
-    }
-
-    public Stage getMainStage() {
-        return mainStage;
-    }
-
-    public UserSession getCurrentSession() {
-        return currentSession;
-    }
-
-    public Button getQuitButton() {
-        return quitButton;
-    }
-
-    public void setQuitButton(Button quitButton) {
-        this.quitButton = quitButton;
-    }
-
-    public JournalEntryCreateScreen getJournalEntryCreateScreen() {
-        return journalEntryCreateScreen;
-    }
-
-    public TableView<JournalEntry> getJournalTableView() {
-        return journalTableView;
-    }
-
-    public void setJournalTableView(TableView<JournalEntry> journalTableView) {
-        this.journalTableView = journalTableView;
-    }
-
-    public String getCategoryCurrentlySelected() {
-        return categoryListScreen.getCategoryCurrentSelected();
-    }
-
-    public Button getJournalEntryButton() {
-        return sideBarComponent.getNewJournalEntryButton();
-    }
-
-    public JournalLogScreen getJournalLogScreen() {
-        return journalLogScreen;
-    }
-
-    public CategoryListScreen getCategoryListScreen() {
-        return categoryListScreen;
-    }
-
-    public SideBarComponent getSideBarComponent() {
-        return sideBarComponent;
-    }
-
-    public CategoryChartComponent getCategoryChartComponent() {
-        return categoryChartComponent;
-    }
-
-    public CreateCategoryPopup getCreateCategoryPopup() {
-        return createCategoryPopup;
-    }
-
-    public JournalEntryEditPopup getJournalEntryEditPopup() {
-        return journalEntryEditPopup;
+    public NewUserAvatarScreen getNewUserAvatarScreen() {
+        return newUserAvatarScreen;
     }
 
     public AvatarPickerComponent getAvatarPickerComponent() {
@@ -212,12 +125,68 @@ public class UserInterface extends Application {
         return firstNewCategoryScreen;
     }
 
-    public NewUserAvatarScreen getNewUserAvatarScreen() {
-        return newUserAvatarScreen;
+    public UserSelectScreen getUserSelectScreen() {
+        return userSelectScreen;
     }
 
-    public NewUserNameScreen getNewUserNameScreen() {
-        return newUserNameScreen;
+    public SideBarComponent getSideBarComponent() {
+        return sideBarComponent;
+    }
+
+    public JournalEntryCreateScreen getJournalEntryCreateScreen() {
+        return journalEntryCreateScreen;
+    }
+
+    public JournalEntryEditPopup getJournalEntryEditPopup() {
+        return journalEntryEditPopup;
+    }
+
+    public JournalLogScreen getJournalLogScreen() {
+        return journalLogScreen;
+    }
+
+    public CategoryListScreen getCategoryListScreen() {
+        return categoryListScreen;
+    }
+
+    public JournalTableComponent getJournalTableObject() {
+        return journalTableObject;
+    }
+
+    public CategoryChartComponent getCategoryChartComponent() {
+        return categoryChartComponent;
+    }
+
+    public CreateCategoryPopup getCreateCategoryPopup() {
+        return createCategoryPopup;
+    }
+
+    public EditCategoryPopup getEditCategoryPopup() {
+        return editCategoryPopup;
+    }
+
+    public SavePromptPopup getSavePromptPopup() {
+        return savePromptPopup;
+    }
+
+    public TableView<JournalEntry> getJournalTableView() {
+        return journalTableView;
+    }
+
+    public UserSession getCurrentSession() {
+        return currentSession;
+    }
+
+    public Stage getMainStage() {
+        return mainStage;
+    }
+
+    public void homePage(Pane sideBar, Button homePageButton) {
+        homePageScreen.homePage(sideBar, homePageButton);
+    }
+
+    public void setJournalTableView(TableView<JournalEntry> journalTableView) {
+        this.journalTableView = journalTableView;
     }
 
     public void removeListeners() {
