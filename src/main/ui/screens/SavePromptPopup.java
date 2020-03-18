@@ -25,12 +25,20 @@ public class SavePromptPopup extends Popup {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderSavePopup() {
         stage = createPopupStage(300, 100);
         initializeFinalPane();
         initializeScreen();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void initializeScreen() {
         Scene scene = new Scene(pane);
         stage.setScene(scene);
@@ -38,6 +46,10 @@ public class SavePromptPopup extends Popup {
         stage.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         GridPane gridPane = new GridPane();
@@ -53,6 +65,10 @@ public class SavePromptPopup extends Popup {
         pane = gridPane;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setButtonLayout() {
         buttonPane = new HBox();
         yes = new Button("Yes");
@@ -65,6 +81,10 @@ public class SavePromptPopup extends Popup {
         saveButtonListeners();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void saveButtonListeners() {
         yes.setOnAction(e -> {
             userInterface.getCurrentSession().saveEntries();

@@ -24,11 +24,19 @@ public class HomePageScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void homePage(Pane sideBar, Button homePageButton) {
         Text title = setHomePageTitle();
         chart = userInterface.getCategoryChartComponent().generateCategoryChart();
@@ -36,6 +44,10 @@ public class HomePageScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private AnchorPane createPane(Pane sideBar, Button homePageButton, Text title) {
         AnchorPane pane = new AnchorPane();
         setHoverLabelForChart();
@@ -57,6 +69,10 @@ public class HomePageScreen extends Screen {
         return pane;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setLabelIfNoEntries() {
         text = new Label("You currently have no journal entries. "
                 + "A chart with your category data will be displayed here after you enter your first journal entry. ");
@@ -69,12 +85,20 @@ public class HomePageScreen extends Screen {
         text.setStyle("-fx-text-fill:#585858;");
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setHoverLabelForChart() {
         hoverLabel = userInterface.getCategoryChartComponent().setHoverEffects(chart);
         AnchorPane.setTopAnchor(hoverLabel, 40.0);
         AnchorPane.setRightAnchor(hoverLabel, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setHoverToolTip() {
         hoverHelper = new Text("Hover over a category for more details");
         hoverHelper.setTextAlignment(TextAlignment.CENTER);
@@ -84,6 +108,10 @@ public class HomePageScreen extends Screen {
         AnchorPane.setLeftAnchor(hoverHelper, 230.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Text setHomePageTitle() {
         Text title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));

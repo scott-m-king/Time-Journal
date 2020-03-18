@@ -23,12 +23,20 @@ public abstract class Screen {
 
     protected abstract void initializeFinalPane();
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected HBox makeFormButtons(String cameFrom, UserInterface ui) {
         HBox hbox = new HBox();
         hbox.setSpacing(15.0);
@@ -49,6 +57,10 @@ public abstract class Screen {
         return hbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setFormButtonListeners(String cameFrom, UserInterface ui) {
         switch (cameFrom) {
             case JOURNAL_LOG:
@@ -64,11 +76,19 @@ public abstract class Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void playDeleteSound() {
         AudioClip failSound = Applet.newAudioClip(getClass().getResource(FAILURE_SOUND));
         failSound.play();

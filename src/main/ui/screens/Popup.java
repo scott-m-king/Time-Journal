@@ -25,6 +25,10 @@ public abstract class Popup {
 
     protected abstract void initializeFinalPane();
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected Stage createPopupStage(int width, int height) {
         Stage stage = new Stage();
         stage.setWidth(width);
@@ -34,6 +38,10 @@ public abstract class Popup {
         return stage;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
@@ -41,6 +49,10 @@ public abstract class Popup {
         stage.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     // THIS STAYS HERE!! called by popups that edit anything
     protected HBox makeFormButtons(Stage stage, String cameFrom, UserInterface ui) {
         HBox hbox = new HBox();
@@ -60,6 +72,10 @@ public abstract class Popup {
         return hbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setFormButtonListeners(Stage stage, String cameFrom, Button submit, Button cancel, UserInterface ui) {
         cancel.setOnAction(e -> stage.close());
         switch (cameFrom) {
@@ -75,6 +91,10 @@ public abstract class Popup {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();

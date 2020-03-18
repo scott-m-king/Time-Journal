@@ -34,6 +34,10 @@ public class JournalEntryCreateScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderJournalEntryCreateScreen() {
         title = setMainTitle();
         Button newJournalEntryButton = userInterface.getSideBarComponent().getNewJournalEntryButton();
@@ -43,6 +47,10 @@ public class JournalEntryCreateScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
@@ -67,6 +75,10 @@ public class JournalEntryCreateScreen extends Screen {
         setListeners(submit);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private Button setSubmitButton() {
         Button submit = new Button("Submit");
         AnchorPane.setBottomAnchor(submit, 30.0);
@@ -74,6 +86,10 @@ public class JournalEntryCreateScreen extends Screen {
         return submit;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Text setMainTitle() {
         Text title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
@@ -84,6 +100,10 @@ public class JournalEntryCreateScreen extends Screen {
         return title;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Text setDescriptionLabel() {
         Text descriptionLabel = new Text("What did you get up to? Enter a description for your journal entry:");
         descriptionLabel.setStyle("-fx-font-size:17px;");
@@ -93,6 +113,10 @@ public class JournalEntryCreateScreen extends Screen {
         return descriptionLabel;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public TextField setDescriptionField() {
         descriptionField = new TextField();
         descriptionField.setStyle("-fx-font-size: 15px");
@@ -102,6 +126,10 @@ public class JournalEntryCreateScreen extends Screen {
         return descriptionField;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Text setDurationLabel() {
         Text durationLabel = new Text("How long did you spend on this? (in minutes)");
         durationLabel.setStyle("-fx-font-size: 17px;");
@@ -111,6 +139,10 @@ public class JournalEntryCreateScreen extends Screen {
         return durationLabel;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public TextField setDurationField() {
         durationField = new TextField();
         durationField.setStyle("-fx-font-size: 15px");
@@ -120,6 +152,10 @@ public class JournalEntryCreateScreen extends Screen {
         return durationField;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Text setCategoryLabel() {
         Text categoryLabel = new Text("What category would you like to assign this entry to?");
         categoryLabel.setStyle("-fx-font-size: 17px;");
@@ -129,6 +165,10 @@ public class JournalEntryCreateScreen extends Screen {
         return categoryLabel;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public ComboBox<String> setCategoryDropdown() {
         populateCategoryDropdown();
         AnchorPane.setTopAnchor(categoryListDurationString, 295.0);
@@ -137,6 +177,10 @@ public class JournalEntryCreateScreen extends Screen {
         return categoryListDurationString;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void populateCategoryDropdown() {
         categoryListDurationString = new ComboBox<>();
         categoryListDurationString.setStyle("-fx-font-size: 15px");
@@ -149,6 +193,10 @@ public class JournalEntryCreateScreen extends Screen {
         categoryListDurationString.setValue(categoryListCategory.get(0).getDurationString());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setListeners(Button submit) {
         submit.setOnAction(e -> doJournalEntry());
 
@@ -159,6 +207,10 @@ public class JournalEntryCreateScreen extends Screen {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void doJournalEntry() {
         if (isFormValidated()) {
             userInputToString();
@@ -169,6 +221,10 @@ public class JournalEntryCreateScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private boolean isFormValidated() {
         try {
             userInterface.getCurrentSession().checkValidForm(descriptionField.getText(), durationField.getText());
@@ -185,6 +241,10 @@ public class JournalEntryCreateScreen extends Screen {
         return true;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void userInputToString() {
         descriptionEntry = descriptionField.getText();
         durationEntry = durationField.getText();
@@ -195,6 +255,10 @@ public class JournalEntryCreateScreen extends Screen {
                 .getName();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void clearFields() {
         descriptionField.clear();
         durationField.clear();
@@ -203,24 +267,40 @@ public class JournalEntryCreateScreen extends Screen {
         renderJournalEntryCreateScreen();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNumberFormatException() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("You didn't enter a number for the duration. Please try again.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNullFieldEntry() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please make sure to fill in all fields.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertSuccessfulEntry() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Entry successfully added!");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNegativeDuration() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please enter a positive duration.");

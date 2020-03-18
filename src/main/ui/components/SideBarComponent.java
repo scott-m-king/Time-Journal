@@ -30,6 +30,10 @@ public class SideBarComponent {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderSideBar() {
         sideBarPane = populateSideBar();
         setSideBarButtonListeners(sideBarPane);
@@ -37,6 +41,10 @@ public class SideBarComponent {
         userInterface.homePage(sideBarPane, homePageButton);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Pane populateSideBar() {
         setSideBarColorAndAnchors();
         createMenuItems();
@@ -44,6 +52,10 @@ public class SideBarComponent {
         return paneBackground;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void createMenuItems() {
         menuItems = new GridPane();
         menuItems.setPadding(new Insets(15, 0, 0, 10));
@@ -61,6 +73,10 @@ public class SideBarComponent {
                 viewCategoryListButton);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSideBarTitleAndUser() {
         setAvatarAndName();
         setTitle();
@@ -71,6 +87,10 @@ public class SideBarComponent {
         GridPane.setHalignment(vbox, HPos.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setVBox() {
         vbox = new VBox();
         vbox.setSpacing(10);
@@ -80,12 +100,20 @@ public class SideBarComponent {
         vbox.getChildren().addAll(userAvatar, userName);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setTitle() {
         timeJournal = new Label("Time Journal");
         timeJournal.setStyle("-fx-font-size: 25px;");
         timeJournal.setAlignment(Pos.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setAvatarAndName() {
         userAvatar = new ImageView(new Image(userInterface
                 .getCurrentSession()
@@ -99,6 +127,10 @@ public class SideBarComponent {
         userName.setWrapText(true);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSideBarColorAndAnchors() {
         paneBackground = new Pane();
         paneBackground.setPrefWidth(200);
@@ -108,6 +140,10 @@ public class SideBarComponent {
         AnchorPane.setLeftAnchor(paneBackground, 0.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void initializeSideBar(Pane sideBar) {
         AnchorPane anchorPane = new AnchorPane();
         Scene scene = new Scene(anchorPane);
@@ -115,6 +151,10 @@ public class SideBarComponent {
         anchorPane.getChildren().addAll(sideBar, quit);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSideBarButtons() {
         homePageButton = new Button("Home");
         GridPane.setConstraints(homePageButton, 0, 2);
@@ -133,6 +173,10 @@ public class SideBarComponent {
         AnchorPane.setLeftAnchor(quit, 10.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSideBarButtonListeners(Pane sideBar) {
         setCreateJournalEntryButtonListener();
         setHomePageButtonListener(sideBar);
@@ -141,6 +185,10 @@ public class SideBarComponent {
         setCloseAndSaveListeners();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setHomePageButtonListener(Pane sideBar) {
         homePageButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -149,6 +197,10 @@ public class SideBarComponent {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setCreateJournalEntryButtonListener() {
         newJournalEntryButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -157,6 +209,10 @@ public class SideBarComponent {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setJournalLogButtonListener() {
         viewJournalLogButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -165,6 +221,10 @@ public class SideBarComponent {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setCategoryListButtonListener() {
         viewCategoryListButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -173,6 +233,10 @@ public class SideBarComponent {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setCloseAndSaveListeners() {
         userInterface.getMainStage().setOnCloseRequest(e -> {
             e.consume();
@@ -181,6 +245,7 @@ public class SideBarComponent {
         quit.setOnAction(e -> userInterface.getSavePromptPopup().renderSavePopup());
     }
 
+    // Getters
     public Button getNewJournalEntryButton() {
         return newJournalEntryButton;
     }

@@ -30,6 +30,10 @@ public class JournalLogScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderJournalLogScreen() {
         this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
         this.journalLogMenuButton = userInterface.getSideBarComponent().getViewJournalLogButton();
@@ -38,6 +42,10 @@ public class JournalLogScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
@@ -52,6 +60,10 @@ public class JournalLogScreen extends Screen {
                 buttonPane);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void createPageTitle() {
         title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
@@ -61,6 +73,10 @@ public class JournalLogScreen extends Screen {
         AnchorPane.setTopAnchor(title, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void createButtonPane() {
         renderTable();
         buttonPane = makeFormButtons(JOURNAL_LOG, userInterface);
@@ -68,11 +84,19 @@ public class JournalLogScreen extends Screen {
         AnchorPane.setTopAnchor(buttonPane, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected void createButtonAction() {
         userInterface.clearButtonColours();
         userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected void editButtonAction() {
         if (selectedEntry != null) {
             try {
@@ -83,12 +107,20 @@ public class JournalLogScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     protected void deleteButtonAction() {
         if (selectedEntry != null) {
             deleteConfirmation();
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void deleteConfirmation() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Are you sure you want to delete this entry? This cannot be undone.");
@@ -100,6 +132,10 @@ public class JournalLogScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void deleteEntry() {
         if (selectedEntry != null) {
             userInterface.getCurrentSession().deleteJournalEntry(selectedEntry.getJournalID());
@@ -108,6 +144,10 @@ public class JournalLogScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void journalTableSelectionListener() {
         userInterface.getJournalTableView()
                 .getSelectionModel()
@@ -122,6 +162,10 @@ public class JournalLogScreen extends Screen {
                 });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setButtonColors() {
         if (selectedEntry == null) {
             delete.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
@@ -132,10 +176,18 @@ public class JournalLogScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public JournalEntry getSelectedEntry() {
         return userInterface.getJournalTableView().getSelectionModel().getSelectedItem();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public ObservableList<JournalEntry> getEntries() {
         ObservableList<JournalEntry> entries = FXCollections.observableArrayList();
         JournalLog journalLog = userInterface.getCurrentSession().getJournalLog();
@@ -144,10 +196,15 @@ public class JournalLogScreen extends Screen {
         return entries;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderTable() {
         userInterface.getJournalTableObject().renderJournalTable(this, userInterface);
     }
 
+    // Setter
     public void setJournalEntryCurrentlySelected(JournalEntry entry) {
         selectedEntry = entry;
     }

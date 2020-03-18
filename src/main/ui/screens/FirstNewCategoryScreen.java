@@ -24,6 +24,10 @@ public class FirstNewCategoryScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderFirstNewCategoryScreen() {
         setScreenLabel();
         setTextField();
@@ -33,6 +37,10 @@ public class FirstNewCategoryScreen extends Screen {
         setEnterListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -42,6 +50,10 @@ public class FirstNewCategoryScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setScreenLabel() {
         nameLabel = new Label("Let's start with creating your first category.\n"
                 + "Enter a name for your category below:");
@@ -49,6 +61,10 @@ public class FirstNewCategoryScreen extends Screen {
         nameLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setTextField() {
         categoryName = new TextField();
         categoryName.setMaxWidth(300);
@@ -56,16 +72,20 @@ public class FirstNewCategoryScreen extends Screen {
         categoryName.setAlignment(Pos.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setStartButton() {
         startJournal = new Button("Get Started");
         startJournal.setAlignment(Pos.CENTER);
         setButtonHandler(startJournal);
     }
 
-    public void setButtonHandler(Button startJournal) {
-        startJournal.setOnAction(e -> submitForm());
-    }
-
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -74,6 +94,10 @@ public class FirstNewCategoryScreen extends Screen {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void submitForm() {
         try {
             userInterface.getCurrentSession().createNewCategory(categoryName.getText());
@@ -87,5 +111,13 @@ public class FirstNewCategoryScreen extends Screen {
             a.setContentText("You happened to enter the one category that already exists... try again.");
             a.show();
         }
+    }
+
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
+    public void setButtonHandler(Button startJournal) {
+        startJournal.setOnAction(e -> submitForm());
     }
 }

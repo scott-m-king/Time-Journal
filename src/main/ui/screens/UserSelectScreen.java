@@ -24,6 +24,10 @@ public class UserSelectScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderUserSelectScreen() {
         setLabel();
         setDropDownList();
@@ -32,6 +36,10 @@ public class UserSelectScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -41,12 +49,20 @@ public class UserSelectScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setLabel() {
         title = new Label("Which user are you?");
         title.setStyle("-fx-font-size: 40px; -fx-text-fill: #383838;");
         title.setTextAlignment(TextAlignment.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setDropDownList() {
         comboBox = new ComboBox<>();
         comboBox.setPromptText("Select one...");
@@ -60,12 +76,20 @@ public class UserSelectScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSubmitButton() {
         submit = new Button("Submit");
         submit.setMinWidth(100);
         submitButtonListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void submitButtonListener() {
         submit.setOnAction(e -> {
             try {

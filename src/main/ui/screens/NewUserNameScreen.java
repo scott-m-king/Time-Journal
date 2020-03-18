@@ -22,6 +22,10 @@ public class NewUserNameScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderNewUserNameScreen() {
         setScreenLabel();
         setTextField();
@@ -31,6 +35,10 @@ public class NewUserNameScreen extends Screen {
         setEnterListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -40,6 +48,10 @@ public class NewUserNameScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSubmitButton() {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
@@ -47,6 +59,10 @@ public class NewUserNameScreen extends Screen {
         setSubmitButtonListener(newUserButton);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setTextField() {
         userName = new TextField();
         userName.setMaxWidth(300);
@@ -54,16 +70,20 @@ public class NewUserNameScreen extends Screen {
         userName.setAlignment(Pos.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setScreenLabel() {
         nameLabel = new Label("What's your name? Enter below: ");
         nameLabel.setStyle("-fx-font-size: 45px; -fx-text-fill: #383838;");
         nameLabel.setAlignment(Pos.CENTER);
     }
 
-    public void setSubmitButtonListener(Button newUserButton) {
-        newUserButton.setOnAction(e -> submitForm());
-    }
-
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void submitForm() {
         try {
             userInterface.getCurrentSession().setCurrentUser(userName.getText());
@@ -75,6 +95,18 @@ public class NewUserNameScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
+    public void setSubmitButtonListener(Button newUserButton) {
+        newUserButton.setOnAction(e -> submitForm());
+    }
+
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -83,6 +115,7 @@ public class NewUserNameScreen extends Screen {
         });
     }
 
+    // Getter
     public String getUserName() {
         return userName.getText();
     }

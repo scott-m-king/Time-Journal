@@ -14,9 +14,6 @@ import ui.components.SideBarComponent;
 
 import java.awt.*;
 
-//TODO: find way to get CategoryList page to refresh after each action (create new and selection) (not working properly)
-//TODO: create an avatar page for new users to choose
-
 public class UserInterface extends Application {
     private NewUserWelcomeScreen newUserWelcomeScreen;
     private NewUserNameScreen newUserNameScreen;
@@ -45,6 +42,9 @@ public class UserInterface extends Application {
     public static final int WINDOW_HEIGHT = 700;
     public static final int TITLE_FONT_SIZE = 35;
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     public void start(Stage stage) {
         this.mainStage = stage;
@@ -62,6 +62,9 @@ public class UserInterface extends Application {
         }
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setMainStageDimensions() {
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainStage.setWidth(WINDOW_WIDTH);
@@ -71,7 +74,10 @@ public class UserInterface extends Application {
         setMiddle(mainStage);
     }
 
-    public void initializeAllScreens() {
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
+    private void initializeAllScreens() {
         // completely new user
         newUserWelcomeScreen = new NewUserWelcomeScreen(this);
         avatarPickerComponent = new AvatarPickerComponent();
@@ -105,95 +111,128 @@ public class UserInterface extends Application {
         journalTableObject = new JournalTableComponent();
     }
 
+    // EFFECTS: returns the NewUserWelcomeScreen object
     public NewUserWelcomeScreen getNewUserWelcomeScreen() {
         return newUserWelcomeScreen;
     }
 
+    // EFFECTS: returns the NewUserNameScreen object
     public NewUserNameScreen getNewUserNameScreen() {
         return newUserNameScreen;
     }
 
+    // EFFECTS: returns the NewUserAvatarScreen object
     public NewUserAvatarScreen getNewUserAvatarScreen() {
         return newUserAvatarScreen;
     }
 
+    // EFFECTS: returns the AvatarPickerComponent object
     public AvatarPickerComponent getAvatarPickerComponent() {
         return avatarPickerComponent;
     }
 
+    // EFFECTS: returns the FirstNewCategoryScreen object
     public FirstNewCategoryScreen getFirstNewCategoryScreen() {
         return firstNewCategoryScreen;
     }
 
+    // EFFECTS: returns the UserSelectScreen object
     public UserSelectScreen getUserSelectScreen() {
         return userSelectScreen;
     }
 
+    // EFFECTS: returns the SideBarComponent object
     public SideBarComponent getSideBarComponent() {
         return sideBarComponent;
     }
 
+    // EFFECTS: returns the JournalEntryCreateScreen object
     public JournalEntryCreateScreen getJournalEntryCreateScreen() {
         return journalEntryCreateScreen;
     }
 
+    // EFFECTS: returns the JournalEntryEditPopup object
     public JournalEntryEditPopup getJournalEntryEditPopup() {
         return journalEntryEditPopup;
     }
 
+    // EFFECTS: returns the JournalLogScreen object
     public JournalLogScreen getJournalLogScreen() {
         return journalLogScreen;
     }
 
+    // EFFECTS: returns the CategoryListScreen object
     public CategoryListScreen getCategoryListScreen() {
         return categoryListScreen;
     }
 
+    // EFFECTS: returns the JournalTableComponent object
     public JournalTableComponent getJournalTableObject() {
         return journalTableObject;
     }
 
+    // EFFECTS: returns the CategoryChartComponent object
     public CategoryChartComponent getCategoryChartComponent() {
         return categoryChartComponent;
     }
 
+    // EFFECTS: returns the CreateCategoryPopup object
     public CreateCategoryPopup getCreateCategoryPopup() {
         return createCategoryPopup;
     }
 
+    // EFFECTS: returns the EditCategoryPopup object
     public EditCategoryPopup getEditCategoryPopup() {
         return editCategoryPopup;
     }
 
+    // EFFECTS: returns the SavePromptPopup object
     public SavePromptPopup getSavePromptPopup() {
         return savePromptPopup;
     }
 
+    // EFFECTS: returns a copy of the JournalLog as TableView type
     public TableView<JournalEntry> getJournalTableView() {
         return journalTableView;
     }
 
+    // EFFECTS: returns the UserSession object
     public UserSession getCurrentSession() {
         return currentSession;
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Stage getMainStage() {
         return mainStage;
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void homePage(Pane sideBar, Button homePageButton) {
         homePageScreen.homePage(sideBar, homePageButton);
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setJournalTableView(TableView<JournalEntry> journalTableView) {
         this.journalTableView = journalTableView;
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void removeListeners() {
         categoryListScreen.setCategoryCurrentSelected(null);
         journalLogScreen.setJournalEntryCurrentlySelected(null);
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setMiddle(Stage s) {
         double middleCoordinateX = screenSize.getWidth() / 2;
         double middleCoordinateY = screenSize.getHeight() / 2;
@@ -203,6 +242,9 @@ public class UserInterface extends Application {
         s.setY(middleCoordinateY - subtractWindowSizeY);
     }
 
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void clearButtonColours() {
         sideBarComponent.getNewJournalEntryButton().setStyle("-fx-background-color: #585858;");
         sideBarComponent.getHomePageButton().setStyle("-fx-background-color: #585858;");

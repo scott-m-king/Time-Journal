@@ -21,6 +21,10 @@ public class JournalTableComponent {
         initializeFields();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void initializeFields() {
         idColumn();
         descriptionColumn();
@@ -29,24 +33,40 @@ public class JournalTableComponent {
         dateColumn();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void idColumn() {
         idColumn = new TableColumn<>("Journal ID");
         idColumn.setMinWidth(100);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("journalID"));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void descriptionColumn() {
         descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setMinWidth(315);
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void durationColumn() {
         durationColumn = new TableColumn<>("Duration");
         durationColumn.setMinWidth(100);
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void categoryColumn() {
         categoryColumn = new TableColumn<>("Category");
         categoryColumn.setMinWidth(100);
@@ -54,12 +74,20 @@ public class JournalTableComponent {
                 cellData.getValue().getCategory(), "name"));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void dateColumn() {
         dateColumn = new TableColumn<>("Date");
         dateColumn.setMinWidth(100);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderJournalTable(JournalLogScreen journalLogScreen, UserInterface userInterface) {
         userInterface.setJournalTableView(new TableView<>());
         userInterface.getJournalTableView().setItems(journalLogScreen.getEntries());
@@ -72,6 +100,7 @@ public class JournalTableComponent {
         AnchorPane.setRightAnchor(userInterface.getJournalTableView(), 30.0);
     }
 
+    // Getters
     public TableColumn<JournalEntry, Integer> getIdColumn() {
         return idColumn;
     }

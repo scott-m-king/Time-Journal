@@ -19,6 +19,10 @@ public class CategoryChartComponent {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public PieChart generateCategoryChart() {
         CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -32,6 +36,10 @@ public class CategoryChartComponent {
         return chart;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setPieChartPosition(PieChart chart) {
         chart.setLegendSide(Side.RIGHT);
         AnchorPane.setLeftAnchor(chart, 230.0);
@@ -40,6 +48,10 @@ public class CategoryChartComponent {
         AnchorPane.setBottomAnchor(chart, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Label setHoverEffects(PieChart chart) {
         final Label caption = new Label("");
         caption.setStyle("-fx-font-size: 22; -fx-text-fill: #383838 ");
@@ -50,6 +62,10 @@ public class CategoryChartComponent {
         return caption;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setHoverLabel(Label caption, PieChart.Data data) {
         int currentCategoryDuration = userInterface.getCurrentSession().getTotalCategoryDuration();
         double percentage = Math.round(data.getPieValue() / currentCategoryDuration * 100);

@@ -60,6 +60,10 @@ public class UserSession {
         this.userAvatar = fileName;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public boolean isFirstTime() {
         boolean isFirstTime = false;
         try {
@@ -71,6 +75,10 @@ public class UserSession {
         return isFirstTime;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setCurrentUser(String user) throws NullEntryException {
         if (user.equals("")) {
             throw new NullEntryException();
@@ -109,6 +117,10 @@ public class UserSession {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void saveUserSession() throws IOException {
         SaveWriter sessionSave = new SaveWriter(new File("./data/users/"
                 + currentUser
@@ -118,6 +130,10 @@ public class UserSession {
         sessionSave.close();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void saveUserList() throws IOException {
         SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
         userListSave.save(userList);
@@ -156,6 +172,10 @@ public class UserSession {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void loadSessionFields(UserSession loadedSession) {
         this.journalLog = loadedSession.getJournalLog();
         this.categoryList = loadedSession.getCategoryList();
@@ -226,6 +246,10 @@ public class UserSession {
         categoryList.get(changeFrom).setName(changeTo);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void checkValidForm(String description, String duration)
             throws NumberFormatException, NullEntryException, NegativeNumberException {
         if (duration == null || duration.equals("") || description == null || description.equals("")) {
@@ -268,6 +292,10 @@ public class UserSession {
         journalLog.getValue(journalID).setCategory(toCategory);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public int getTotalCategoryDuration() {
         int totalDuration = 0;
         for (int i = 0; i < categoryList.getSize(); i++) {

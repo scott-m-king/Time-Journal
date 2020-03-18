@@ -46,6 +46,10 @@ public class AvatarPickerComponent {
     public AvatarPickerComponent() {
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public GridPane renderAvatarPicker() {
         setImagesFromResources();
         makeAvatarObservableList();
@@ -55,6 +59,10 @@ public class AvatarPickerComponent {
         return grid;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void populateGridPane() {
         grid = new GridPane();
         grid.setVgap(15);
@@ -63,6 +71,10 @@ public class AvatarPickerComponent {
         grid.getChildren().addAll(avatarObservableList);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setImagesFromResources() {
         image1 = new ImageView(new Image(IMAGE_1, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
         image2 = new ImageView(new Image(IMAGE_2, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
@@ -75,6 +87,10 @@ public class AvatarPickerComponent {
         image9 = new ImageView(new Image(IMAGE_9, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void makeAvatarObservableList() {
         avatarObservableList = FXCollections.observableArrayList();
         avatarObservableList.add(image1);
@@ -88,6 +104,10 @@ public class AvatarPickerComponent {
         avatarObservableList.add(image9);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setImagePositionsInGrid() {
         List<String> listOfURLs = listOfImageURLs();
         for (int i = 0; i < avatarObservableList.size(); i++) {
@@ -96,6 +116,10 @@ public class AvatarPickerComponent {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private List<String> listOfImageURLs() {
         List<String> imageURLs = new ArrayList<>();
         imageURLs.add(IMAGE_1);
@@ -110,6 +134,10 @@ public class AvatarPickerComponent {
         return imageURLs;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
     private void updateSelectedAvatar() {
         for (int i = 0; i < avatarObservableList.size(); i++) {
@@ -127,6 +155,10 @@ public class AvatarPickerComponent {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void makeSelectionVFX(ImageView imageView, int finalI) {
         putBackNoBorderImage();
         grid.getChildren().remove(imageView);
@@ -134,6 +166,10 @@ public class AvatarPickerComponent {
         storeNoBorderImage(imageView, selectedAvatarImageView, finalI);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void putBackNoBorderImage() {
         if (previouslySelectedImageViewUnBordered != null) {
             int col = previouslySelectedPosition % 3;
@@ -145,6 +181,10 @@ public class AvatarPickerComponent {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void putInSelectedImage(int i) {
         int r = new Random().nextInt(255);
         int g = new Random().nextInt(255);
@@ -157,12 +197,20 @@ public class AvatarPickerComponent {
         grid.getChildren().add(selectedAvatarImageView);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void storeNoBorderImage(ImageView unBordered, ImageView bordered, int position) {
         previouslySelectedImageViewUnBordered = unBordered;
         previouslySelectedImageViewBordered = bordered;
         previouslySelectedPosition = position;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public String getSelectedAvatarImageURL() {
         return selectedAvatarURL;
     }

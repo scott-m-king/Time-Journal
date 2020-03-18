@@ -21,16 +21,18 @@ public class SaveWriter {
         writer = new FileWriter(file);
     }
 
+    // MODIFIES: this, ./data/session_save.json
+    // EFFECTS: serializes user session to JSON and writes to save file
+    public void save(UserSession userSession) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(userSession, writer);
+    }
+
     // MODIFIES: this, ./data/users_save.json
     // EFFECTS: serializes user list to JSON and writes to save file
     public void save(ArrayList<String> userList) {
         gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(userList, writer);
-    }
-
-    public void save(UserSession userSession) {
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        gson.toJson(userSession, writer);
     }
 
     // MODIFIES: this

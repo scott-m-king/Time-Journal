@@ -19,6 +19,11 @@ public class NewUserWelcomeScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderNewUserWelcomeScreen() {
         setLabel();
         setButton();
@@ -28,6 +33,10 @@ public class NewUserWelcomeScreen extends Screen {
         setEnterListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -36,18 +45,30 @@ public class NewUserWelcomeScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setButton() {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setOnAction(e -> userInterface.getNewUserNameScreen().renderNewUserNameScreen());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setLabel() {
         title = new Label("Welcome to Time Journal");
         title.setStyle("-fx-font-size: 60px; -fx-text-fill: #383838;");
         title.setPadding(new Insets(0, 0, 75, 0));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

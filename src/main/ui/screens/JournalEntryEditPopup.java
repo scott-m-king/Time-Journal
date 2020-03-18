@@ -41,6 +41,10 @@ public class JournalEntryEditPopup extends Popup {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderJournalEntryEditPopup() {
         selectedJournalEntry = userInterface.getJournalLogScreen().getSelectedEntry();
         initializeFields();
@@ -53,6 +57,10 @@ public class JournalEntryEditPopup extends Popup {
         setEnterListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         AnchorPane anchorPane = new AnchorPane();
@@ -60,11 +68,19 @@ public class JournalEntryEditPopup extends Popup {
         pane = anchorPane;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setStage() {
         stage = createPopupStage(UserInterface.WINDOW_WIDTH - 100, UserInterface.WINDOW_HEIGHT - 100);
         userInterface.setMiddle(stage);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setMainLabel() {
         mainLabel = new Label("Edit Journal Entry");
         AnchorPane.setTopAnchor(mainLabel, 30.0);
@@ -72,12 +88,20 @@ public class JournalEntryEditPopup extends Popup {
         mainLabel.setStyle("-fx-text-fill:#383838; -fx-font-size:25px;");
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setButtonLayout() {
         buttonLayout = makeFormButtons(stage, EDIT_JOURNAL_ENTRY, userInterface);
         AnchorPane.setBottomAnchor(buttonLayout, 30.0);
         AnchorPane.setRightAnchor(buttonLayout, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setFormLayout() {
         gridPane = new GridPane();
         gridPane.getChildren().addAll(
@@ -94,6 +118,10 @@ public class JournalEntryEditPopup extends Popup {
         gridPane.setVgap(15);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void initializeFields() {
         setDescriptionLabel();
         setDescriptionField();
@@ -103,12 +131,20 @@ public class JournalEntryEditPopup extends Popup {
         setCategoryDropDown();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setDescriptionLabel() {
         descriptionLabel = new Text("What did you get up to? Enter a description for your journal entry: ");
         descriptionLabel.setStyle(LABEL_TEXT_SIZE);
         GridPane.setConstraints(descriptionLabel, 0, 0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setDescriptionField() {
         descriptionField = new TextField(selectedJournalEntry.getDescription());
         descriptionField.setStyle(FIELD_TEXT_SIZE);
@@ -116,12 +152,20 @@ public class JournalEntryEditPopup extends Popup {
         descriptionField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setDurationLabel() {
         durationLabel = new Text("How long did you spend on this? (in minutes):");
         durationLabel.setStyle(LABEL_TEXT_SIZE);
         GridPane.setConstraints(durationLabel, 0, 3);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setDurationField() {
         durationField = new TextField(selectedJournalEntry.getDuration().toString());
         durationField.setStyle(FIELD_TEXT_SIZE);
@@ -129,12 +173,20 @@ public class JournalEntryEditPopup extends Popup {
         durationField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setCategoryLabel() {
         categoryLabel = new Text("What category would you like to assign this entry to?");
         categoryLabel.setStyle(LABEL_TEXT_SIZE);
         GridPane.setConstraints(categoryLabel, 0, 6);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setCategoryDropDown() {
         categoryDropDown = new ComboBox<>();
         categoryDropDown.setStyle(FIELD_TEXT_SIZE);
@@ -149,6 +201,10 @@ public class JournalEntryEditPopup extends Popup {
         categoryDropDown.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void editJournalEntry() {
         if (isFormValidated()) {
             userInterface.getCurrentSession().editJournalEntryDescription(
@@ -167,6 +223,10 @@ public class JournalEntryEditPopup extends Popup {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private boolean isFormValidated() {
         try {
             userInterface.getCurrentSession().checkValidForm(descriptionField.getText(), durationField.getText());
@@ -183,30 +243,50 @@ public class JournalEntryEditPopup extends Popup {
         return true;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNumberFormatException() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("You didn't enter a number for the duration. Please try again.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNullFieldEntry() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please make sure to fill in all fields.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertSuccessfulEntry() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Entry successfully edited!");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void alertNegativeDuration() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please enter a positive duration.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

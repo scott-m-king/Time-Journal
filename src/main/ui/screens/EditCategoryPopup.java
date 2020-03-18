@@ -28,6 +28,10 @@ public class EditCategoryPopup extends Popup {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void initializeScreen() {
         stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         setFields();
@@ -38,6 +42,10 @@ public class EditCategoryPopup extends Popup {
         setEnterListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -47,6 +55,10 @@ public class EditCategoryPopup extends Popup {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setFields() {
         setLabel();
         text = new Text("What would you like to change the name of the category to?");
@@ -55,6 +67,10 @@ public class EditCategoryPopup extends Popup {
         categoryName.setMaxWidth(300);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setLabel() {
         label = new Label(
                 "Editing "
@@ -65,6 +81,10 @@ public class EditCategoryPopup extends Popup {
         label.setStyle("-fx-text-fill:#383838; -fx-font-size:25px;");
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void editCategory() {
         try {
             userInterface.getCurrentSession().editCategory(userInterface
@@ -81,24 +101,40 @@ public class EditCategoryPopup extends Popup {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void successAlert() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("You've successfully edited the category.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void nullEntryAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please enter a name for your category.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void categoryAlreadyExistsAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("That category name already exists.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

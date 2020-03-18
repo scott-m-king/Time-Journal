@@ -21,6 +21,10 @@ public class NewUserAvatarScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderNewUserAvatarScreen() {
         setScreenLabel();
         imagePane = userInterface.getAvatarPickerComponent().renderAvatarPicker();
@@ -29,6 +33,10 @@ public class NewUserAvatarScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -38,6 +46,10 @@ public class NewUserAvatarScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSubmitButton() {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
@@ -45,12 +57,20 @@ public class NewUserAvatarScreen extends Screen {
         setSubmitButtonListener();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setScreenLabel() {
         nameLabel = new Label("Choose an avatar");
         nameLabel.setStyle("-fx-font-size: 45px; -fx-text-fill: #383838;");
         nameLabel.setAlignment(Pos.CENTER);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setSubmitButtonListener() {
         newUserButton.setOnAction(e -> {
             try {
@@ -66,6 +86,10 @@ public class NewUserAvatarScreen extends Screen {
         });
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void nullEntryAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("You must enter at least one character for your name.");

@@ -17,12 +17,20 @@ public class WelcomeScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderWelcomeScreen() {
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
         userInterface.getMainStage().show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         Label title = setPageLabel();
@@ -35,6 +43,10 @@ public class WelcomeScreen extends Screen {
         pane = vbox;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Label setPageLabel() {
         Label title = new Label("Time Journal");
         title.setStyle("-fx-font-size: 70px; -fx-text-fill: #383838;");
@@ -42,6 +54,10 @@ public class WelcomeScreen extends Screen {
         return title;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public GridPane setGridPane(Button newUserButton, Button returningUserButton) {
         GridPane grid = new GridPane();
         grid.setVgap(8);
@@ -52,11 +68,19 @@ public class WelcomeScreen extends Screen {
         return grid;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setButtonListeners(Button newUserButton, Button returningUserButton) {
         newUserButton.setOnAction(e -> userInterface.getNewUserWelcomeScreen().renderNewUserWelcomeScreen());
         returningUserButton.setOnAction(e -> userInterface.getUserSelectScreen().renderUserSelectScreen());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Button returningUserButton() {
         Button returningUserButton = new Button("Returning User");
         returningUserButton.setMinWidth(100);
@@ -64,6 +88,10 @@ public class WelcomeScreen extends Screen {
         return returningUserButton;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public Button newUserButton() {
         Button newUserButton = new Button("New User");
         newUserButton.setMinWidth(100);

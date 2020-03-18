@@ -38,6 +38,10 @@ public class CategoryListScreen extends Screen {
         this.userInterface = userInterface;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void renderCategoryListScreen() {
         categoryCurrentSelected = null;
         this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
@@ -48,6 +52,10 @@ public class CategoryListScreen extends Screen {
         initializeScreen(pane, userInterface.getMainStage());
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     @Override
     protected void initializeFinalPane() {
         pane = new AnchorPane();
@@ -64,6 +72,10 @@ public class CategoryListScreen extends Screen {
                 buttons);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setMainLabel() {
         title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
@@ -73,12 +85,20 @@ public class CategoryListScreen extends Screen {
         AnchorPane.setTopAnchor(title, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setButtonLayout() {
         buttons = makeFormButtons(CATEGORY_LIST, userInterface);
         AnchorPane.setRightAnchor(buttons, 30.0);
         AnchorPane.setTopAnchor(buttons, 30.0);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void setButtonColors() {
         if (categoryCurrentSelected == null) {
             delete.setStyle("-fx-background-color: #c7c7c7; -fx-min-width: 100;");
@@ -89,10 +109,18 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void createButtonAction() {
         userInterface.getCreateCategoryPopup().renderCategoryPopup();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void deleteButtonAction() {
         if (categoryCurrentSelected == null) {
             return;
@@ -104,6 +132,10 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void deleteCategory() {
         if (categoryCurrentSelected != null) {
             userInterface.getCurrentSession().deleteCategory(categoryCurrentSelected);
@@ -112,6 +144,10 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void confirmCategoryDelete() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Are you sure you want to delete this category? All entries assigned with '"
@@ -125,6 +161,10 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void invalidCategoryDeleteAlert() {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setContentText("Sorry, you cannot delete the Uncategorized category.");
@@ -142,12 +182,20 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void invalidCategoryEditAlert() {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setContentText("Cannot modify the Uncategorized category.");
         a.show();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void generateCategoryDurationListView() {
         categoryListView = new ListView<>();
         generateCategoryList();
@@ -158,6 +206,10 @@ public class CategoryListScreen extends Screen {
         renderCategoryDurationListView();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void generateCategoryList() {
         categoryObservableList = FXCollections.observableArrayList();
         CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
@@ -166,6 +218,10 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void renderCategoryDurationListView() {
         categoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         categoryListView.setMaxHeight(275);
@@ -176,6 +232,10 @@ public class CategoryListScreen extends Screen {
         categoryJournalTable.setPlaceholder(new Text("Select a category to see entries."));
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void categoryTableListener() {
         categoryListView.getSelectionModel()
                     .selectedItemProperty()
@@ -189,6 +249,10 @@ public class CategoryListScreen extends Screen {
             );
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void initiateFilter() {
         int index = categoryListView.getSelectionModel().getSelectedIndex();
         categoryCurrentSelected =
@@ -209,6 +273,10 @@ public class CategoryListScreen extends Screen {
                 buttons);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void filterEntriesBasedOnCategory() {
         final String[] filterCondition = new String[1];
         filterCondition[0] = categoryCurrentSelected;
@@ -219,6 +287,10 @@ public class CategoryListScreen extends Screen {
         filteredTable(filterCondition[0], filterResult);
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     private void filteredTable(String filterCondition, List<JournalEntry> filterResult) {
         if (filterResult.size() == 0) {
             categoryJournalTable = renderFilteredJournalEntryTable(filterResult);
@@ -229,6 +301,10 @@ public class CategoryListScreen extends Screen {
         }
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void setJournalEntryFieldColumns() {
         dateTableColumn = userInterface.getJournalTableObject().getDateColumn();
         categoryTableColumn = userInterface.getJournalTableObject().getCategoryColumn();
@@ -236,6 +312,10 @@ public class CategoryListScreen extends Screen {
         descriptionTableColumn = userInterface.getJournalTableObject().getDescriptionColumn();
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public TableView<JournalEntry> renderFilteredJournalEntryTable(List<JournalEntry> entries) {
         categoryJournalTable = new TableView<>();
         journalEntryObservableList = FXCollections.observableArrayList();
@@ -244,6 +324,10 @@ public class CategoryListScreen extends Screen {
         return categoryJournalTable;
     }
 
+    // TODO
+    // MODIFIES:
+    // REQUIRES:
+    // EFFECTS:
     public void constructCategoryJournalEntryTable() {
         categoryJournalTable.setItems(journalEntryObservableList);
         categoryJournalTable.getColumns().addAll(
@@ -254,6 +338,7 @@ public class CategoryListScreen extends Screen {
         AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
     }
 
+    // Getters
     public Pane getPane() {
         return pane;
     }
