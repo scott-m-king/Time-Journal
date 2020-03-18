@@ -34,7 +34,8 @@ public class JournalEntryEditPopup extends Popup {
     private Pane pane;
     private Stage stage;
 
-    public static final String LABEL_TEXT_SIZE = "-fx-font-size:17px;";
+    public static final String LABEL_TEXT_SIZE = "-fx-font-size: 17px;";
+    public static final String FIELD_TEXT_SIZE = "-fx-font-size: 15px;";
 
     public JournalEntryEditPopup(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -110,6 +111,7 @@ public class JournalEntryEditPopup extends Popup {
 
     private void setDescriptionField() {
         descriptionField = new TextField(selectedJournalEntry.getDescription());
+        descriptionField.setStyle(FIELD_TEXT_SIZE);
         GridPane.setConstraints(descriptionField, 0, 1);
         descriptionField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
     }
@@ -122,6 +124,7 @@ public class JournalEntryEditPopup extends Popup {
 
     private void setDurationField() {
         durationField = new TextField(selectedJournalEntry.getDuration().toString());
+        durationField.setStyle(FIELD_TEXT_SIZE);
         GridPane.setConstraints(durationField, 0, 4);
         durationField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
     }
@@ -134,6 +137,7 @@ public class JournalEntryEditPopup extends Popup {
 
     private void setCategoryDropDown() {
         categoryDropDown = new ComboBox<>();
+        categoryDropDown.setStyle(FIELD_TEXT_SIZE);
         categoryDropDownCategories = userInterface.getCategoryListScreen().getCategoryObservableList();
 
         for (Category c : categoryDropDownCategories) {
@@ -192,7 +196,7 @@ public class JournalEntryEditPopup extends Popup {
     }
 
     private void alertSuccessfulEntry() {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Entry successfully edited!");
         a.show();
     }

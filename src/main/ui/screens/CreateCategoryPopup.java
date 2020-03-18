@@ -70,11 +70,18 @@ public class CreateCategoryPopup extends Popup {
             playSuccessSound();
             stage.close();
             userInterface.getCategoryListScreen().renderCategoryListScreen();
+            successAlert();
         } catch (NullEntryException e) {
             nullEntryAlert();
         } catch (CategoryExistsException e) {
             categoryAlreadyExistsAlert();
         }
+    }
+
+    private void successAlert() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setContentText("You've successfully created the " + categoryName.getText() + " category.");
+        a.show();
     }
 
     private void categoryAlreadyExistsAlert() {

@@ -73,11 +73,18 @@ public class EditCategoryPopup extends Popup {
             stage.close();
             playSuccessSound();
             userInterface.getCategoryListScreen().renderCategoryListScreen();
+            successAlert();
         } catch (CategoryExistsException exception1) {
             categoryAlreadyExistsAlert();
         } catch (NullEntryException exception2) {
             nullEntryAlert();
         }
+    }
+
+    private void successAlert() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setContentText("You've successfully edited the category.");
+        a.show();
     }
 
     private void nullEntryAlert() {
