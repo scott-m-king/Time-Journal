@@ -145,10 +145,10 @@
       }
     }
   },
-  "journalID": 16,
+  "journalID": 17,
   "categoryID": 7,
   "currentUser": "Scott",
-  "userAvatar": "File:data/resources/sandwich.png",
+  "userAvatar": "File:src/main/ui/resources/coffee.png",
   "userList": [
     "Scott"
   ]

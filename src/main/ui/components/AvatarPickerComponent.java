@@ -33,15 +33,15 @@ public class AvatarPickerComponent {
     private String selectedAvatarURL;
 
     public static final int IMAGE_DIMENSION = 125;
-    public static final String IMAGE_1 = "File:data/resources/dog.png";
-    public static final String IMAGE_2 = "File:data/resources/bee.png";
-    public static final String IMAGE_3 = "File:data/resources/cloud.png";
-    public static final String IMAGE_4 = "File:data/resources/coffee.png";
-    public static final String IMAGE_5 = "File:data/resources/balloon.png";
-    public static final String IMAGE_6 = "File:data/resources/ladybug.png";
-    public static final String IMAGE_7 = "File:data/resources/pigeon.png";
-    public static final String IMAGE_8 = "File:data/resources/sandwich.png";
-    public static final String IMAGE_9 = "File:data/resources/sun.png";
+    public static final String IMAGE_1 = "File:src/main/ui/resources/dog.png";
+    public static final String IMAGE_2 = "File:src/main/ui/resources/bee.png";
+    public static final String IMAGE_3 = "File:src/main/ui/resources/cloud.png";
+    public static final String IMAGE_4 = "File:src/main/ui/resources/coffee.png";
+    public static final String IMAGE_5 = "File:src/main/ui/resources/balloon.png";
+    public static final String IMAGE_6 = "File:src/main/ui/resources/ladybug.png";
+    public static final String IMAGE_7 = "File:src/main/ui/resources/pigeon.png";
+    public static final String IMAGE_8 = "File:src/main/ui/resources/sandwich.png";
+    public static final String IMAGE_9 = "File:src/main/ui/resources/sun.png";
 
     public AvatarPickerComponent() {
     }
