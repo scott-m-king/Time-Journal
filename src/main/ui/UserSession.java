@@ -61,8 +61,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     public boolean isFirstTime() {
         boolean isFirstTime = false;
@@ -76,8 +76,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     public void setCurrentUser(String user) throws NullEntryException {
         if (user.equals("")) {
@@ -118,8 +118,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     private void saveUserSession() throws IOException {
         SaveWriter sessionSave = new SaveWriter(new File("./data/users/"
@@ -131,8 +131,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     private void saveUserList() throws IOException {
         SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
@@ -173,8 +173,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     private void loadSessionFields(UserSession loadedSession) {
         this.journalLog = loadedSession.getJournalLog();
@@ -247,8 +247,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     public void checkValidForm(String description, String duration)
             throws NumberFormatException, NullEntryException, NegativeNumberException {
@@ -293,8 +293,8 @@ public class UserSession {
     }
 
     // TODO
-    // MODIFIES:
     // REQUIRES:
+    // MODIFIES:
     // EFFECTS:
     public int getTotalCategoryDuration() {
         int totalDuration = 0;

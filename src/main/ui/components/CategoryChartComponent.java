@@ -19,10 +19,8 @@ public class CategoryChartComponent {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: valid UserInterface object
+    // EFFECTS: generates category piechart based on durations from CategoryList object
     public PieChart generateCategoryChart() {
         CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -36,10 +34,9 @@ public class CategoryChartComponent {
         return chart;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // REQUIRES: a valid piechart
+    // EFFECTS: anchors piechart on screen such that it fills an empty Screen
     private void setPieChartPosition(PieChart chart) {
         chart.setLegendSide(Side.RIGHT);
         AnchorPane.setLeftAnchor(chart, 230.0);
@@ -48,10 +45,8 @@ public class CategoryChartComponent {
         AnchorPane.setBottomAnchor(chart, 30.0);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets a hover event listener on each slice of the piechart
     public Label setHoverEffects(PieChart chart) {
         final Label caption = new Label("");
         caption.setStyle("-fx-font-size: 22; -fx-text-fill: #383838 ");
@@ -62,20 +57,21 @@ public class CategoryChartComponent {
         return caption;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // REQUIRES: at least one category in the CategoryList
+    // EFFECTS: sets hover effects of each category to show % time spent and total duration of given category
     private void setHoverLabel(Label caption, PieChart.Data data) {
         int currentCategoryDuration = userInterface.getCurrentSession().getTotalCategoryDuration();
         double percentage = Math.round(data.getPieValue() / currentCategoryDuration * 100);
         int resultDuration = (int) data.getPieValue();
         int resultPercentage = (int) percentage;
-        caption.setText(resultDuration
+        caption.setText(
+                resultDuration
                 + " minutes spent on "
                 + data.getName()
                 + ". "
                 + resultPercentage
-                + "% overall. ");
+                + "% overall. "
+        );
     }
 }

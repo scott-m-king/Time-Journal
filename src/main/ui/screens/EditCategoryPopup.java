@@ -28,10 +28,9 @@ public class EditCategoryPopup extends Popup {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: valid UserSession
+    // MODIFIES: this
+    // EFFECTS: runs methods needed to render edit category popup
     public void initializeScreen() {
         stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         setFields();
@@ -42,10 +41,8 @@ public class EditCategoryPopup extends Popup {
         setEnterListener();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets up final vbox pane to render to scene
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -55,10 +52,8 @@ public class EditCategoryPopup extends Popup {
         pane = vbox;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets main label and instructions
     private void setFields() {
         setLabel();
         text = new Text("What would you like to change the name of the category to?");
@@ -67,9 +62,8 @@ public class EditCategoryPopup extends Popup {
         categoryName.setMaxWidth(300);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
+    // REQUIRES: category selected is not null
+    // MODIFIES: this
     // EFFECTS:
     private void setLabel() {
         label = new Label(
@@ -81,10 +75,9 @@ public class EditCategoryPopup extends Popup {
         label.setStyle("-fx-text-fill:#383838; -fx-font-size:25px;");
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this, UserSession
+    // EFFECTS: validates that a category is selected and is not null or uncategorized
+    //          if validated, remove category from UserSession's CategoryList
     public void editCategory() {
         try {
             userInterface.getCurrentSession().editCategory(userInterface
@@ -101,40 +94,28 @@ public class EditCategoryPopup extends Popup {
         }
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: displays alert if user successfully edited the category
     private void successAlert() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("You've successfully edited the category.");
         a.show();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: displays alert if user did not enter a name to change the category to
     private void nullEntryAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("Please enter a name for your category.");
         a.show();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: displays alert if user entered name of a category that already exists
     private void categoryAlreadyExistsAlert() {
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setContentText("That category name already exists.");
         a.show();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: sets enter key listener to submit form
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

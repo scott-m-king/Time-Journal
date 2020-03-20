@@ -11,6 +11,7 @@ import ui.UserInterface;
 import ui.screens.JournalLogScreen;
 
 public class JournalTableComponent {
+    private TableView<JournalEntry> journalEntryTableView;
     private TableColumn<JournalEntry, Integer> idColumn;
     private TableColumn<JournalEntry, String> descriptionColumn;
     private TableColumn<JournalEntry, Integer> durationColumn;
@@ -21,10 +22,7 @@ public class JournalTableComponent {
         initializeFields();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: initializes all fields in JournalTable object
     public void initializeFields() {
         idColumn();
         descriptionColumn();
@@ -33,40 +31,32 @@ public class JournalTableComponent {
         dateColumn();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: initializes 'Journal ID' field
     public void idColumn() {
         idColumn = new TableColumn<>("Journal ID");
         idColumn.setMinWidth(100);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("journalID"));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: initializes 'Description' field
     public void descriptionColumn() {
         descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setMinWidth(315);
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: initializes 'Duration' field
     public void durationColumn() {
         durationColumn = new TableColumn<>("Duration");
         durationColumn.setMinWidth(100);
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: initializes 'Category' field
     public void categoryColumn() {
         categoryColumn = new TableColumn<>("Category");
         categoryColumn.setMinWidth(100);
@@ -74,30 +64,39 @@ public class JournalTableComponent {
                 cellData.getValue().getCategory(), "name"));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: initializes 'Date' field
     public void dateColumn() {
         dateColumn = new TableColumn<>("Date");
         dateColumn.setMinWidth(100);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    public void renderJournalTable(JournalLogScreen journalLogScreen, UserInterface userInterface) {
-        userInterface.setJournalTableView(new TableView<>());
-        userInterface.getJournalTableView().setItems(journalLogScreen.getEntries());
-        userInterface.getJournalTableView().getColumns().addAll(idColumn, dateColumn,
-                categoryColumn, durationColumn, descriptionColumn);
-        userInterface.getJournalTableView().setPlaceholder(new Text("No journal entries yet!"));
-        AnchorPane.setTopAnchor(userInterface.getJournalTableView(), 95.0);
-        AnchorPane.setBottomAnchor(userInterface.getJournalTableView(), 30.0);
-        AnchorPane.setLeftAnchor(userInterface.getJournalTableView(), 230.0);
-        AnchorPane.setRightAnchor(userInterface.getJournalTableView(), 30.0);
+    // MODIFIES: this
+    // REQUIRES: an active JournalLogScreen and UserInterface
+    // EFFECTS: renders JournalLog table with fields
+    public void renderJournalTable(JournalLogScreen journalLogScreen) {
+        journalEntryTableView = new TableView<>();
+        journalEntryTableView.setItems(journalLogScreen.getEntries());
+        journalEntryTableView.getColumns().addAll(
+                idColumn,
+                dateColumn,
+                categoryColumn,
+                durationColumn,
+                descriptionColumn
+        );
+        setPlaceholderAndAnchors();
+    }
+
+    // MODIFIES: this
+    // REQUIRES: an instantiated table
+    // EFFECTS: sets the placeholder text of the table and sets anchors to fill screen
+    private void setPlaceholderAndAnchors() {
+        journalEntryTableView.setPlaceholder(new Text("No journal entries yet!"));
+        AnchorPane.setTopAnchor(journalEntryTableView, 95.0);
+        AnchorPane.setBottomAnchor(journalEntryTableView, 30.0);
+        AnchorPane.setLeftAnchor(journalEntryTableView, 230.0);
+        AnchorPane.setRightAnchor(journalEntryTableView, 30.0);
     }
 
     // Getters
@@ -119,5 +118,9 @@ public class JournalTableComponent {
 
     public TableColumn<JournalEntry, String> getDateColumn() {
         return dateColumn;
+    }
+
+    public TableView<JournalEntry> getJournalEntryTableView() {
+        return journalEntryTableView;
     }
 }

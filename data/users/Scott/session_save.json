@@ -4,7 +4,7 @@
       {
         "categoryID": 0,
         "name": "Uncategorized",
-        "duration": 30
+        "duration": 15
       },
       {
         "categoryID": 2,
@@ -27,9 +27,9 @@
         "duration": 60
       },
       {
-        "categoryID": 6,
+        "categoryID": 7,
         "name": "Sleep",
-        "duration": 150
+        "duration": 165
       }
     ]
   },
@@ -39,11 +39,11 @@
         "journalID": 1,
         "date": "2020-03-16",
         "description": "Took a nap",
-        "categoryID": 6,
+        "categoryID": 7,
         "category": {
-          "categoryID": 6,
+          "categoryID": 7,
           "name": "Sleep",
-          "duration": 150
+          "duration": 165
         },
         "duration": 30
       },
@@ -83,27 +83,15 @@
         },
         "duration": 150
       },
-      "9": {
-        "journalID": 9,
-        "date": "2020-03-16",
-        "description": "Did random stuff",
-        "categoryID": 0,
-        "category": {
-          "categoryID": 0,
-          "name": "Uncategorized",
-          "duration": 30
-        },
-        "duration": 15
-      },
       "11": {
         "journalID": 11,
         "date": "2020-03-17",
         "description": "Took a long nap",
-        "categoryID": 6,
+        "categoryID": 7,
         "category": {
-          "categoryID": 6,
+          "categoryID": 7,
           "name": "Sleep",
-          "duration": 150
+          "duration": 165
         },
         "duration": 120
       },
@@ -139,14 +127,26 @@
         "category": {
           "categoryID": 0,
           "name": "Uncategorized",
-          "duration": 30
+          "duration": 15
+        },
+        "duration": 15
+      },
+      "16": {
+        "journalID": 16,
+        "date": "2020-03-18",
+        "description": "Took a nap",
+        "categoryID": 7,
+        "category": {
+          "categoryID": 7,
+          "name": "Sleep",
+          "duration": 165
         },
         "duration": 15
       }
     }
   },
   "journalID": 17,
-  "categoryID": 7,
+  "categoryID": 8,
   "currentUser": "Scott",
   "userAvatar": "File:src/main/ui/resources/coffee.png",
   "userList": [

@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import ui.UserInterface;
 
+// Represents a SideBar component that is used in Screen classes
 public class SideBarComponent {
     private final UserInterface userInterface;
     private Button newJournalEntryButton;
@@ -30,32 +31,27 @@ public class SideBarComponent {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: valid UserInterface object
+    // MODIFIES: this
+    // EFFECTS: runs initialization of all components of sidebar
     public void renderSideBar() {
-        sideBarPane = populateSideBar();
-        setSideBarButtonListeners(sideBarPane);
-        initializeSideBar(sideBarPane);
-        userInterface.homePage(sideBarPane, homePageButton);
+        populateSideBar();
+        setSideBarButtonListeners();
+        setSideBarAnchorPane();
+        userInterface.getHomePageScreen().renderHomePage();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    public Pane populateSideBar() {
+    // MODIFIES: this
+    // EFFECTS: renders final sidebar pane
+    public void populateSideBar() {
         setSideBarColorAndAnchors();
         createMenuItems();
         paneBackground.getChildren().add(menuItems);
-        return paneBackground;
+        sideBarPane = paneBackground;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: creates a gridpane to populate with menu buttons, labels, and avatar picture
     public void createMenuItems() {
         menuItems = new GridPane();
         menuItems.setPadding(new Insets(15, 0, 0, 10));
@@ -70,28 +66,26 @@ public class SideBarComponent {
                 newJournalEntryButton,
                 homePageButton,
                 viewJournalLogButton,
-                viewCategoryListButton);
+                viewCategoryListButton
+        );
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: calls all methods relating to main title, avatar picture, and user name
+    //          sets the position of components in gridpane
     public void setSideBarTitleAndUser() {
         setAvatarAndName();
         setTitle();
-        setVBox();
+        createAvatarAndUsernameVBox();
         GridPane.setConstraints(timeJournal, 0, 0);
         GridPane.setHalignment(timeJournal, HPos.CENTER);
         GridPane.setConstraints(vbox, 0, 1);
         GridPane.setHalignment(vbox, HPos.CENTER);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    private void setVBox() {
+    // MODIFIES: this
+    // EFFECTS: creates a VBox to house avatar and username
+    private void createAvatarAndUsernameVBox() {
         vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
@@ -100,20 +94,17 @@ public class SideBarComponent {
         vbox.getChildren().addAll(userAvatar, userName);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets title of sidebar to 'Time Journal'
     private void setTitle() {
         timeJournal = new Label("Time Journal");
         timeJournal.setStyle("-fx-font-size: 25px;");
         timeJournal.setAlignment(Pos.CENTER);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: valid username and user avatar picture
+    // MODIFIES: this
+    // EFFECTS: sets the avatar and username to
     private void setAvatarAndName() {
         userAvatar = new ImageView(new Image(userInterface
                 .getCurrentSession()
@@ -127,10 +118,8 @@ public class SideBarComponent {
         userName.setWrapText(true);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets the colour of the sidebar background and anchors the dimensions to the top, left, bottom of stage
     public void setSideBarColorAndAnchors() {
         paneBackground = new Pane();
         paneBackground.setPrefWidth(200);
@@ -140,21 +129,17 @@ public class SideBarComponent {
         AnchorPane.setLeftAnchor(paneBackground, 0.0);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    public void initializeSideBar(Pane sideBar) {
+    // MODIFIES: this
+    // EFFECTS: creates AnchorPane to keep sidebar locked to the left of the screen when stage is resized
+    public void setSideBarAnchorPane() {
         AnchorPane anchorPane = new AnchorPane();
         Scene scene = new Scene(anchorPane);
         scene.getStylesheets().add("ui/style.css");
-        anchorPane.getChildren().addAll(sideBar, quit);
+        anchorPane.getChildren().addAll(sideBarPane, quit);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets the text and gridpane constraints of the sidebar buttons, sets anchors of quit button
     public void setSideBarButtons() {
         homePageButton = new Button("Home");
         GridPane.setConstraints(homePageButton, 0, 2);
@@ -173,34 +158,28 @@ public class SideBarComponent {
         AnchorPane.setLeftAnchor(quit, 10.0);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    public void setSideBarButtonListeners(Pane sideBar) {
+    // REQUIRES: all sidebar buttons to be instantiated
+    // EFFECTS: runs event listener methods on all sidebar buttons
+    public void setSideBarButtonListeners() {
         setCreateJournalEntryButtonListener();
-        setHomePageButtonListener(sideBar);
+        setHomePageButtonListener();
         setJournalLogButtonListener();
         setCategoryListButtonListener();
         setCloseAndSaveListeners();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    private void setHomePageButtonListener(Pane sideBar) {
+    // MODIFIES: this
+    // EFFECTS: sets button click listener for homepage button
+    private void setHomePageButtonListener() {
         homePageButton.setOnAction(e -> {
             userInterface.removeListeners();
             userInterface.clearButtonColours();
-            userInterface.homePage(sideBar, homePageButton);
+            userInterface.getHomePageScreen().renderHomePage();
         });
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button click listener for CreateJournalEntry button
     private void setCreateJournalEntryButtonListener() {
         newJournalEntryButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -209,10 +188,8 @@ public class SideBarComponent {
         });
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button click listener for JournalLog button
     private void setJournalLogButtonListener() {
         viewJournalLogButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -221,10 +198,8 @@ public class SideBarComponent {
         });
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button click listener for CategoryList button
     private void setCategoryListButtonListener() {
         viewCategoryListButton.setOnAction(e -> {
             userInterface.removeListeners();
@@ -233,10 +208,8 @@ public class SideBarComponent {
         });
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button click listener for Exit button
     private void setCloseAndSaveListeners() {
         userInterface.getMainStage().setOnCloseRequest(e -> {
             e.consume();

@@ -53,7 +53,6 @@ public abstract class Popup {
     // MODIFIES:
     // REQUIRES:
     // EFFECTS:
-    // THIS STAYS HERE!! called by popups that edit anything
     protected HBox makeFormButtons(Stage stage, String cameFrom, UserInterface ui) {
         HBox hbox = new HBox();
         hbox.setSpacing(10.0);

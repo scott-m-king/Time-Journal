@@ -46,23 +46,19 @@ public class AvatarPickerComponent {
     public AvatarPickerComponent() {
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets up visual elements and listeners for this screen
     public GridPane renderAvatarPicker() {
         setImagesFromResources();
         makeAvatarObservableList();
         setImagePositionsInGrid();
-        updateSelectedAvatar();
+        setMouseEvents();
         populateGridPane();
         return grid;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: populates grid with avatar images
     private void populateGridPane() {
         grid = new GridPane();
         grid.setVgap(15);
@@ -71,10 +67,8 @@ public class AvatarPickerComponent {
         grid.getChildren().addAll(avatarObservableList);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets ImageView variables from files
     private void setImagesFromResources() {
         image1 = new ImageView(new Image(IMAGE_1, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
         image2 = new ImageView(new Image(IMAGE_2, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
@@ -87,10 +81,8 @@ public class AvatarPickerComponent {
         image9 = new ImageView(new Image(IMAGE_9, IMAGE_DIMENSION, IMAGE_DIMENSION, false, true));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: creates observable list of ImageViews for the gridpane to use to populate
     public void makeAvatarObservableList() {
         avatarObservableList = FXCollections.observableArrayList();
         avatarObservableList.add(image1);
@@ -104,22 +96,7 @@ public class AvatarPickerComponent {
         avatarObservableList.add(image9);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    private void setImagePositionsInGrid() {
-        List<String> listOfURLs = listOfImageURLs();
-        for (int i = 0; i < avatarObservableList.size(); i++) {
-            GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
-            avatarObservableList.get(i).setId(listOfURLs.get(i));
-        }
-    }
-
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: creates list of URL strings to assign to ImageView objects as IDs
     private List<String> listOfImageURLs() {
         List<String> imageURLs = new ArrayList<>();
         imageURLs.add(IMAGE_1);
@@ -134,12 +111,21 @@ public class AvatarPickerComponent {
         return imageURLs;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // REQUIRES: non-empty ObservableList of ImageViews
+    // EFFECTS: places ImageView objects into gridpane and sets ID to URL to access image later
+    private void setImagePositionsInGrid() {
+        List<String> listOfURLs = listOfImageURLs();
+        for (int i = 0; i < avatarObservableList.size(); i++) {
+            GridPane.setConstraints(avatarObservableList.get(i), i % 3, i / 3);
+            avatarObservableList.get(i).setId(listOfURLs.get(i));
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets mouse handlers for ImageViews in gridpane (hover, button pressed)
     // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
-    private void updateSelectedAvatar() {
+    private void setMouseEvents() {
         for (int i = 0; i < avatarObservableList.size(); i++) {
             ImageView imageView = avatarObservableList.get(i);
             int finalI = i;
@@ -150,41 +136,35 @@ public class AvatarPickerComponent {
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 selectedAvatarImageView = new ImageView(imageView.getImage());
                 selectedAvatarURL = imageView.getId();
-                makeSelectionVFX(imageView, finalI);
+                selectionEffect(imageView, finalI);
             });
         }
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    private void makeSelectionVFX(ImageView imageView, int finalI) {
+    // MODIFIES: this
+    // EFFECTS: when icon is selected, places border with random colour around it
+    private void selectionEffect(ImageView imageView, int finalI) {
         putBackNoBorderImage();
         grid.getChildren().remove(imageView);
         putInSelectedImage(finalI);
         storeNoBorderImage(imageView, selectedAvatarImageView, finalI);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: puts back non-bordered image after another image is selected
     public void putBackNoBorderImage() {
         if (previouslySelectedImageViewUnBordered != null) {
             int col = previouslySelectedPosition % 3;
             int row = previouslySelectedPosition / 3;
-            grid.getChildren().remove(selectedAvatarImageView);
             GridPane.setConstraints(previouslySelectedImageViewUnBordered, col, row);
+            grid.getChildren().remove(selectedAvatarImageView);
             grid.getChildren().remove(previouslySelectedImageViewBordered);
             grid.getChildren().add(previouslySelectedImageViewUnBordered);
         }
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: renders image with randomized colour border and adds it to the gridpane
     public void putInSelectedImage(int i) {
         int r = new Random().nextInt(255);
         int g = new Random().nextInt(255);
@@ -197,20 +177,15 @@ public class AvatarPickerComponent {
         grid.getChildren().add(selectedAvatarImageView);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: stores the position and non-border icon to put back into gridpane after another image is selected
     public void storeNoBorderImage(ImageView unBordered, ImageView bordered, int position) {
         previouslySelectedImageViewUnBordered = unBordered;
         previouslySelectedImageViewBordered = bordered;
         previouslySelectedPosition = position;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // getter for selected image URL for use in UserSession
     public String getSelectedAvatarImageURL() {
         return selectedAvatarURL;
     }

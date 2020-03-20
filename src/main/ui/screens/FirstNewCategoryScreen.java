@@ -24,10 +24,7 @@ public class FirstNewCategoryScreen extends Screen {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: runs methods needed to initialize this screen
     public void renderFirstNewCategoryScreen() {
         setScreenLabel();
         setTextField();
@@ -37,10 +34,8 @@ public class FirstNewCategoryScreen extends Screen {
         setEnterListener();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: creates final vbox pane to display all elements in scene
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -50,10 +45,8 @@ public class FirstNewCategoryScreen extends Screen {
         pane = vbox;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: instantiates and sets screen's main label
     public void setScreenLabel() {
         nameLabel = new Label("Let's start with creating your first category.\n"
                 + "Enter a name for your category below:");
@@ -61,10 +54,8 @@ public class FirstNewCategoryScreen extends Screen {
         nameLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: instantiates and sets screen's text entry field
     public void setTextField() {
         categoryName = new TextField();
         categoryName.setMaxWidth(300);
@@ -72,32 +63,17 @@ public class FirstNewCategoryScreen extends Screen {
         categoryName.setAlignment(Pos.CENTER);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: instantiates and sets this screen's submit button
     public void setStartButton() {
         startJournal = new Button("Get Started");
         startJournal.setAlignment(Pos.CENTER);
         setButtonHandler(startJournal);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    public void setEnterListener() {
-        pane.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                submitForm();
-            }
-        });
-    }
-
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: UserSession
+    // EFFECTS: validates if form is properly filled out
+    //          if validated, creates first new category and adds it to UserSession's CategoryList
     private void submitForm() {
         try {
             userInterface.getCurrentSession().createNewCategory(categoryName.getText());
@@ -113,11 +89,19 @@ public class FirstNewCategoryScreen extends Screen {
         }
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets event listener for button click, tries to submit form if clicked
     public void setButtonHandler(Button startJournal) {
         startJournal.setOnAction(e -> submitForm());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets enter key listener to submit form
+    public void setEnterListener() {
+        pane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                submitForm();
+            }
+        });
     }
 }
