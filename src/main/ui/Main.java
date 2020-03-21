@@ -1,3 +1,5 @@
+package ui;
+
 import javafx.application.Application;
 import ui.UserInterface;
 
