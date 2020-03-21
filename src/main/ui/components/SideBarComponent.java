@@ -113,7 +113,7 @@ public class SideBarComponent {
                 105,
                 false,
                 true));
-        userName = new Label(userInterface.getCurrentSession().getUserName());
+        userName = new Label(userInterface.getCurrentSession().getCurrentUser());
         userName.setStyle("-fx-font-size: 22px;");
         userName.setWrapText(true);
     }

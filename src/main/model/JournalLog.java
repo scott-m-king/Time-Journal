@@ -24,6 +24,7 @@ public class JournalLog {
         entry.getCategory().addDuration(entry.getDuration());
     }
 
+    // REQUIRES: valid journal ID as key
     // MODIFIES: this
     // EFFECTS: if category exists, deletes a journal entry from the log and adjusts category totals and returns true
     public boolean delete(int id) {

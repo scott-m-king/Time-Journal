@@ -56,7 +56,7 @@ public class SaveReaderTest extends PersistenceTest {
             assertEquals("test1", loadedSession.getJournalLog().getValue(0).getDescription());
             assertEquals("test2", loadedSession.getJournalLog().getValue(1).getDescription());
             assertEquals("test3", loadedSession.getJournalLog().getValue(2).getDescription());
-            assertEquals("test", loadedSession.getUserName());
+            assertEquals("test", loadedSession.getCurrentUser());
             assertEquals("Uncategorized", loadedSession.getCategoryList().get(0).getName());
         } catch (IOException e) {
             fail("Exception thrown...");

@@ -1,0 +1,49 @@
+{
+  "categoryList": {
+    "categoryList": [
+      {
+        "categoryID": 1,
+        "name": "test1",
+        "duration": 10
+      },
+      {
+        "categoryID": 2,
+        "name": "test2",
+        "duration": 10
+      }
+    ]
+  },
+  "journalLog": {
+    "journalLog": {
+      "1": {
+        "journalID": 1,
+        "date": "2020-03-20",
+        "description": "test1",
+        "categoryID": 1,
+        "category": {
+          "categoryID": 1,
+          "name": "test1",
+          "duration": 10
+        },
+        "duration": 10
+      },
+      "2": {
+        "journalID": 2,
+        "date": "2020-03-20",
+        "description": "test2",
+        "categoryID": 2,
+        "category": {
+          "categoryID": 2,
+          "name": "test2",
+          "duration": 10
+        },
+        "duration": 10
+      }
+    }
+  },
+  "journalID": 3,
+  "categoryID": 3,
+  "currentUser": "test user 1338892390",
+  "userAvatar": "File:src/main/ui/resources/dog.png",
+  "userList": []
+}

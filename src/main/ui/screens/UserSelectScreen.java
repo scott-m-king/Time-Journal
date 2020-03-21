@@ -10,8 +10,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import model.UserSession;
 import ui.UserInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserSelectScreen extends Screen {
@@ -82,9 +84,10 @@ public class UserSelectScreen extends Screen {
     //          if validated, creates first new category and adds it to UserSession's CategoryList
     public void selectUser() {
         try {
-            userInterface.getCurrentSession().selectUser(comboBox.getSelectionModel().getSelectedItem());
+            userInterface.getCurrentSession().selectUser(
+                    comboBox.getSelectionModel().getSelectedItem(), UserSession.USERS_LOCATION);
             userInterface.getSideBarComponent().renderSideBar();
-        } catch (NullEntryException exception) {
+        } catch (NullEntryException | IOException exception) {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText("Please select a user.");
             a.show();

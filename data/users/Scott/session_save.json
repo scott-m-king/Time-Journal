@@ -14,7 +14,7 @@
       {
         "categoryID": 3,
         "name": "Transportation",
-        "duration": 75
+        "duration": 375
       },
       {
         "categoryID": 4,
@@ -24,7 +24,7 @@
       {
         "categoryID": 5,
         "name": "Exercise",
-        "duration": 60
+        "duration": 75
       },
       {
         "categoryID": 7,
@@ -55,7 +55,7 @@
         "category": {
           "categoryID": 3,
           "name": "Transportation",
-          "duration": 75
+          "duration": 375
         },
         "duration": 60
       },
@@ -67,7 +67,7 @@
         "category": {
           "categoryID": 3,
           "name": "Transportation",
-          "duration": 75
+          "duration": 375
         },
         "duration": 15
       },
@@ -103,7 +103,7 @@
         "category": {
           "categoryID": 5,
           "name": "Exercise",
-          "duration": 60
+          "duration": 75
         },
         "duration": 60
       },
@@ -142,14 +142,40 @@
           "duration": 165
         },
         "duration": 15
+      },
+      "17": {
+        "journalID": 17,
+        "date": "2020-03-20",
+        "description": "Went for a run",
+        "categoryID": 5,
+        "category": {
+          "categoryID": 5,
+          "name": "Exercise",
+          "duration": 75
+        },
+        "duration": 15
+      },
+      "18": {
+        "journalID": 18,
+        "date": "2020-03-20",
+        "description": "Walked to school",
+        "categoryID": 3,
+        "category": {
+          "categoryID": 3,
+          "name": "Transportation",
+          "duration": 375
+        },
+        "duration": 300
       }
     }
   },
-  "journalID": 17,
+  "journalID": 19,
   "categoryID": 8,
   "currentUser": "Scott",
   "userAvatar": "File:src/main/ui/resources/coffee.png",
   "userList": [
-    "Scott"
+    "Scott",
+    "John",
+    "Jane"
   ]
 }

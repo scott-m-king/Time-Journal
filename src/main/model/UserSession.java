@@ -21,6 +21,7 @@ public class UserSession {
     private String userAvatar;             // URL of user's chosen avatar
     private ArrayList<String> userList;    // list of all users
 
+    public static final String USERS_LOCATION = "./data/users/";
     public static final String USER_SAVE_FILE = "./data/users_save.json";   // user list
     public static final String SESSION_SAVE_FILE = "session_save.json";     // user save file
 
@@ -84,34 +85,33 @@ public class UserSession {
 
     // EFFECTS: if save file doesn't already exist, create new directory and write save file to that directory
     //          if save file exists, overwrites existing file with new save file
-    public void saveEntries() {
+    public void saveEntries(String locationUser, String locationUserList) {
         try {
-            saveUserSession();
-            saveUserList();
-        } catch (FileNotFoundException e) {
-            new File("./data/users/" + currentUser + "/").mkdir();
-            saveEntries();
-        } catch (IOException e) {
-            // programming error
-            System.out.println("We shouldn't have arrived here... Something's probably wrong with save file.");
+            saveUserSession(locationUser);
+            saveUserList(locationUserList);
+        } catch (Exception e) {
+            new File(locationUser + currentUser + "/").mkdir();
+            saveEntries(locationUser, locationUserList);
         }
     }
 
     // MODIFIES: SaveWriter
     // EFFECTS: tries to save this UserSession, throws IOException if unsuccessful
-    private void saveUserSession() throws IOException {
-        SaveWriter sessionSave = new SaveWriter(new File("./data/users/"
+    private void saveUserSession(String location) throws IOException {
+        SaveWriter sessionSave = new SaveWriter(new File(
+                location
                 + currentUser
                 + "/"
-                + SESSION_SAVE_FILE));
+                + SESSION_SAVE_FILE
+        ));
         sessionSave.save(this);
         sessionSave.close();
     }
 
     // MODIFIES: SaveWriter
     // EFFECTS: tries to save userList in current UserSession, throws IOException if unsuccessful
-    private void saveUserList() throws IOException {
-        SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
+    private void saveUserList(String location) throws IOException {
+        SaveWriter userListSave = new SaveWriter(new File(location));
         userListSave.save(userList);
         userListSave.close();
     }
@@ -119,29 +119,26 @@ public class UserSession {
     // MODIFIES: this
     // EFFECTS: if selected user is not null, sets current session user to selected user
     //          otherwise, throw NullEntryException
-    public void selectUser(String choice) throws NullEntryException {
+    public void selectUser(String choice, String location) throws NullEntryException, IOException {
         if (choice == null) {
             throw new NullEntryException();
         }
         currentUser = choice;
-        loadEntries();
+        loadEntries(location);
     }
 
     // MODIFIES: this
     // EFFECTS: tries to load user's previously saved UserSession
     //          if not found or corrupt, print message to console and start a new session
-    private void loadEntries() {
+    public void loadEntries(String location) throws IOException {
         try {
-            SaveReader journalReader = new SaveReader("./data/users/"
+            SaveReader journalReader = new SaveReader(location
                     + currentUser + "/" + SESSION_SAVE_FILE);
             UserSession loadedSession = journalReader.readUserSession();
             loadSessionFields(loadedSession);
             System.out.println("Save file successfully loaded. \n");
         } catch (FileNotFoundException e) {
             System.out.println("Save file does not exist. New session will be started.\n");
-            newSession();
-        } catch (IOException e) {
-            System.out.println("Invalid save file. New session will be started. \n");
             newSession();
         }
     }
@@ -186,6 +183,7 @@ public class UserSession {
         journalLog.add(newEntry);
     }
 
+    // REQUIRES: existing Journal ID as key (toDelete)
     // MODIFIES: this
     // EFFECTS: asks user which journal entry to delete and deletes it from journalLog
     public void deleteJournalEntry(int toDelete) {
@@ -202,6 +200,7 @@ public class UserSession {
     }
 
 
+    // REQUIRES: non-null changeTo string
     // MODIFIES: this, Category, CategoryList
     // EFFECTS: - asks user which category to edit
     //          - checks that the category exists
@@ -282,6 +281,14 @@ public class UserSession {
         return journalLog;
     }
 
+    public int getJournalID() {
+        return journalID;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
     public ArrayList<String> getUserList() {
         return userList;
     }
@@ -290,7 +297,7 @@ public class UserSession {
         return userAvatar;
     }
 
-    public String getUserName() {
+    public String getCurrentUser() {
         return currentUser;
     }
 

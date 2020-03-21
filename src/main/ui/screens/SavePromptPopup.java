@@ -12,6 +12,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ui.UserInterface;
 
+import java.io.IOException;
+
+import static model.UserSession.USERS_LOCATION;
+import static model.UserSession.USER_SAVE_FILE;
+
 public class SavePromptPopup extends Popup {
     private final UserInterface userInterface;
     private Button yes;
@@ -77,7 +82,7 @@ public class SavePromptPopup extends Popup {
     // EFFECTS: sets button listeners for yes/no/cancel, defines actions if triggered
     public void saveButtonListeners() {
         yes.setOnAction(e -> {
-            userInterface.getCurrentSession().saveEntries();
+            userInterface.getCurrentSession().saveEntries(USERS_LOCATION, USER_SAVE_FILE);
             Platform.exit();
             System.exit(0);
         });

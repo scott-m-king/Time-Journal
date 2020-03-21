@@ -1,7 +1,5 @@
 package persistence;
 
-import model.Category;
-import model.JournalEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.UserSession;
@@ -60,7 +58,7 @@ public class SaveWriterTest extends PersistenceTest {
             UserSession loadedSession = testSaveReaderSession.readUserSession();
             assertEquals(5, loadedSession.getCategoryList().getSize());
             assertEquals(10, loadedSession.getJournalLog().getSize());
-            assertEquals("test", loadedSession.getUserName());
+            assertEquals("test", loadedSession.getCurrentUser());
             assertEquals("File:src/main/ui/resources/pigeon.png", loadedSession.getUserAvatar());
         } catch (IOException e) {
             fail("Exception thrown...");
