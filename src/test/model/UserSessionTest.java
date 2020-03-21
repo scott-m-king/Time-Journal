@@ -155,13 +155,32 @@ public class UserSessionTest {
     public void testLoadEntriesSuccess() {
         int initialJournalID = testUserSession.getJournalID();
         int initialCategoryID = testUserSession.getCategoryID();
+        testUserSession.newSession();
         try {
+            testUserSession.saveEntries(TEST_SAVE_LOCATION, USERS_SAVE_LOCATION);
             testUserSession.loadEntries(TEST_SAVE_LOCATION);
         } catch (IOException e) {
             fail("shouldn't have got here");
         }
         assertEquals(initialJournalID, testUserSession.getJournalID());
         assertEquals(initialCategoryID, testUserSession.getCategoryID());
+    }
+
+    @Test
+    public void testLoadEntriesFreshLists() {
+        testUserSession.setJournalLog(new JournalLog());
+        testUserSession.setCategoryList(new CategoryList());
+        testUserSession.newSession();
+        testUserSession.setJournalID(1);
+        testUserSession.setCategoryID(1);
+        try {
+            testUserSession.saveEntries(TEST_SAVE_LOCATION, USERS_SAVE_LOCATION);
+            testUserSession.loadEntries(TEST_SAVE_LOCATION);
+        } catch (IOException e) {
+            fail("shouldn't have got here");
+        }
+        assertEquals(1, testUserSession.getJournalID());
+        assertEquals(1, testUserSession.getCategoryID());
     }
 
     @Test
