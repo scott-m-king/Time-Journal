@@ -25,31 +25,16 @@ public class SavePromptPopup extends Popup {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: runs methods needed to render save prompt popup
     public void renderSavePopup() {
         stage = createPopupStage(300, 100);
         initializeFinalPane();
         initializeScreen();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
-    private void initializeScreen() {
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        userInterface.setMiddle(stage);
-        stage.show();
-    }
-
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: creates and aligns final gridpane to display label and buttons
     @Override
     protected void initializeFinalPane() {
         GridPane gridPane = new GridPane();
@@ -65,10 +50,17 @@ public class SavePromptPopup extends Popup {
         pane = gridPane;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: loads final pane onto stage and shows stage
+    private void initializeScreen() {
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        userInterface.setMiddle(stage);
+        stage.show();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates button and sets hbox layout
     private void setButtonLayout() {
         buttonPane = new HBox();
         yes = new Button("Yes");
@@ -81,10 +73,8 @@ public class SavePromptPopup extends Popup {
         saveButtonListeners();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button listeners for yes/no/cancel, defines actions if triggered
     public void saveButtonListeners() {
         yes.setOnAction(e -> {
             userInterface.getCurrentSession().saveEntries();

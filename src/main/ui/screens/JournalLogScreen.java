@@ -90,7 +90,7 @@ public class JournalLogScreen extends Screen {
     // MODIFIES: UserInterface, JournalEntryCreateScreen
     // EFFECTS: clears button colors and navigates to JournalEntryCreateScreen
     protected void createButtonAction() {
-        userInterface.clearButtonColours();
+        userInterface.getSideBarComponent().clearButtonColours(userInterface);
         userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
     }
 

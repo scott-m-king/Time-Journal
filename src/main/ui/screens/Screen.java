@@ -23,20 +23,17 @@ public abstract class Screen {
 
     protected abstract void initializeFinalPane();
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: pane with at least one child node, active stage
+    // EFFECTS: creates loads pane to new scene, adds CSS stylesheet, sets scene to stage
     protected void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: non-null string denoting which page used this method, active UserInterface
+    // MODIFIES: this
+    // EFFECTS: returns a generic hbox pane containing submit and cancel buttons (for popup forms)
     protected HBox makeFormButtons(String cameFrom, UserInterface ui) {
         HBox hbox = new HBox();
         hbox.setSpacing(15.0);
@@ -57,10 +54,8 @@ public abstract class Screen {
         return hbox;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: active stage, non-null cameFrom string, active UserInterface
+    // EFFECTS: sets button listeners and actions depending on class that called this method
     public void setFormButtonListeners(String cameFrom, UserInterface ui) {
         switch (cameFrom) {
             case JOURNAL_LOG:
@@ -76,19 +71,13 @@ public abstract class Screen {
         }
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: plays a success sound once
     public void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: plays a delete sound once
     public void playDeleteSound() {
         AudioClip failSound = Applet.newAudioClip(getClass().getResource(FAILURE_SOUND));
         failSound.play();

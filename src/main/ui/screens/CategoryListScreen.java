@@ -37,7 +37,6 @@ public class CategoryListScreen extends Screen {
         this.userInterface = userInterface;
     }
 
-    // REQUIRES: valid UserSession
     // MODIFIES: this
     // EFFECTS: runs methods needed to render category list screen
     public void renderCategoryListScreen() {
@@ -69,7 +68,7 @@ public class CategoryListScreen extends Screen {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets main page label text and anchors
+    // EFFECTS: sets and anchors main page label text
     private void setMainLabel() {
         title = new Text();
         title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));

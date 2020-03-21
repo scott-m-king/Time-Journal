@@ -34,8 +34,8 @@ public class CategoryChartComponent {
         return chart;
     }
 
-    // MODIFIES: this
     // REQUIRES: a valid piechart
+    // MODIFIES: this
     // EFFECTS: anchors piechart on screen such that it fills an empty Screen
     private void setPieChartPosition(PieChart chart) {
         chart.setLegendSide(Side.RIGHT);
@@ -57,8 +57,8 @@ public class CategoryChartComponent {
         return caption;
     }
 
-    // MODIFIES: this
     // REQUIRES: at least one category in the CategoryList
+    // MODIFIES: this
     // EFFECTS: sets hover effects of each category to show % time spent and total duration of given category
     private void setHoverLabel(Label caption, PieChart.Data data) {
         int currentCategoryDuration = userInterface.getCurrentSession().getTotalCategoryDuration();

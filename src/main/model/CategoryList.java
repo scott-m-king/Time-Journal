@@ -43,36 +43,6 @@ public class CategoryList {
         return categoryList.size();
     }
 
-    // EFFECTS: prints list of categories to screen
-    public String printList() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < categoryList.size(); i++) {
-            builder.append(i + 1);
-            builder.append(". ");
-            builder.append(categoryList.get(i).getName());
-            builder.append(". You spent ");
-            builder.append(categoryList.get(i).getDuration());
-            builder.append(" minutes on this category. ");
-            builder.append("\n");
-        }
-        return builder.toString();
-    }
-
-    // EFFECTS: prints list of categories to screen except for 'Uncategorized'
-    public String printListExceptUncategorized() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 1; i < categoryList.size(); i++) {
-            builder.append(i);
-            builder.append(". ");
-            builder.append(categoryList.get(i).getName());
-            builder.append(". You spent ");
-            builder.append(categoryList.get(i).getDuration());
-            builder.append(" minutes on this category. ");
-            builder.append("\n");
-        }
-        return builder.toString();
-    }
-
     // EFFECTS: returns category of index in list
     public Category get(int i) {
         return categoryList.get(i);
@@ -88,13 +58,22 @@ public class CategoryList {
         return null;
     }
 
-    // EFFECTS: returns true if category already exists in the list, false otherwise
+    // EFFECTS: returns true if category already exists in the list, false otherwise (case insensitive)
     public boolean isDuplicateName(String name) {
+        char[] originalString = name.toCharArray();
+
+        for (int i = 0; i < originalString.length; i++) {
+            originalString[i] = Character.toLowerCase(originalString[i]);
+        }
+
+        String updatedString = new String(originalString);
+
         for (Category c : categoryList) {
-            if (name.equals(c.getName())) {
+            if (updatedString.equals(c.getName().toLowerCase())) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -110,6 +89,10 @@ public class CategoryList {
             arr.add(c.getCategoryID());
         }
         return Collections.max(arr) + 1;
+    }
+
+    public void insert(Category category) {
+        categoryList.add(0, category);
     }
 
 }

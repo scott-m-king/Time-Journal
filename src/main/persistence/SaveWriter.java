@@ -1,7 +1,7 @@
 package persistence;
 
 import com.google.gson.*;
-import ui.UserSession;
+import model.UserSession;
 
 import java.io.IOException;
 import java.io.FileWriter;
@@ -21,14 +21,14 @@ public class SaveWriter {
         writer = new FileWriter(file);
     }
 
-    // MODIFIES: this, ./data/session_save.json
+    // MODIFIES: this
     // EFFECTS: serializes user session to JSON and writes to save file
     public void save(UserSession userSession) {
         gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(userSession, writer);
     }
 
-    // MODIFIES: this, ./data/users_save.json
+    // MODIFIES: this
     // EFFECTS: serializes user list to JSON and writes to save file
     public void save(ArrayList<String> userList) {
         gson = new GsonBuilder().setPrettyPrinting().create();

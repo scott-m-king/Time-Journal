@@ -32,7 +32,7 @@ public class JournalTableComponent {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes 'Journal ID' field
+    // EFFECTS: initializes 'Journal ID' field for use with TableView
     public void idColumn() {
         idColumn = new TableColumn<>("Journal ID");
         idColumn.setMinWidth(100);
@@ -40,7 +40,7 @@ public class JournalTableComponent {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes 'Description' field
+    // EFFECTS: initializes 'Description' field for use with TableView
     public void descriptionColumn() {
         descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setMinWidth(315);
@@ -48,7 +48,7 @@ public class JournalTableComponent {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes 'Duration' field
+    // EFFECTS: initializes 'Duration' field for use with TableView
     public void durationColumn() {
         durationColumn = new TableColumn<>("Duration");
         durationColumn.setMinWidth(100);
@@ -56,7 +56,7 @@ public class JournalTableComponent {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes 'Category' field
+    // EFFECTS: initializes 'Category' field for use with TableView
     public void categoryColumn() {
         categoryColumn = new TableColumn<>("Category");
         categoryColumn.setMinWidth(100);
@@ -65,15 +65,15 @@ public class JournalTableComponent {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes 'Date' field
+    // EFFECTS: initializes 'Date' field for use with TableView
     public void dateColumn() {
         dateColumn = new TableColumn<>("Date");
         dateColumn.setMinWidth(100);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
 
-    // MODIFIES: this
     // REQUIRES: an active JournalLogScreen and UserInterface
+    // MODIFIES: this
     // EFFECTS: renders JournalLog table with fields
     public void renderJournalTable(JournalLogScreen journalLogScreen) {
         journalEntryTableView = new TableView<>();
@@ -88,8 +88,8 @@ public class JournalTableComponent {
         setPlaceholderAndAnchors();
     }
 
-    // MODIFIES: this
     // REQUIRES: an instantiated table
+    // MODIFIES: this
     // EFFECTS: sets the placeholder text of the table and sets anchors to fill screen
     private void setPlaceholderAndAnchors() {
         journalEntryTableView.setPlaceholder(new Text("No journal entries yet!"));

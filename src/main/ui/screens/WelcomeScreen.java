@@ -17,20 +17,15 @@ public class WelcomeScreen extends Screen {
         this.userInterface = userInterface;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: runs methods needed to initialize this screen
     public void renderWelcomeScreen() {
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
         userInterface.getMainStage().show();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: creates final gridpane pane to display all elements in scene, sets buttons and labels
     @Override
     protected void initializeFinalPane() {
         Label title = setPageLabel();
@@ -43,10 +38,7 @@ public class WelcomeScreen extends Screen {
         pane = vbox;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: returns main page label
     public Label setPageLabel() {
         Label title = new Label("Time Journal");
         title.setStyle("-fx-font-size: 70px; -fx-text-fill: #383838;");
@@ -54,10 +46,7 @@ public class WelcomeScreen extends Screen {
         return title;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: returns gridpane with button listeners
     public GridPane setGridPane(Button newUserButton, Button returningUserButton) {
         GridPane grid = new GridPane();
         grid.setVgap(8);
@@ -68,19 +57,14 @@ public class WelcomeScreen extends Screen {
         return grid;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets button listeners and triggers page load
     public void setButtonListeners(Button newUserButton, Button returningUserButton) {
         newUserButton.setOnAction(e -> userInterface.getNewUserWelcomeScreen().renderNewUserWelcomeScreen());
         returningUserButton.setOnAction(e -> userInterface.getUserSelectScreen().renderUserSelectScreen());
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: returns returning user button
     public Button returningUserButton() {
         Button returningUserButton = new Button("Returning User");
         returningUserButton.setMinWidth(100);
@@ -88,10 +72,7 @@ public class WelcomeScreen extends Screen {
         return returningUserButton;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // EFFECTS: returns new user button
     public Button newUserButton() {
         Button newUserButton = new Button("New User");
         newUserButton.setMinWidth(100);

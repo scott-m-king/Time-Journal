@@ -70,38 +70,44 @@ public class CategoryListTest {
     }
 
     @Test
-    public void testPrintList() {
-        Category sleep = new Category(2, "Sleep");
-        testList.add(sleep);
-        assertEquals("1. Uncategorized. You spent 0 minutes on this category. \n" +
-                "2. test. You spent 0 minutes on this category. \n" +
-                "3. Sleep. You spent 0 minutes on this category. \n", testList.printList());
-        JournalEntry testEntry = new JournalEntry(
-                1, "test", sleep.getCategoryID(), sleep, 30);
-        JournalLog testLog = new JournalLog();
-        testLog.add(testEntry);
-        assertEquals("1. Uncategorized. You spent 0 minutes on this category. \n" +
-                "2. test. You spent 0 minutes on this category. \n" +
-                "3. Sleep. You spent 30 minutes on this category. \n", testList.printList());
+    public void testIsDuplicateNameTrue() {
+        testList.add(new Category(2, "test2"));
+        assertTrue(testList.isDuplicateName("TEST"));
+        assertTrue(testList.isDuplicateName("test"));
+        assertTrue(testList.isDuplicateName("test2"));
+        assertTrue(testList.isDuplicateName("TEst2"));
+        assertTrue(testList.isDuplicateName("tEST2"));
     }
 
     @Test
-    public void testPrintListExceptUncategorized() {
-        Category sleep = new Category(2, "Sleep");
-        testList.add(sleep);
-        assertEquals("1. test. You spent 0 minutes on this category. \n" +
-                "2. Sleep. You spent 0 minutes on this category. \n", testList.printListExceptUncategorized());
-        JournalEntry testEntry = new JournalEntry(
-                1, "test", sleep.getCategoryID(), sleep, 30);
-        JournalLog testLog = new JournalLog();
-        testLog.add(testEntry);
-        assertEquals("1. test. You spent 0 minutes on this category. \n" +
-                "2. Sleep. You spent 30 minutes on this category. \n", testList.printListExceptUncategorized());
+    public void testIsDuplicateNameFalse() {
+        testList.add(new Category(2, "test2"));
+        assertFalse(testList.isDuplicateName("test 2"));
+        assertFalse(testList.isDuplicateName("TestTwo"));
+    }
+
+    @Test
+    public void testGetCategoryByName() {
+        Category test2 = new Category(2, "test2");
+        Category test3 = new Category(3, "test3");
+        testList.add(test2);
+        testList.add(test3);
+        assertEquals(test2, testList.get("test2"));
+        assertEquals(test3, testList.get("test3"));
+        assertNull(testList.get("test4"));
     }
 
     @Test
     public void testGetCategoryList() {
         assertEquals(testList.get(0), testList.getCategoryList().get(0));
+    }
+
+    @Test
+    public void testGetNextCategoryID() {
+        assertEquals(2, testList.getNextCategoryID());
+        testList.add(new Category(2, "test2"));
+        testList.add(new Category(3, "test3"));
+        assertEquals(4, testList.getNextCategoryID());
     }
 
 }

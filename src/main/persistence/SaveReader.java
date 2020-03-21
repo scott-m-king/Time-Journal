@@ -1,7 +1,7 @@
 package persistence;
 
 import com.google.gson.Gson;
-import ui.UserSession;
+import model.UserSession;
 
 import java.io.FileReader;
 import java.io.IOException;

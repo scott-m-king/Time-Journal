@@ -1,12 +1,8 @@
-package ui;
+package model;
 
 import exceptions.CategoryExistsException;
 import exceptions.NegativeNumberException;
 import exceptions.NullEntryException;
-import model.Category;
-import model.CategoryList;
-import model.JournalEntry;
-import model.JournalLog;
 import persistence.SaveReader;
 import persistence.SaveWriter;
 
@@ -15,10 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Design inspired by Teller App: https://github.students.cs.ubc.ca/CPSC210/TellerApp
- */
-
 // Represents a user session
 public class UserSession {
     private CategoryList categoryList;     // declaration of new CategoryList
@@ -26,11 +18,11 @@ public class UserSession {
     private int journalID = 1;             // starting ID of first journal entry, incremented by 1 for each new entry
     private int categoryID = 1;            // starting ID of first category (after Uncategorized)
     private String currentUser;            // current session user
-    private String userAvatar;
+    private String userAvatar;             // URL of user's chosen avatar
     private ArrayList<String> userList;    // list of all users
 
-    public static final String USER_SAVE_FILE = "./data/users_save.json";
-    public static final String SESSION_SAVE_FILE = "session_save.json";
+    public static final String USER_SAVE_FILE = "./data/users_save.json";   // user list
+    public static final String SESSION_SAVE_FILE = "session_save.json";     // user save file
 
     // EFFECTS: runs time journal application and instantiates new category list, journal log, loads users
     public UserSession() {
@@ -39,35 +31,11 @@ public class UserSession {
         userList = new ArrayList<>();
     }
 
-    // Getters and setters
-    public CategoryList getCategoryList() {
-        return categoryList;
-    }
-
-    public JournalLog getJournalLog() {
-        return journalLog;
-    }
-
-    public ArrayList<String> getUserList() {
-        return userList;
-    }
-
-    public String getUserAvatar() {
-        return userAvatar;
-    }
-
-    public void setUserAvatar(String fileName) {
-        this.userAvatar = fileName;
-    }
-
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
-    public boolean isFirstTime() {
+    // EFFECTS: tries to load user save file, if successful returns false, otherwise returns true
+    public boolean isFirstTime(String userFile) {
         boolean isFirstTime = false;
         try {
-            SaveReader userReader = new SaveReader(USER_SAVE_FILE);
+            SaveReader userReader = new SaveReader(userFile);
             userList = userReader.readUserList();
         } catch (IOException e) {
             isFirstTime = true;
@@ -75,15 +43,27 @@ public class UserSession {
         return isFirstTime;
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // REQUIRES: non-null input (empty string ok)
+    // MODIFIES: this
+    // EFFECTS: if input is not an empty string, set currentUser to input
+    //          otherwise, throw NullEntryException
     public void setCurrentUser(String user) throws NullEntryException {
         if (user.equals("")) {
             throw new NullEntryException();
         } else {
             this.currentUser = user;
+        }
+    }
+
+    // REQUIRES: null or existing file URL - doesn't handle URL not found exception
+    // MODIFIES: this
+    // EFFECTS: if fileURL is not null, set userAvatar to image at fileURL location
+    //          otherwise, throw NullEntryException
+    public void setUserAvatar(String fileURL) throws NullEntryException {
+        if (fileURL != null) {
+            this.userAvatar = fileURL;
+        } else {
+            throw new NullEntryException();
         }
     }
 
@@ -99,11 +79,11 @@ public class UserSession {
     public void newSession() {
         userList.add(currentUser);
         Category uncategorized = new Category(0, "Uncategorized");
-        categoryList.add(uncategorized);
+        categoryList.insert(uncategorized);
     }
 
-    // MODIFIES: save files
-    // EFFECTS: saves CategoryList and JournalLog to JSON files
+    // EFFECTS: if save file doesn't already exist, create new directory and write save file to that directory
+    //          if save file exists, overwrites existing file with new save file
     public void saveEntries() {
         try {
             saveUserSession();
@@ -117,10 +97,8 @@ public class UserSession {
         }
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // MODIFIES: SaveWriter
+    // EFFECTS: tries to save this UserSession, throws IOException if unsuccessful
     private void saveUserSession() throws IOException {
         SaveWriter sessionSave = new SaveWriter(new File("./data/users/"
                 + currentUser
@@ -130,10 +108,8 @@ public class UserSession {
         sessionSave.close();
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // MODIFIES: SaveWriter
+    // EFFECTS: tries to save userList in current UserSession, throws IOException if unsuccessful
     private void saveUserList() throws IOException {
         SaveWriter userListSave = new SaveWriter(new File(USER_SAVE_FILE));
         userListSave.save(userList);
@@ -141,7 +117,8 @@ public class UserSession {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets current session user
+    // EFFECTS: if selected user is not null, sets current session user to selected user
+    //          otherwise, throw NullEntryException
     public void selectUser(String choice) throws NullEntryException {
         if (choice == null) {
             throw new NullEntryException();
@@ -150,12 +127,9 @@ public class UserSession {
         loadEntries();
     }
 
-    public String getUserName() {
-        return currentUser;
-    }
-
     // MODIFIES: this
-    // EFFECTS: Updates current object instances with deserialized JSON files
+    // EFFECTS: tries to load user's previously saved UserSession
+    //          if not found or corrupt, print message to console and start a new session
     private void loadEntries() {
         try {
             SaveReader journalReader = new SaveReader("./data/users/"
@@ -172,10 +146,9 @@ public class UserSession {
         }
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // REQUIRES: an existing user with a loaded UserSession (deserialized object)
+    // MODIFIES: this
+    // EFFECTS: sets UserSession's fields to those in the loaded UserSession
     private void loadSessionFields(UserSession loadedSession) {
         this.journalLog = loadedSession.getJournalLog();
         this.categoryList = loadedSession.getCategoryList();
@@ -194,14 +167,16 @@ public class UserSession {
             throw new NullEntryException();
         }
         if (!categoryList.isDuplicateName(name)) {
-            Category newCategory = new Category(categoryID++, name);
+            Category newCategory = new Category(categoryID++, null);
+            newCategory.setName(newCategory.makeNormalName(name));
             categoryList.add(newCategory);
         } else {
             throw new CategoryExistsException();
         }
     }
 
-    // MODIFIES: this
+    // REQUIRES: validated description, durationEntry, categoryEntry
+    // MODIFIES: this, JournalEntry, JournalLog
     // EFFECTS: creates a new journal entry and adds it to journalLog
     public void createNewJournalEntry(String description, String durationEntry, String categoryEntry) {
         int durationFinal = Integer.parseInt(durationEntry);
@@ -217,10 +192,8 @@ public class UserSession {
         journalLog.delete(toDelete);
     }
 
-    // MODIFIES: this
-    // EFFECTS: - asks user which category to delete
-    //          - checks that the category exists
-    //          - deletes it from categoryList
+    // MODIFIES: this, Category, CategoryList
+    // EFFECTS: - deletes category from categoryList
     //          - recategorizes journal entries to 'uncategorized'
     //          - adds duration of affected journal entries to 'uncategorized' duration
     public void deleteCategory(String toDelete) {
@@ -229,7 +202,7 @@ public class UserSession {
     }
 
 
-    // MODIFIES: this
+    // MODIFIES: this, Category, CategoryList
     // EFFECTS: - asks user which category to edit
     //          - checks that the category exists
     //          - asks user what they want to rename the category to
@@ -246,30 +219,29 @@ public class UserSession {
         categoryList.get(changeFrom).setName(changeTo);
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: tries to parse input
+    //          throws exception if any field is not filled out or if duration input is not a positive integer
     public void checkValidForm(String description, String duration)
             throws NumberFormatException, NullEntryException, NegativeNumberException {
         if (duration == null || duration.equals("") || description == null || description.equals("")) {
             throw new NullEntryException();
         }
         int newDuration = Integer.parseInt(duration);
-        if (newDuration < 0) {
+        if (newDuration < 1) {
             throw new NegativeNumberException();
         }
     }
 
     // REQUIRES: valid journal ID
-    // MODIFIES: this
+    // MODIFIES: JournalLog, JournalEntry, this
     // EFFECTS: edits journal entry description field based on user input
     public void editJournalEntryDescription(int journalID, String changeTo) {
         journalLog.getValue(journalID).setDescription(changeTo);
     }
 
     // REQUIRES: valid journal ID and positive duration
-    // MODIFIES: this
+    // MODIFIES: JournalEntry, JournalLog, this
     // EFFECTS: edits journal entry duration field based on user input
     public void editJournalEntryDuration(int journalID, String inputDuration) {
         int newDuration = Integer.parseInt(inputDuration);
@@ -292,16 +264,54 @@ public class UserSession {
         journalLog.getValue(journalID).setCategory(toCategory);
     }
 
-    // TODO
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // EFFECTS: returns total duration spent in any given category
     public int getTotalCategoryDuration() {
         int totalDuration = 0;
         for (int i = 0; i < categoryList.getSize(); i++) {
             totalDuration += categoryList.get(i).getDuration();
         }
         return totalDuration;
+    }
+
+    // Getters and setters
+    public CategoryList getCategoryList() {
+        return categoryList;
+    }
+
+    public JournalLog getJournalLog() {
+        return journalLog;
+    }
+
+    public ArrayList<String> getUserList() {
+        return userList;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public String getUserName() {
+        return currentUser;
+    }
+
+    public void setCategoryList(CategoryList categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public void setJournalLog(JournalLog journalLog) {
+        this.journalLog = journalLog;
+    }
+
+    public void setJournalID(int journalID) {
+        this.journalID = journalID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public void setUserList(ArrayList<String> userList) {
+        this.userList = userList;
     }
 
 }

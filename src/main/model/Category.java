@@ -35,7 +35,14 @@ public class Category {
     // MODIFIES: this
     // EFFECTS: sets name of category
     public void setName(String name) {
-        this.name = name;
+        this.name = makeNormalName(name);
+    }
+
+    // EFFECTS: sets name of category
+    public String makeNormalName(String name) {
+        char[] originalName = name.toCharArray();
+        originalName[0] = Character.toUpperCase(originalName[0]);
+        return new String(originalName);
     }
 
     // MODIFIES: this

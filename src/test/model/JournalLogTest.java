@@ -3,7 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JournalLogTest {
     private JournalLog testJournal;
     private Category testCategory;
+    private JournalEntry testEntry;
     private final Category uncategorized = new Category(0, "Uncategorized");
     private CategoryList testCategoryList;
 
@@ -21,7 +22,7 @@ public class JournalLogTest {
         testCategoryList = new CategoryList();
         testCategoryList.add(uncategorized);
         testCategoryList.add(testCategory);
-        JournalEntry testEntry = new JournalEntry(
+        testEntry = new JournalEntry(
                 1, "test", testCategory.getCategoryID(), testCategory, 5);
         testJournal.add(testEntry);
     }
@@ -70,35 +71,15 @@ public class JournalLogTest {
     }
 
     @Test
-    public void testPrintLog() {
-        assertEquals("ID: 1 | Date: "
-                        + LocalDate.now() + " | Category: test | Duration: 5 mins | Description: test\n",
-                testJournal.printLog());
-        JournalEntry test2 = new JournalEntry(
-                2, "test2", uncategorized.getCategoryID(), uncategorized, 10);
-        JournalEntry test3 = new JournalEntry(
-                3, "test3", testCategory.getCategoryID(), testCategory, 15);
-        testJournal.add(test2);
-        testJournal.add(test3);
-        assertEquals("ID: 1 | Date: " + LocalDate.now() +
-                        " | Category: test | Duration: 5 mins | Description: test\n" +
-                        "ID: 2 | Date: " + LocalDate.now() +
-                        " | Category: Uncategorized | Duration: 10 mins | Description: test2\n" +
-                        "ID: 3 | Date: " + LocalDate.now() +
-                        " | Category: test | Duration: 15 mins | Description: test3\n",
-                testJournal.printLog());
-    }
-
-    @Test
     public void testUpdateWithLoadedCategories() {
-        Category unloadedCateogry = new Category(2, "test2");
-        testCategoryList.add(unloadedCateogry);
+        Category unloadedCategory = new Category(2, "test2");
+        testCategoryList.add(unloadedCategory);
         JournalEntry testEntry2 = new JournalEntry(
-                2, "test2", unloadedCateogry.getCategoryID(), unloadedCateogry, 10);
+                2, "test2", unloadedCategory.getCategoryID(), unloadedCategory, 10);
         testJournal.add(testEntry2);
 
         assertEquals(testCategory, testJournal.getValue(1).getCategory());
-        assertEquals(unloadedCateogry, testJournal.getValue(2).getCategory());
+        assertEquals(unloadedCategory, testJournal.getValue(2).getCategory());
         assertEquals("test", testCategoryList.get(1).getName());
         assertEquals("test2", testCategoryList.get(2).getName());
 
@@ -126,6 +107,13 @@ public class JournalLogTest {
         assertEquals(4, testJournal.getNextJournalID());
         testJournal.delete(2);
         assertEquals(4, testJournal.getNextJournalID());
+    }
+
+    @Test
+    public void testGetEntriesAsList() {
+        ArrayList<JournalEntry> arrayList = new ArrayList<>();
+        arrayList.add(testEntry);
+        assertEquals(arrayList.get(0), testJournal.getEntriesAsList().get(0));
     }
 
 }

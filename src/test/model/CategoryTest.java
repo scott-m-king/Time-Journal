@@ -31,9 +31,9 @@ public class CategoryTest {
     @Test
     public void testSetName() {
         testCategory.setName("newTest");
-        assertEquals("newTest", testCategory.getName());
+        assertEquals("NewTest", testCategory.getName());
         testCategory.setName("anotherTest");
-        assertEquals("anotherTest", testCategory.getName());
+        assertEquals("AnotherTest", testCategory.getName());
     }
 
     @Test
@@ -45,4 +45,10 @@ public class CategoryTest {
         assertEquals(70, testCategory.getDuration());
     }
 
+    @Test
+    public void testGetDurationString() {
+        testCategory.setDuration(60);
+        String result = "test - 60 minutes spent on this category.";
+        assertEquals(result, testCategory.getDurationString());
+    }
 }

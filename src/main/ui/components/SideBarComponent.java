@@ -172,8 +172,8 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for homepage button
     private void setHomePageButtonListener() {
         homePageButton.setOnAction(e -> {
-            userInterface.removeListeners();
-            userInterface.clearButtonColours();
+            userInterface.sideBarComponent.removeListeners(userInterface);
+            clearButtonColours(userInterface);
             userInterface.getHomePageScreen().renderHomePage();
         });
     }
@@ -182,8 +182,8 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for CreateJournalEntry button
     private void setCreateJournalEntryButtonListener() {
         newJournalEntryButton.setOnAction(e -> {
-            userInterface.removeListeners();
-            userInterface.clearButtonColours();
+            userInterface.sideBarComponent.removeListeners(userInterface);
+            clearButtonColours(userInterface);
             userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
         });
     }
@@ -192,8 +192,8 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for JournalLog button
     private void setJournalLogButtonListener() {
         viewJournalLogButton.setOnAction(e -> {
-            userInterface.removeListeners();
-            userInterface.clearButtonColours();
+            userInterface.sideBarComponent.removeListeners(userInterface);
+            clearButtonColours(userInterface);
             userInterface.getJournalLogScreen().renderJournalLogScreen();
         });
     }
@@ -202,8 +202,8 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for CategoryList button
     private void setCategoryListButtonListener() {
         viewCategoryListButton.setOnAction(e -> {
-            userInterface.removeListeners();
-            userInterface.clearButtonColours();
+            userInterface.sideBarComponent.removeListeners(userInterface);
+            clearButtonColours(userInterface);
             userInterface.getCategoryListScreen().renderCategoryListScreen();
         });
     }
@@ -216,6 +216,15 @@ public class SideBarComponent {
             userInterface.getSavePromptPopup().renderSavePopup();
         });
         quit.setOnAction(e -> userInterface.getSavePromptPopup().renderSavePopup());
+    }
+
+    // MODIFIES: SideBarComponent
+    // EFFECTS: sets all sidebar buttons to default colours
+    public void clearButtonColours(UserInterface userInterface) {
+        newJournalEntryButton.setStyle("-fx-background-color: #585858;");
+        homePageButton.setStyle("-fx-background-color: #585858;");
+        viewJournalLogButton.setStyle("-fx-background-color: #585858;");
+        viewCategoryListButton.setStyle("-fx-background-color: #585858;");
     }
 
     // Getters
@@ -241,5 +250,13 @@ public class SideBarComponent {
 
     public Button getQuitButton() {
         return quit;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes listeners for category list and journal entry screens;
+    // called when navigating away from those pages
+    public void removeListeners(UserInterface userInterface) {
+        userInterface.getCategoryListScreen().setCategoryCurrentSelected(null);
+        userInterface.getJournalLogScreen().setJournalEntryCurrentlySelected(null);
     }
 }

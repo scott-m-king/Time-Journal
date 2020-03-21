@@ -20,10 +20,9 @@ public class NewUserWelcomeScreen extends Screen {
     }
 
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // REQUIRES: valid UserSession
+    // MODIFIES: this
+    // EFFECTS: runs methods needed to render new user welcome screen
     public void renderNewUserWelcomeScreen() {
         setLabel();
         setButton();
@@ -33,10 +32,8 @@ public class NewUserWelcomeScreen extends Screen {
         setEnterListener();
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: populates final vbox pane to load to scene
     @Override
     protected void initializeFinalPane() {
         VBox vbox = new VBox();
@@ -45,30 +42,24 @@ public class NewUserWelcomeScreen extends Screen {
         pane = vbox;
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets continue button
     public void setButton() {
         newUserButton = new Button(">");
         newUserButton.setStyle("-fx-min-width: 75;");
         newUserButton.setOnAction(e -> userInterface.getNewUserNameScreen().renderNewUserNameScreen());
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets and aligns main screen label
     public void setLabel() {
         title = new Label("Welcome to Time Journal");
         title.setStyle("-fx-font-size: 60px; -fx-text-fill: #383838;");
         title.setPadding(new Insets(0, 0, 75, 0));
     }
 
-    // TODO
-    // MODIFIES:
-    // REQUIRES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: sets event listener for enter key
     private void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

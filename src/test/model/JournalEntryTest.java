@@ -48,4 +48,11 @@ public class JournalEntryTest {
         assertEquals("Changed description", testEntry.getDescription());
     }
 
+    @Test
+    public void testGetCategoryID() {
+        assertEquals(1, testEntry.getCategoryID());
+        JournalEntry test4 = new JournalEntry(4, "test4", 4, testCategory, 10);
+        assertEquals(4, test4.getCategoryID());
+    }
+
 }

@@ -2,11 +2,9 @@ package ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import ui.components.AvatarPickerComponent;
+import model.UserSession;
+import ui.components.*;
 import ui.screens.*;
-import ui.components.CategoryChartComponent;
-import ui.components.JournalTableComponent;
-import ui.components.SideBarComponent;
 
 import java.awt.*;
 
@@ -17,7 +15,7 @@ public class UserInterface extends Application {
     private AvatarPickerComponent avatarPickerComponent;
     private FirstNewCategoryScreen firstNewCategoryScreen;
     private UserSelectScreen userSelectScreen;
-    private SideBarComponent sideBarComponent;
+    public SideBarComponent sideBarComponent;
     private JournalEntryCreateScreen journalEntryCreateScreen;
     private JournalEntryEditPopup journalEntryEditPopup;
     private JournalLogScreen journalLogScreen;
@@ -37,7 +35,6 @@ public class UserInterface extends Application {
     public static final int WINDOW_HEIGHT = 700;
     public static final int TITLE_FONT_SIZE = 35;
 
-
     // MODIFIES: this
     // EFFECTS: initializes the program
     @Override
@@ -45,7 +42,7 @@ public class UserInterface extends Application {
         this.mainStage = stage;
         mainStage.setTitle("Time Journal");
         currentSession = new UserSession();
-        boolean noSaveFile = currentSession.isFirstTime();
+        boolean noSaveFile = currentSession.isFirstTime(UserSession.USER_SAVE_FILE);
 
         setMainStageDimensions();
         initializeAllScreens();
@@ -55,17 +52,6 @@ public class UserInterface extends Application {
         } else {
             welcomeScreen.renderWelcomeScreen();
         }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets mainStage dimensions to set width and height
-    private void setMainStageDimensions() {
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainStage.setWidth(WINDOW_WIDTH);
-        mainStage.setHeight(WINDOW_HEIGHT);
-        mainStage.setMinWidth(WINDOW_WIDTH);
-        mainStage.setMinHeight(WINDOW_HEIGHT);
-        setMiddle(mainStage);
     }
 
     // MODIFIES: this
@@ -107,11 +93,14 @@ public class UserInterface extends Application {
     }
 
     // MODIFIES: this
-    // EFFECTS: removes listeners for category list and journal entry screens;
-    // called when navigating away from those pages
-    public void removeListeners() {
-        categoryListScreen.setCategoryCurrentSelected(null);
-        journalLogScreen.setJournalEntryCurrentlySelected(null);
+    // EFFECTS: sets mainStage dimensions to set width and height
+    private void setMainStageDimensions() {
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainStage.setWidth(WINDOW_WIDTH);
+        mainStage.setHeight(WINDOW_HEIGHT);
+        mainStage.setMinWidth(WINDOW_WIDTH);
+        mainStage.setMinHeight(WINDOW_HEIGHT);
+        setMiddle(mainStage);
     }
 
     // MODIFIES: object that calls this method
@@ -123,15 +112,6 @@ public class UserInterface extends Application {
         double subtractWindowSizeY = s.getHeight() / 2;
         s.setX(middleCoordinateX - subtractWindowSizeX);
         s.setY(middleCoordinateY - subtractWindowSizeY);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets all sidebar buttons to default colours
-    public void clearButtonColours() {
-        sideBarComponent.getNewJournalEntryButton().setStyle("-fx-background-color: #585858;");
-        sideBarComponent.getHomePageButton().setStyle("-fx-background-color: #585858;");
-        sideBarComponent.getViewJournalLogButton().setStyle("-fx-background-color: #585858;");
-        sideBarComponent.getViewCategoryListButton().setStyle("-fx-background-color: #585858;");
     }
 
     // getters for fields in UserInterface
@@ -210,5 +190,4 @@ public class UserInterface extends Application {
     public Stage getMainStage() {
         return mainStage;
     }
-
 }

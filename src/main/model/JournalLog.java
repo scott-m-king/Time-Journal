@@ -59,25 +59,6 @@ public class JournalLog {
         }
     }
 
-    // REQUIRES: at least one journal entry in the log
-    // EFFECTS: prints entire log to screen
-    public String printLog() {
-        StringBuilder builder = new StringBuilder();
-        for (JournalEntry entry : journalLog.values()) {
-            builder.append("ID: ");
-            builder.append(entry.getJournalID());
-            builder.append(" | Date: ");
-            builder.append(entry.getDate());
-            builder.append(" | Category: ");
-            builder.append(entry.getCategory().getName());
-            builder.append(" | Duration: ");
-            builder.append(entry.getDuration());
-            builder.append(" mins | Description: ");
-            builder.append(entry.getDescription());
-            builder.append("\n");
-        }
-        return builder.toString();
-    }
 
     // EFFECTS: returns number of journal entries
     public int getSize() {

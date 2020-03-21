@@ -96,7 +96,7 @@ public class FirstNewCategoryScreen extends Screen {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets enter key listener to submit form
+    // EFFECTS: sets event listener for enter key, tries to submit form if pressed
     public void setEnterListener() {
         pane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
