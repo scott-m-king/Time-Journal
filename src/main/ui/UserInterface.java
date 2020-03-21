@@ -15,7 +15,7 @@ public class UserInterface extends Application {
     private AvatarPickerComponent avatarPickerComponent;
     private FirstNewCategoryScreen firstNewCategoryScreen;
     private UserSelectScreen userSelectScreen;
-    public SideBarComponent sideBarComponent;
+    private SideBarComponent sideBarComponent;
     private JournalEntryCreateScreen journalEntryCreateScreen;
     private JournalEntryEditPopup journalEntryEditPopup;
     private JournalLogScreen journalLogScreen;

@@ -172,7 +172,7 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for homepage button
     private void setHomePageButtonListener() {
         homePageButton.setOnAction(e -> {
-            userInterface.sideBarComponent.removeListeners(userInterface);
+            removeListeners(userInterface);
             clearButtonColours(userInterface);
             userInterface.getHomePageScreen().renderHomePage();
         });
@@ -182,7 +182,7 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for CreateJournalEntry button
     private void setCreateJournalEntryButtonListener() {
         newJournalEntryButton.setOnAction(e -> {
-            userInterface.sideBarComponent.removeListeners(userInterface);
+            removeListeners(userInterface);
             clearButtonColours(userInterface);
             userInterface.getJournalEntryCreateScreen().renderJournalEntryCreateScreen();
         });
@@ -192,7 +192,7 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for JournalLog button
     private void setJournalLogButtonListener() {
         viewJournalLogButton.setOnAction(e -> {
-            userInterface.sideBarComponent.removeListeners(userInterface);
+            userInterface.getSideBarComponent().removeListeners(userInterface);
             clearButtonColours(userInterface);
             userInterface.getJournalLogScreen().renderJournalLogScreen();
         });
@@ -202,7 +202,7 @@ public class SideBarComponent {
     // EFFECTS: sets button click listener for CategoryList button
     private void setCategoryListButtonListener() {
         viewCategoryListButton.setOnAction(e -> {
-            userInterface.sideBarComponent.removeListeners(userInterface);
+            removeListeners(userInterface);
             clearButtonColours(userInterface);
             userInterface.getCategoryListScreen().renderCategoryListScreen();
         });
