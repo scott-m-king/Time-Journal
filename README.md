@@ -35,7 +35,7 @@ This application will combine common approaches to journaling and budgeting to c
 
 ## Instructions for Grader
 
-- You can generate the first required event by navigating to the Create Journal Entry page and filling in the form for a new journal entry. This will create a new journal entry and add it to the map of Journal Entries which will be updated and refreshed on the page after the entry has been entered. Hitting the enter screen on the create page will also trigger the entry.
+- You can generate the first required event by navigating to the Create Journal Entry page and filling in the form for a new journal entry. This will create a new journal entry and add it to the map of Journal Entries which will be updated and refreshed on the Journal Log page after the entry has been entered. Hitting the enter screen on the create page will also trigger the entry.
 - You can generate the second required event by navigating to the Journal Entry Log screen, clicking on an entry, and hitting the 'Edit" button on the top right. This will show an edit entry popup which you can then use to edit any entry. The enter button will also work here. 
 - You can locate my visual component by starting the program, and selecting that you are a new user. After the name page, you will see an Avatar page which will let you choose an avatar as your display picture. These files are located in the src/ui/resources package.
 - You can trigger my audio component by creating or deleting either a journal entry or category. Once you hit submit, you will hear a corresponding confirmation/delete sound. These wav files are located in the src/ui/resources folder. 
@@ -48,3 +48,4 @@ This application will combine common approaches to journaling and budgeting to c
 - Add/create/delete Journal Entry
 - Add/create/delete Category
 - View filtered list of journal entries based on selected category 
+- Option to save upon exit and load saved state when starting program again 
