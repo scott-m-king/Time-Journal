@@ -11,11 +11,9 @@ life. Time Journal takes journaling a step further by allowing you to record how
 and organize them into meaningful categories. 
  
 _**How does it work?**_<br>
-You will be able to create categories for your activities and see on average how much time you spend on each one. 
+You will be able to create categories for your activities and see how much time you spend on each one. 
 This application will combine common approaches to journaling and budgeting to create visibility into where your time
- goes. You'll also be able to set monthly goals for each category, and be notified if you're not meeting your goals. 
- 
-Whether you'd like to use Time Journal as a journal or a budgeting tool is up to you. <br>
+ goes. <br>
 
 ## User Stories
 **Phase 1**
@@ -29,10 +27,24 @@ Whether you'd like to use Time Journal as a journal or a budgeting tool is up to
 - As a user, I want to be able to be prompted to load my save file or start a new journal
 - As a user, I want to be prompted to save my file (or not) when exiting the program
 
-**Later Phases**
-- As a user, I want to be able to filter/sort my log of journal entries based on categories, time spent, or entry date 
-- As a user, I want to be able to set monthly targets for my categories and track my progress
-- As a user, I want to be able to pull a report with a date range of my choice to see how I spent my time over that period
-- As a user, I want to be able to be reminded when I'm not meeting my goals each month
-- As a user, I want to be able to have default categories and goals set up for me because I might not know where to start
-- As a user, I want to be able to click into a category, see a list of related journal entries, check if I'm on track to meet my goal, and see a total average time spent for that category
+**Phase 3**
+- As a user, I want to be able to view a piechart of my categories
+- As a user, I want to be able to view a filtered list of journal entries based on a selected category
+- As a user, I want to be able to choose a cute display picture 
+- As a user, I want to keep my categories consistent by auto-capitalizing the first letter of each new category
+
+## Instructions for Grader
+
+- You can generate the first required event by navigating to the Create Journal Entry page and filling in the form for a new journal entry. This will create a new journal entry and add it to the map of Journal Entries which will be updated and refreshed on the page after the entry has been entered. Hitting the enter screen on the create page will also trigger the entry.
+- You can generate the second required event by navigating to the Journal Entry Log screen, clicking on an entry, and hitting the 'Edit" button on the top right. This will show an edit entry popup which you can then use to edit any entry. The enter button will also work here. 
+- You can locate my visual component by starting the program, and selecting that you are a new user. After the name page, you will see an Avatar page which will let you choose an avatar as your display picture. These files are located in the src/ui/resources package.
+- You can trigger my audio component by creating or deleting either a journal entry or category. Once you hit submit, you will hear a corresponding confirmation/delete sound. These wav files are located in the src/ui/resources folder. 
+- You can save the state of my application by exiting the program (either with the exit button at the bottom or the sidebar or with the window exit button). You will be prompted to save with a popup in the middle of the screen.
+- You can reload the state of my application by opening the app and selecting 'Returning User". You will be able to find your username from the dropdown list. 
+
+**Full feature list:**
+- Create new user and choose avatar
+- View piechart of all categories on home screen (hover over category for more details)
+- Add/create/delete Journal Entry
+- Add/create/delete Category
+- View filtered list of journal entries based on selected category 
