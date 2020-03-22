@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import ui.UserInterface;
 
+// Represents an edit category popup which the user can use to edit the name of a category
 public class EditCategoryPopup extends Popup {
     private final UserInterface userInterface;
     private Stage stage;

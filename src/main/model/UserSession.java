@@ -76,6 +76,7 @@ public class UserSession {
      * accordingly.
      */
 
+    // MODIFIES: this
     // EFFECTS: creates a new session by prompting use for first category
     public void newSession() {
         userList.add(currentUser);

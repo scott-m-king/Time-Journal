@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
+// Represents a screen for a new user to enter their name
 public class NewUserNameScreen extends Screen {
     private final UserInterface userInterface;
     private Label nameLabel;

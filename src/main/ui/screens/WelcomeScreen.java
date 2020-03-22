@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
+// Represents the welcome screen that appears if the program detects there is least one save file is present
 public class WelcomeScreen extends Screen {
     private final UserInterface userInterface;
     private Pane pane;

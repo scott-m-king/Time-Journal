@@ -13,6 +13,7 @@ import ui.UserInterface;
 import java.applet.Applet;
 import java.applet.AudioClip;
 
+// Represents a generic 'popup' class which subclasses extend to access shared functionality
 public abstract class Popup {
     Button submit;
     Button cancel;

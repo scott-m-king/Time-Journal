@@ -18,6 +18,7 @@ import ui.UserInterface;
 import java.util.ArrayList;
 import java.util.Optional;
 
+// Represents a journal log screen where users can view and edit/create/delete journal entries
 public class JournalLogScreen extends Screen {
     private final UserInterface userInterface;
     private Pane sideBar;
@@ -39,7 +40,6 @@ public class JournalLogScreen extends Screen {
         this.journalLogMenuButton = userInterface.getSideBarComponent().getViewJournalLogButton();
         renderJournalEntryTable();
         initializeFinalPane();
-
         initializeScreen(pane, userInterface.getMainStage());
     }
 

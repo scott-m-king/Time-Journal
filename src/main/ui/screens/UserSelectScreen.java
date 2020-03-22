@@ -16,6 +16,7 @@ import ui.UserInterface;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// Represents a screen to allow the user to select which session they want to load
 public class UserSelectScreen extends Screen {
     private final UserInterface userInterface;
     private Label title;

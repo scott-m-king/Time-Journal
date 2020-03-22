@@ -11,12 +11,15 @@ import javafx.scene.text.Text;
 import model.Category;
 import model.CategoryList;
 import model.JournalEntry;
+import model.JournalLog;
 import ui.UserInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Represents a Category List Screen to view/edit/delete all categories and view associated journal entries
 public class CategoryListScreen extends Screen {
     private final UserInterface userInterface;
     private ListView<String> categoryListView;
@@ -293,6 +296,7 @@ public class CategoryListScreen extends Screen {
     // REQUIRES: ObservableList of journal entries
     // MODIFIES: this
     // EFFECTS: adds columns and entries to table, sets anchors
+    @SuppressWarnings("unchecked")
     public void constructCategoryJournalEntryTable() {
         categoryJournalTable.setItems(journalEntryObservableList);
         categoryJournalTable.getColumns().addAll(

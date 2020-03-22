@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+// Represents an interactive AvatarPickerComponent to show all available avatars in a grid
 public class AvatarPickerComponent {
     private ImageView image1;
     private ImageView image2;

@@ -8,6 +8,7 @@ import ui.screens.*;
 
 import java.awt.*;
 
+// Represents a User Interface which acts as a mainframe for all screens/components to access each other's functionality
 public class UserInterface extends Application {
     private NewUserWelcomeScreen newUserWelcomeScreen;
     private NewUserNameScreen newUserNameScreen;

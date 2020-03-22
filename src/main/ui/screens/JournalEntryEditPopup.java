@@ -18,6 +18,7 @@ import model.Category;
 import model.JournalEntry;
 import ui.UserInterface;
 
+// Represents a popup within the Journal Log screen where users can edit a chosen journal entry
 public class JournalEntryEditPopup extends Popup {
     private final UserInterface userInterface;
     private JournalEntry selectedJournalEntry;

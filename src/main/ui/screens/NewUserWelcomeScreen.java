@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
+// Represents a simple welcome screen for a new user
 public class NewUserWelcomeScreen extends Screen {
     private final UserInterface userInterface;
     private Label title;

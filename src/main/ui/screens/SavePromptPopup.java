@@ -17,6 +17,7 @@ import java.io.IOException;
 import static model.UserSession.USERS_LOCATION;
 import static model.UserSession.USER_SAVE_FILE;
 
+// Represents a save popup to ask the user if they want to save their session or not
 public class SavePromptPopup extends Popup {
     private final UserInterface userInterface;
     private Button yes;

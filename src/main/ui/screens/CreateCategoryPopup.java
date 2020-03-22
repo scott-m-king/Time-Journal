@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ui.UserInterface;
 
+
+// Represents a Create Category Popup which is where the user can create new categories
 public class CreateCategoryPopup extends Popup {
     private final UserInterface userInterface;
     private TextField categoryName;

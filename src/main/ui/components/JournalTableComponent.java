@@ -10,6 +10,7 @@ import model.JournalEntry;
 import ui.UserInterface;
 import ui.screens.JournalLogScreen;
 
+// Represents a Journal Table component to display on the Journal Log and Category List screens
 public class JournalTableComponent {
     private TableView<JournalEntry> journalEntryTableView;
     private TableColumn<JournalEntry, Integer> idColumn;

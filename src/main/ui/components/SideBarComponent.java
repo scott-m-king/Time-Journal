@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import ui.UserInterface;
 
-// Represents a SideBar component that is used in Screen classes
+// Represents a SideBar component that is used in all Screen classes (after login)
 public class SideBarComponent {
     private final UserInterface userInterface;
     private Button newJournalEntryButton;

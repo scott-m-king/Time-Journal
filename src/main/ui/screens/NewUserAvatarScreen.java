@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.UserInterface;
 
+// Represents a screen to let the user choose a personal avatar. Uses the AvatarPickerComponent to display media
 public class NewUserAvatarScreen extends Screen {
     private final UserInterface userInterface;
     private Label nameLabel;
@@ -67,7 +68,8 @@ public class NewUserAvatarScreen extends Screen {
         try {
             userInterface.getCurrentSession().setCurrentUser(userInterface.getNewUserNameScreen().getUserName());
             userInterface.getCurrentSession().newSession();
-            userInterface.getCurrentSession().setUserAvatar(userInterface
+            userInterface.getCurrentSession().setUserAvatar(
+                    userInterface
                     .getAvatarPickerComponent()
                     .getSelectedAvatarImageURL());
             userInterface.getFirstNewCategoryScreen().renderFirstNewCategoryScreen();

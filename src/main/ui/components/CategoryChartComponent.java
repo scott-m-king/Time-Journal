@@ -11,7 +11,7 @@ import model.CategoryList;
 import ui.UserInterface;
 
 // https://docs.oracle.com/javafx/2/charts/pie-chart.htm
-
+// Represents a Category Pichart component for to display on the user's homescreen
 public class CategoryChartComponent {
     private final UserInterface userInterface;
 

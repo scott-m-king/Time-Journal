@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import ui.UserInterface;
 
+// Represents a screen in which the user creates their first category when creating a new account
 public class FirstNewCategoryScreen extends Screen {
     private final UserInterface userInterface;
     private Label nameLabel;

@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import model.Category;
 import ui.UserInterface;
 
+// Represents the screen in which the user can enter new journal entries
 public class JournalEntryCreateScreen extends Screen {
     private final UserInterface userInterface;
     private Pane sideBar;

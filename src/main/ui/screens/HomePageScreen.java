@@ -10,8 +10,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import ui.UserInterface;
 
-// TODO: refactor to match other screen pages
-
+// Represents a home screen where the user is directed to after logging in
 public class HomePageScreen extends Screen {
     private final UserInterface userInterface;
     private PieChart chart;

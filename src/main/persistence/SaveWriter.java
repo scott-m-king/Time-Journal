@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.File;
 import java.util.ArrayList;
 
+// Resources:
 // https://www.javadoc.io/doc/com.google.code.gson/gson/latest/com.google.gson/com/google/gson/package-summary.html
 // https://mkyong.com/java/how-to-parse-json-with-gson/
 

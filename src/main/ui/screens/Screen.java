@@ -13,6 +13,7 @@ import java.applet.AudioClip;
 import static ui.screens.Popup.FAILURE_SOUND;
 import static ui.screens.Popup.SUCCESS_SOUND;
 
+// Represents a generic 'screen' class which subclasses extend to access shared functionality
 public abstract class Screen {
     protected Button edit;
     protected Button delete;
