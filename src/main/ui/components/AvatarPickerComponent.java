@@ -123,9 +123,9 @@ public class AvatarPickerComponent {
         }
     }
 
+    // Border shadow: https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
     // MODIFIES: this
     // EFFECTS: sets mouse handlers for ImageViews in gridpane (hover, button pressed)
-    // https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
     private void setMouseEvents() {
         for (int i = 0; i < avatarObservableList.size(); i++) {
             ImageView imageView = avatarObservableList.get(i);

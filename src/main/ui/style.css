@@ -30,3 +30,19 @@
     -fx-text-fill:#383838;
     -fx-font-size:20px;
 }
+
+/*
+Resource: https://stackoverflow.com/questions/27354085/disable-row-selection-in-tableview
+          how to remove selection styling for category journal table
+*/
+
+.category-journal-table .table-row-cell:filled:selected {
+    -fx-background: -fx-control-inner-background ;
+    -fx-background-color: -fx-table-cell-border-color, -fx-background ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-table-cell-border-color: derive(-fx-color, 5%);
+}
+
+.category-journal-table .table-row-cell:odd:filled:selected {
+    -fx-background: -fx-control-inner-background-alt ;
+}

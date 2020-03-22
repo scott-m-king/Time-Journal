@@ -76,6 +76,7 @@ public class JournalTableComponent {
     // REQUIRES: an active JournalLogScreen and UserInterface
     // MODIFIES: this
     // EFFECTS: renders JournalLog table with fields
+    @SuppressWarnings("unchecked")
     public void renderJournalTable(JournalLogScreen journalLogScreen) {
         journalEntryTableView = new TableView<>();
         journalEntryTableView.setItems(journalLogScreen.getEntries());

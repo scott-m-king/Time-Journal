@@ -72,12 +72,14 @@ public abstract class Screen {
         }
     }
 
+    // Resource: Apple pay payment successful sound
     // EFFECTS: plays a success sound once
     public void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();
     }
 
+    // Resource: Apple pay payment declined sound
     // EFFECTS: plays a delete sound once
     public void playDeleteSound() {
         AudioClip failSound = Applet.newAudioClip(getClass().getResource(FAILURE_SOUND));

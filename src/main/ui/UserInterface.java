@@ -8,6 +8,10 @@ import ui.screens.*;
 
 import java.awt.*;
 
+// All JavaFX related knowledge came YouTube channels:
+//            thenewboston: https://www.youtube.com/user/thenewboston
+//            Kody Simpson: https://www.youtube.com/channel/UC_LtbK9pzAEI-4yVprLOcyA
+
 // Represents a User Interface which acts as a mainframe for all screens/components to access each other's functionality
 public class UserInterface extends Application {
     private NewUserWelcomeScreen newUserWelcomeScreen;

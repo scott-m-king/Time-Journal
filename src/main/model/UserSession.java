@@ -137,7 +137,6 @@ public class UserSession {
                     + currentUser + "/" + SESSION_SAVE_FILE);
             UserSession loadedSession = journalReader.readUserSession();
             loadSessionFields(loadedSession);
-            System.out.println("Save file successfully loaded. \n");
         } catch (FileNotFoundException e) {
             System.out.println("Save file does not exist. New session will be started.\n");
             newSession();

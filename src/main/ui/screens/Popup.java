@@ -85,6 +85,7 @@ public abstract class Popup {
         }
     }
 
+    // Resource: Apple pay payment declined sound
     // EFFECTS: plays a success sound once
     public void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));

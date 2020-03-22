@@ -1,0 +1,40 @@
+{
+  "categoryList": {
+    "categoryList": [
+      {
+        "categoryID": 0,
+        "name": "Uncategorized",
+        "duration": 0
+      },
+      {
+        "categoryID": 1,
+        "name": "Social Distancing",
+        "duration": 500
+      }
+    ]
+  },
+  "journalLog": {
+    "journalLog": {
+      "1": {
+        "journalID": 1,
+        "date": "2020-03-22",
+        "description": "Stayed home",
+        "categoryID": 1,
+        "category": {
+          "categoryID": 1,
+          "name": "Social Distancing",
+          "duration": 500
+        },
+        "duration": 500
+      }
+    }
+  },
+  "journalID": 2,
+  "categoryID": 2,
+  "currentUser": "Jill",
+  "userAvatar": "File:src/main/ui/resources/pigeon.png",
+  "userList": [
+    "Scott",
+    "Jill"
+  ]
+}

@@ -32,6 +32,7 @@ This application will combine common approaches to journaling and budgeting to c
 - As a user, I want to be able to view a filtered list of journal entries based on a selected category
 - As a user, I want to be able to choose a cute display picture 
 - As a user, I want to keep my categories consistent by auto-capitalizing the first letter of each new category
+- As a user, I want to be able to resize my GUI to my liking 
 
 ## Instructions for Grader
 
@@ -42,10 +43,11 @@ This application will combine common approaches to journaling and budgeting to c
 - You can save the state of my application by exiting the program (either with the exit button at the bottom or the sidebar or with the window exit button). You will be prompted to save with a popup in the middle of the screen.
 - You can reload the state of my application by opening the app and selecting 'Returning User". You will be able to find your username from the dropdown list. 
 
-**Full feature list:**
+**Full feature list of GUI:**
 - Create new user and choose avatar
 - View piechart of all categories on home screen (hover over category for more details)
 - Add/create/delete Journal Entry
 - Add/create/delete Category
 - View filtered list of journal entries based on selected category 
 - Option to save upon exit and load saved state when starting program again 
+- Resize window - (cannot get smaller than initial size)

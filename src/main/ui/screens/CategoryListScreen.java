@@ -244,7 +244,7 @@ public class CategoryListScreen extends Screen {
                 buttons);
     }
 
-    // https://mkyong.com/java8/java-8-streams-filter-examples/
+    // Reference: using .filter() and Java streams https://mkyong.com/java8/java-8-streams-filter-examples/
     // REQUIRES: a valid category to filter
     // MODIFIES: this
     // EFFECTS: generates a filtered List<JournalEntry> based on category filter condition
@@ -299,6 +299,7 @@ public class CategoryListScreen extends Screen {
     @SuppressWarnings("unchecked")
     public void constructCategoryJournalEntryTable() {
         categoryJournalTable.setItems(journalEntryObservableList);
+        categoryJournalTable.getStyleClass().add("category-journal-table");
         categoryJournalTable.getColumns().addAll(
                 dateTableColumn, categoryTableColumn, durationTableColumn, descriptionTableColumn);
         AnchorPane.setTopAnchor(categoryJournalTable, 385.0);
