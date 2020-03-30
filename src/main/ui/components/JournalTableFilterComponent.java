@@ -12,6 +12,7 @@ import ui.UserInterface;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Represents a class that generates a filtered TableView of JournalEntries based on a filter condition
 public class JournalTableFilterComponent {
     private UserInterface userInterface;
     private TableColumn<JournalEntry, String> dateTableColumn;
