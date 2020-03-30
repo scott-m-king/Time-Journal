@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Category;
+import ui.StageHelper;
 import ui.UserInterface;
 
 // Represents the screen in which the user can enter new journal entries
@@ -82,7 +83,7 @@ public class JournalEntryCreateScreen extends Screen {
     // EFFECTS: returns anchored main title
     public Text setMainTitle() {
         Text title = new Text();
-        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
+        title.setFont(new Font(StageHelper.TITLE_FONT_SIZE));
         title.setText("Create New Journal Entry");
         title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);

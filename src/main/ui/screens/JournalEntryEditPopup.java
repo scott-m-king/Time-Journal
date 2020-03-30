@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Category;
 import model.JournalEntry;
+import ui.StageHelper;
 import ui.UserInterface;
 
 // Represents a popup within the Journal Log screen where users can edit a chosen journal entry
@@ -69,8 +70,8 @@ public class JournalEntryEditPopup extends Popup {
     // MODIFIES: this
     // EFFECTS: creates the popup and sets it to the middle of the screen
     private void setStage() {
-        stage = createPopupStage(UserInterface.WINDOW_WIDTH - 100, UserInterface.WINDOW_HEIGHT - 100);
-        userInterface.getScreenHelper().setMiddle(stage, userInterface);
+        stage = createPopupStage(StageHelper.WINDOW_WIDTH - 100, StageHelper.WINDOW_HEIGHT - 100);
+        userInterface.getStageHelper().setMiddle(stage);
     }
 
     // MODIFIES: this
@@ -132,7 +133,7 @@ public class JournalEntryEditPopup extends Popup {
         descriptionField = new TextField(selectedJournalEntry.getDescription());
         descriptionField.setStyle(FIELD_TEXT_SIZE);
         GridPane.setConstraints(descriptionField, 0, 1);
-        descriptionField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
+        descriptionField.setMinWidth(StageHelper.WINDOW_WIDTH - 160);
     }
 
     // MODIFIES: this
@@ -149,7 +150,7 @@ public class JournalEntryEditPopup extends Popup {
         durationField = new TextField(selectedJournalEntry.getDuration().toString());
         durationField.setStyle(FIELD_TEXT_SIZE);
         GridPane.setConstraints(durationField, 0, 4);
-        durationField.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
+        durationField.setMinWidth(StageHelper.WINDOW_WIDTH - 160);
     }
 
     // MODIFIES: this
@@ -173,7 +174,7 @@ public class JournalEntryEditPopup extends Popup {
 
         categoryDropDown.setValue(selectedJournalEntry.getCategory().getDurationString());
         GridPane.setConstraints(categoryDropDown, 0, 7, 1, 1);
-        categoryDropDown.setMinWidth(UserInterface.WINDOW_WIDTH - 160);
+        categoryDropDown.setMinWidth(StageHelper.WINDOW_WIDTH - 160);
     }
 
     // MODIFIES: this

@@ -6,8 +6,6 @@ import model.UserSession;
 import ui.components.*;
 import ui.screens.*;
 
-import java.awt.*;
-
 // All JavaFX related knowledge came YouTube channels:
 //            thenewboston: https://www.youtube.com/user/thenewboston
 //            Kody Simpson: https://www.youtube.com/channel/UC_LtbK9pzAEI-4yVprLOcyA
@@ -34,14 +32,9 @@ public class UserInterface extends Application {
     private WelcomeScreen welcomeScreen;
     private CategoryListComponent categoryListComponent;
     private JournalTableFilterComponent journalTableFilterComponent;
-    private Dimension screenSize;
-    private ScreenHelper screenHelper;
+    private StageHelper stageHelper;
     private UserSession currentSession;
     private Stage mainStage;
-
-    public static final int WINDOW_WIDTH = 1000;
-    public static final int WINDOW_HEIGHT = 700;
-    public static final int TITLE_FONT_SIZE = 35;
 
     // MODIFIES: this
     // EFFECTS: initializes the program
@@ -53,7 +46,7 @@ public class UserInterface extends Application {
         boolean noSaveFile = currentSession.isFirstTime(UserSession.USER_SAVE_FILE);
 
         initializeAllScreens();
-        screenHelper.setMainStageDimensions(this);
+        stageHelper.setMainStageDimensions(this);
 
         if (noSaveFile) {
             newUserWelcomeScreen.renderNewUserWelcomeScreen();
@@ -100,7 +93,7 @@ public class UserInterface extends Application {
         journalTableComponent = new JournalTableComponent();
         categoryListComponent = new CategoryListComponent(this);
         journalTableFilterComponent = new JournalTableFilterComponent(this);
-        screenHelper = new ScreenHelper();
+        stageHelper = new StageHelper();
     }
 
     // getters for fields in UserInterface
@@ -188,15 +181,7 @@ public class UserInterface extends Application {
         return mainStage;
     }
 
-    public ScreenHelper getScreenHelper() {
-        return screenHelper;
-    }
-
-    public Dimension getScreenSize() {
-        return screenSize;
-    }
-
-    public void setScreenSize(Dimension screenSize) {
-        this.screenSize = screenSize;
+    public StageHelper getStageHelper() {
+        return stageHelper;
     }
 }

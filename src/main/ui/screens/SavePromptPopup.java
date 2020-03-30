@@ -59,7 +59,7 @@ public class SavePromptPopup extends Popup {
     private void initializeScreen() {
         Scene scene = new Scene(pane);
         stage.setScene(scene);
-        userInterface.getScreenHelper().setMiddle(stage, userInterface);
+        userInterface.getStageHelper().setMiddle(stage);
         stage.show();
     }
 

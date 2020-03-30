@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.JournalEntry;
 import model.JournalLog;
+import ui.StageHelper;
 import ui.UserInterface;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class JournalLogScreen extends Screen {
     // EFFECTS: sets main title for screen and sets anchors
     private void createPageTitle() {
         title = new Text();
-        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
+        title.setFont(new Font(StageHelper.TITLE_FONT_SIZE));
         title.setText("Journal Entry Log");
         title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);

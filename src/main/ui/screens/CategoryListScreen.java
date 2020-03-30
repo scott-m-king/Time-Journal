@@ -1,7 +1,6 @@
 package ui.screens;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -9,11 +8,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.JournalEntry;
+import ui.StageHelper;
 import ui.UserInterface;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 // Represents a Category List Screen to view/edit/delete all categories and view associated journal entries
 public class CategoryListScreen extends Screen {
@@ -63,7 +61,7 @@ public class CategoryListScreen extends Screen {
     // EFFECTS: sets and anchors main page label text
     private void setMainLabel() {
         title = new Text();
-        title.setFont(new Font(UserInterface.TITLE_FONT_SIZE));
+        title.setFont(new Font(StageHelper.TITLE_FONT_SIZE));
         title.setText("Category List");
         title.setStyle("-fx-text-fill: #383838;");
         AnchorPane.setLeftAnchor(title, 230.0);
