@@ -7,6 +7,7 @@ import model.Category;
 import model.CategoryList;
 import ui.UserInterface;
 
+// Represents a component to render a ListView of Strings representing the user's categories and durations
 public class CategoryListComponent {
     private ObservableList<Category> categoryObservableList;
     private ListView<String> categoryListView;
@@ -16,6 +17,8 @@ public class CategoryListComponent {
         this.userInterface = userInterface;
     }
 
+    // MODIFIES: this;
+    // EFFECTS: renders a list view of strings representing user's categories and durations
     public void renderCategoryListView() {
         categoryListView = new ListView<>();
         generateCategoryList();
@@ -36,11 +39,13 @@ public class CategoryListComponent {
         }
     }
 
+    // EFFECTS: returns observable list of Category
     public ObservableList<Category> getCategoryObservableList() {
         generateCategoryList();
         return categoryObservableList;
     }
 
+    // EFFECTS: returns ListView of string representing categories and durations
     public ListView<String> getCategoryListView() {
         renderCategoryListView();
         return categoryListView;

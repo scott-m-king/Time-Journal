@@ -26,6 +26,9 @@ public class JournalTableFilterComponent {
         this.userInterface = userInterface;
     }
 
+    // REQUIRES: string representing category currently selected that exists in the user's list of CategoryList
+    // MODIFIES: this
+    // EFFECTS: returns TableView of JournalEntry that has been filtered according to selected category
     public TableView<JournalEntry> renderFilteredJournalTable(String categoryCurrentSelected) {
         setJournalEntryFieldColumns();
         this.categoryCurrentSelected = categoryCurrentSelected;
@@ -33,6 +36,8 @@ public class JournalTableFilterComponent {
         return categoryJournalTable;
     }
 
+    // REQUIRES: empty JavaFX ObservableList
+    // EFFECTS: returns an empty tableview
     public TableView<JournalEntry> renderFilteredJournalTable(ObservableList<JournalEntry> list) {
         setJournalEntryFieldColumns();
         return createFilteredJournalEntryTable(list);
