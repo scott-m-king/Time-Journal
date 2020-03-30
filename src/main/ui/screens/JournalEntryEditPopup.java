@@ -70,7 +70,7 @@ public class JournalEntryEditPopup extends Popup {
     // EFFECTS: creates the popup and sets it to the middle of the screen
     private void setStage() {
         stage = createPopupStage(UserInterface.WINDOW_WIDTH - 100, UserInterface.WINDOW_HEIGHT - 100);
-        userInterface.setMiddle(stage);
+        userInterface.getScreenHelper().setMiddle(stage, userInterface);
     }
 
     // MODIFIES: this
@@ -165,7 +165,7 @@ public class JournalEntryEditPopup extends Popup {
     private void setCategoryDropDown() {
         categoryDropDown = new ComboBox<>();
         categoryDropDown.setStyle(FIELD_TEXT_SIZE);
-        categoryDropDownCategories = userInterface.getCategoryListScreen().getCategoryObservableList();
+        categoryDropDownCategories = userInterface.getCategoryListComponent().getCategoryObservableList();
 
         for (Category c : categoryDropDownCategories) {
             categoryDropDown.getItems().add(c.getDurationString());

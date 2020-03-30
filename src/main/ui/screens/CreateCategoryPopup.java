@@ -34,7 +34,7 @@ public class CreateCategoryPopup extends Popup {
     public void renderCategoryPopup() {
         stage = createPopupStage(STANDARD_POPUP_WIDTH, STANDARD_POPUP_HEIGHT);
         initializeFinalPane();
-        userInterface.setMiddle(stage);
+        userInterface.getScreenHelper().setMiddle(stage, userInterface);
         initializeScreen(pane, stage);
         setEnterListener();
     }

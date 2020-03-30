@@ -78,7 +78,7 @@ public class FirstNewCategoryScreen extends Screen {
     private void submitForm() {
         try {
             userInterface.getCurrentSession().createNewCategory(categoryName.getText());
-            userInterface.getSideBarComponent().renderSideBar();
+            userInterface.getSideBarComponent().render();
         } catch (NullEntryException e1) {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText("You must enter a name for your category.");

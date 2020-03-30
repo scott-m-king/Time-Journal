@@ -14,11 +14,11 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 
 // Represents a generic 'popup' class which subclasses extend to access shared functionality
-public abstract class Popup {
+public abstract class Popup implements Display {
     Button submit;
     Button cancel;
 
-    public static final int STANDARD_POPUP_WIDTH = 400;
+    public static final int STANDARD_POPUP_WIDTH = 450;
     public static final int STANDARD_POPUP_HEIGHT = 250;
     public static final String EDIT_JOURNAL_ENTRY = "editJournalEntry";
     public static final String EDIT_CATEGORY = "editCategoryScreen";
@@ -41,7 +41,8 @@ public abstract class Popup {
 
     // REQUIRES: a pane with at least one child node and an active stage
     // EFFECTS: loads pane onto stage and displays stage
-    protected void initializeScreen(Pane pane, Stage stage) {
+    @Override
+    public void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
@@ -70,7 +71,7 @@ public abstract class Popup {
 
     // REQUIRES: active stage, non-null cameFrom string, active UserInterface
     // EFFECTS: sets button listeners and actions depending on class that called this method
-    public void setFormButtonListeners(Stage stage, String cameFrom, UserInterface ui) {
+    private void setFormButtonListeners(Stage stage, String cameFrom, UserInterface ui) {
         cancel.setOnAction(e -> stage.close());
         switch (cameFrom) {
             case CREATE_CATEGORY:
@@ -87,7 +88,7 @@ public abstract class Popup {
 
     // Resource: Apple pay payment declined sound
     // EFFECTS: plays a success sound once
-    public void playSuccessSound() {
+    protected void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();
     }

@@ -34,7 +34,7 @@ public class SideBarComponent {
     // REQUIRES: valid UserInterface object
     // MODIFIES: this
     // EFFECTS: runs initialization of all components of sidebar
-    public void renderSideBar() {
+    public void render() {
         populateSideBar();
         setSideBarButtonListeners();
         setSideBarAnchorPane();

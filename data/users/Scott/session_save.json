@@ -9,12 +9,12 @@
       {
         "categoryID": 2,
         "name": "School",
-        "duration": 300
+        "duration": 490
       },
       {
         "categoryID": 3,
         "name": "Transportation",
-        "duration": 375
+        "duration": 75
       },
       {
         "categoryID": 4,
@@ -24,12 +24,17 @@
       {
         "categoryID": 5,
         "name": "Exercise",
-        "duration": 75
+        "duration": 90
       },
       {
         "categoryID": 7,
         "name": "Sleep",
         "duration": 165
+      },
+      {
+        "categoryID": 8,
+        "name": "Gaming",
+        "duration": 180
       }
     ]
   },
@@ -55,7 +60,7 @@
         "category": {
           "categoryID": 3,
           "name": "Transportation",
-          "duration": 375
+          "duration": 75
         },
         "duration": 60
       },
@@ -67,7 +72,7 @@
         "category": {
           "categoryID": 3,
           "name": "Transportation",
-          "duration": 375
+          "duration": 75
         },
         "duration": 15
       },
@@ -103,21 +108,9 @@
         "category": {
           "categoryID": 5,
           "name": "Exercise",
-          "duration": 75
+          "duration": 90
         },
         "duration": 60
-      },
-      "14": {
-        "journalID": 14,
-        "date": "2020-03-17",
-        "description": "Worked on 210",
-        "categoryID": 2,
-        "category": {
-          "categoryID": 2,
-          "name": "School",
-          "duration": 300
-        },
-        "duration": 300
       },
       "15": {
         "journalID": 15,
@@ -151,29 +144,78 @@
         "category": {
           "categoryID": 5,
           "name": "Exercise",
-          "duration": 75
+          "duration": 90
         },
         "duration": 15
       },
-      "18": {
-        "journalID": 18,
-        "date": "2020-03-20",
-        "description": "Walked to school",
-        "categoryID": 3,
+      "19": {
+        "journalID": 19,
+        "date": "2020-03-22",
+        "description": "took a walk",
+        "categoryID": 5,
         "category": {
-          "categoryID": 3,
-          "name": "Transportation",
-          "duration": 375
+          "categoryID": 5,
+          "name": "Exercise",
+          "duration": 90
         },
-        "duration": 300
+        "duration": 15
+      },
+      "21": {
+        "journalID": 21,
+        "date": "2020-03-22",
+        "description": "Did CPSC 210",
+        "categoryID": 2,
+        "category": {
+          "categoryID": 2,
+          "name": "School",
+          "duration": 490
+        },
+        "duration": 400
+      },
+      "22": {
+        "journalID": 22,
+        "date": "2020-03-22",
+        "description": "Played some league",
+        "categoryID": 8,
+        "category": {
+          "categoryID": 8,
+          "name": "Gaming",
+          "duration": 180
+        },
+        "duration": 90
+      },
+      "23": {
+        "journalID": 23,
+        "date": "2020-03-22",
+        "description": "Played some stardew valley",
+        "categoryID": 8,
+        "category": {
+          "categoryID": 8,
+          "name": "Gaming",
+          "duration": 180
+        },
+        "duration": 90
+      },
+      "24": {
+        "journalID": 24,
+        "date": "2020-03-22",
+        "description": "Did some psyc planning",
+        "categoryID": 2,
+        "category": {
+          "categoryID": 2,
+          "name": "School",
+          "duration": 490
+        },
+        "duration": 90
       }
     }
   },
-  "journalID": 19,
-  "categoryID": 8,
+  "journalID": 25,
+  "categoryID": 9,
   "currentUser": "Scott",
   "userAvatar": "File:src/main/ui/resources/coffee.png",
   "userList": [
-    "Scott"
+    "Scott",
+    "Jill"
   ]
 }

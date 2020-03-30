@@ -27,7 +27,7 @@ public class NewUserAvatarScreen extends Screen {
     // EFFECTS: runs methods needed to initialize this screen
     public void renderNewUserAvatarScreen() {
         setScreenLabel();
-        imagePane = userInterface.getAvatarPickerComponent().renderAvatarPicker();
+        imagePane = userInterface.getAvatarPickerComponent().generate();
         setSubmitButton();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
@@ -88,9 +88,7 @@ public class NewUserAvatarScreen extends Screen {
     // MODIFIES: this
     // EFFECTS: sets button listener on main page
     public void setSubmitButtonListener() {
-        newUserButton.setOnAction(e -> {
-            submitAvatar();
-        });
+        newUserButton.setOnAction(e -> submitAvatar());
     }
 
     // MODIFIES: this

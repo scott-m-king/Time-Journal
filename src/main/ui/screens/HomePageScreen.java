@@ -26,7 +26,7 @@ public class HomePageScreen extends Screen {
     // MODIFIES: this
     // EFFECTS: generates category chart and runs methods needed to render this screen
     public void renderHomePage() {
-        chart = userInterface.getCategoryChartComponent().generateCategoryChart();
+        chart = userInterface.getCategoryChartComponent().generate();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }

@@ -49,7 +49,7 @@ public class AvatarPickerComponent {
 
     // MODIFIES: this
     // EFFECTS: sets up visual elements and listeners for this screen
-    public GridPane renderAvatarPicker() {
+    public GridPane generate() {
         setImagesFromResources();
         makeAvatarObservableList();
         setImagePositionsInGrid();

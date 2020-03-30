@@ -14,7 +14,7 @@ import static ui.screens.Popup.FAILURE_SOUND;
 import static ui.screens.Popup.SUCCESS_SOUND;
 
 // Represents a generic 'screen' class which subclasses extend to access shared functionality
-public abstract class Screen {
+public abstract class Screen implements Display {
     protected Button edit;
     protected Button delete;
     protected Button create;
@@ -26,7 +26,8 @@ public abstract class Screen {
 
     // REQUIRES: pane with at least one child node, active stage
     // EFFECTS: creates loads pane to new scene, adds CSS stylesheet, sets scene to stage
-    protected void initializeScreen(Pane pane, Stage stage) {
+    @Override
+    public void initializeScreen(Pane pane, Stage stage) {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("ui/style.css");
         stage.setScene(scene);
@@ -57,7 +58,7 @@ public abstract class Screen {
 
     // REQUIRES: active stage, non-null cameFrom string, active UserInterface
     // EFFECTS: sets button listeners and actions depending on class that called this method
-    public void setFormButtonListeners(String cameFrom, UserInterface ui) {
+    private void setFormButtonListeners(String cameFrom, UserInterface ui) {
         switch (cameFrom) {
             case JOURNAL_LOG:
                 edit.setOnAction(e -> ui.getJournalLogScreen().editButtonAction());
@@ -74,14 +75,14 @@ public abstract class Screen {
 
     // Resource: Apple pay payment successful sound
     // EFFECTS: plays a success sound once
-    public void playSuccessSound() {
+    protected void playSuccessSound() {
         AudioClip successSound = Applet.newAudioClip(getClass().getResource(SUCCESS_SOUND));
         successSound.play();
     }
 
     // Resource: Apple pay payment declined sound
     // EFFECTS: plays a delete sound once
-    public void playDeleteSound() {
+    protected void playDeleteSound() {
         AudioClip failSound = Applet.newAudioClip(getClass().getResource(FAILURE_SOUND));
         failSound.play();
     }

@@ -87,7 +87,7 @@ public class UserSelectScreen extends Screen {
         try {
             userInterface.getCurrentSession().selectUser(
                     comboBox.getSelectionModel().getSelectedItem(), UserSession.USERS_LOCATION);
-            userInterface.getSideBarComponent().renderSideBar();
+            userInterface.getSideBarComponent().render();
         } catch (NullEntryException | IOException exception) {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText("Please select a user.");
@@ -98,9 +98,7 @@ public class UserSelectScreen extends Screen {
     // MODIFIES: this
     // EFFECTS: sets event listener for button click, tries to submit form if clicked
     public void submitButtonListener() {
-        submit.setOnAction(e -> {
-            selectUser();
-        });
+        submit.setOnAction(e -> selectUser());
     }
 
     // MODIFIES: this

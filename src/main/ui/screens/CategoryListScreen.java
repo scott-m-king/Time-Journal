@@ -8,13 +8,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import model.Category;
-import model.CategoryList;
 import model.JournalEntry;
-import model.JournalLog;
 import ui.UserInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,12 +22,6 @@ public class CategoryListScreen extends Screen {
     private TableView<JournalEntry> categoryJournalTable;
     private Pane sideBar;
     private String categoryCurrentSelected;
-    private ObservableList<JournalEntry> journalEntryObservableList;
-    private ObservableList<Category> categoryObservableList;
-    private TableColumn<JournalEntry, String> dateTableColumn;
-    private TableColumn<JournalEntry, String> categoryTableColumn;
-    private TableColumn<JournalEntry, Integer> durationTableColumn;
-    private TableColumn<JournalEntry, String> descriptionTableColumn;
     private Text title;
     private HBox buttons;
     private Pane pane;
@@ -47,7 +37,6 @@ public class CategoryListScreen extends Screen {
         this.sideBar = userInterface.getSideBarComponent().getSideBarPane();
         Button categoriesMenuButton = userInterface.getSideBarComponent().getViewCategoryListButton();
         categoriesMenuButton.setStyle("-fx-background-color:#787878");
-        setJournalEntryFieldColumns();
         initializeFinalPane();
         initializeScreen(pane, userInterface.getMainStage());
     }
@@ -58,7 +47,7 @@ public class CategoryListScreen extends Screen {
     protected void initializeFinalPane() {
         pane = new AnchorPane();
         setMainLabel();
-        generateCategoryDurationListView();
+        renderCategoryDurationListView();
         setButtonLayout();
         categoryTableListener();
         pane.getChildren().addAll(
@@ -87,6 +76,7 @@ public class CategoryListScreen extends Screen {
         buttons = makeFormButtons(CATEGORY_LIST, userInterface);
         AnchorPane.setRightAnchor(buttons, 30.0);
         AnchorPane.setTopAnchor(buttons, 30.0);
+        setButtonColors();
     }
 
     // MODIFIES: this
@@ -171,38 +161,22 @@ public class CategoryListScreen extends Screen {
     }
 
     // MODIFIES: this
-    // EFFECTS: populates ListView with categories from ObservableList
-    public void generateCategoryDurationListView() {
-        categoryListView = new ListView<>();
-        generateCategoryList();
-
-        for (Category category : categoryObservableList) {
-            categoryListView.getItems().add(category.getDurationString());
-        }
-        renderCategoryDurationListView();
-    }
-
-    // REQUIRES: valid UserSession with instantiated CategoryList
-    // MODIFIES: this
-    // EFFECTS: populates ObservableList with categories from user CategoryList
-    public void generateCategoryList() {
-        categoryObservableList = FXCollections.observableArrayList();
-        CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
-        for (int i = 0; i < categoryList.getSize(); i++) {
-            categoryObservableList.add(categoryList.get(i));
-        }
-    }
-
-    // MODIFIES: this
     // EFFECTS: renders empty category duration list view and anchors it to bottom of this screen
     private void renderCategoryDurationListView() {
+        categoryListView = userInterface.getCategoryListComponent().getCategoryListView();
+        setCategoryListDimensions();
+        categoryJournalTable = userInterface
+                .getJournalTableFilterComponent()
+                .renderFilteredJournalTable(FXCollections.observableArrayList());
+        categoryJournalTable.setPlaceholder(new Text("Select a category to see entries."));
+    }
+
+    private void setCategoryListDimensions() {
         categoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         categoryListView.setMaxHeight(275);
         AnchorPane.setLeftAnchor(categoryListView, 230.0);
         AnchorPane.setTopAnchor(categoryListView, 95.0);
         AnchorPane.setRightAnchor(categoryListView, 30.0);
-        categoryJournalTable = renderFilteredJournalEntryTable(FXCollections.observableArrayList());
-        categoryJournalTable.setPlaceholder(new Text("Select a category to see entries."));
     }
 
     // REQUIRES: category ListView with at least one element
@@ -213,7 +187,7 @@ public class CategoryListScreen extends Screen {
                     .selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> {
                         try {
-                            initiateFilter();
+                            filterEntries();
                         } catch (IndexOutOfBoundsException exception) {
                             // no action
                         }
@@ -224,7 +198,7 @@ public class CategoryListScreen extends Screen {
     // MODIFIES: this
     // EFFECTS: initiates the filter function with categoryCurrentlySelected as filter requirement
     //          adds clears final pane and reloads it with the filter result
-    private void initiateFilter() {
+    private void filterEntries() {
         int index = categoryListView.getSelectionModel().getSelectedIndex();
         categoryCurrentSelected =
                 userInterface
@@ -233,7 +207,9 @@ public class CategoryListScreen extends Screen {
                 .get(index)
                 .getName();
         setButtonColors();
-        filterEntriesBasedOnCategory();
+        categoryJournalTable = userInterface
+                .getJournalTableFilterComponent()
+                .renderFilteredJournalTable(categoryCurrentSelected);
         pane.getChildren().clear();
         pane.getChildren().addAll(
                 sideBar,
@@ -242,70 +218,6 @@ public class CategoryListScreen extends Screen {
                 categoryListView,
                 categoryJournalTable,
                 buttons);
-    }
-
-    // Reference: using .filter() and Java streams https://mkyong.com/java8/java-8-streams-filter-examples/
-    // REQUIRES: a valid category to filter
-    // MODIFIES: this
-    // EFFECTS: generates a filtered List<JournalEntry> based on category filter condition
-    public void filterEntriesBasedOnCategory() {
-        final String[] filterCondition = new String[1];
-        filterCondition[0] = categoryCurrentSelected;
-        ObservableList<JournalEntry> entriesToFilter = userInterface.getJournalLogScreen().getEntries();
-        List<JournalEntry> filterResult = entriesToFilter.stream()
-                .filter(journalEntry -> filterCondition[0].equals(journalEntry.getCategory().getName()))
-                .collect(Collectors.toList());
-        filteredTable(filterCondition[0], filterResult);
-    }
-
-    // REQUIRES: a filtered list of journal entries
-    // MODIFIES: this
-    // EFFECTS: if no filter results, display placeholder text for no entries
-    //          otherwise, display the filtered list of journal entries
-    private void filteredTable(String filterCondition, List<JournalEntry> filterResult) {
-        if (filterResult.size() == 0) {
-            categoryJournalTable = renderFilteredJournalEntryTable(filterResult);
-            categoryJournalTable.setPlaceholder(new Text("No entries for " + filterCondition));
-            categoryJournalTable.setSelectionModel(null);
-        } else {
-            categoryJournalTable = renderFilteredJournalEntryTable(filterResult);
-        }
-    }
-
-    // REQUIRES: journal table columns to be instantiated
-    // MODIFIES: this
-    // EFFECTS: sets column fields for use in filtered journal entry table
-    public void setJournalEntryFieldColumns() {
-        dateTableColumn = userInterface.getJournalTableComponent().getDateColumn();
-        categoryTableColumn = userInterface.getJournalTableComponent().getCategoryColumn();
-        durationTableColumn = userInterface.getJournalTableComponent().getDurationColumn();
-        descriptionTableColumn = userInterface.getJournalTableComponent().getDescriptionColumn();
-    }
-
-    // REQUIRES: populated list of journal entries
-    // MODIFIES: this
-    // EFFECTS: returns the rendered filtered journal entry table
-    public TableView<JournalEntry> renderFilteredJournalEntryTable(List<JournalEntry> entries) {
-        categoryJournalTable = new TableView<>();
-        journalEntryObservableList = FXCollections.observableArrayList();
-        journalEntryObservableList.addAll(entries);
-        constructCategoryJournalEntryTable();
-        return categoryJournalTable;
-    }
-
-    // REQUIRES: ObservableList of journal entries
-    // MODIFIES: this
-    // EFFECTS: adds columns and entries to table, sets anchors
-    @SuppressWarnings("unchecked")
-    public void constructCategoryJournalEntryTable() {
-        categoryJournalTable.setItems(journalEntryObservableList);
-        categoryJournalTable.getStyleClass().add("category-journal-table");
-        categoryJournalTable.getColumns().addAll(
-                dateTableColumn, categoryTableColumn, durationTableColumn, descriptionTableColumn);
-        AnchorPane.setTopAnchor(categoryJournalTable, 385.0);
-        AnchorPane.setBottomAnchor(categoryJournalTable, 30.0);
-        AnchorPane.setRightAnchor(categoryJournalTable, 30.0);
-        AnchorPane.setLeftAnchor(categoryJournalTable, 230.0);
     }
 
     // Getters
@@ -319,10 +231,5 @@ public class CategoryListScreen extends Screen {
 
     public void setCategoryCurrentSelected(String categoryName) {
         categoryCurrentSelected = categoryName;
-    }
-
-    public ObservableList<Category> getCategoryObservableList() {
-        generateCategoryList();
-        return categoryObservableList;
     }
 }

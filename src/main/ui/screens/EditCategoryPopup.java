@@ -37,7 +37,7 @@ public class EditCategoryPopup extends Popup {
         setFields();
         buttons = makeFormButtons(stage, EDIT_CATEGORY, userInterface);
         initializeFinalPane();
-        userInterface.setMiddle(stage);
+        userInterface.getScreenHelper().setMiddle(stage, userInterface);
         initializeScreen(pane, stage);
         setEnterListener();
     }

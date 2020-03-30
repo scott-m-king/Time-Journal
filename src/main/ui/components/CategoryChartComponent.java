@@ -21,7 +21,7 @@ public class CategoryChartComponent {
 
     // REQUIRES: valid UserInterface object
     // EFFECTS: generates category piechart based on durations from CategoryList object
-    public PieChart generateCategoryChart() {
+    public PieChart generate() {
         CategoryList categoryList = userInterface.getCurrentSession().getCategoryList();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 

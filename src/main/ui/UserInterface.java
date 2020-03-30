@@ -32,7 +32,10 @@ public class UserInterface extends Application {
     private EditCategoryPopup editCategoryPopup;
     private SavePromptPopup savePromptPopup;
     private WelcomeScreen welcomeScreen;
+    private CategoryListComponent categoryListComponent;
+    private JournalTableFilterComponent journalTableFilterComponent;
     private Dimension screenSize;
+    private ScreenHelper screenHelper;
     private UserSession currentSession;
     private Stage mainStage;
 
@@ -49,8 +52,8 @@ public class UserInterface extends Application {
         currentSession = new UserSession();
         boolean noSaveFile = currentSession.isFirstTime(UserSession.USER_SAVE_FILE);
 
-        setMainStageDimensions();
         initializeAllScreens();
+        screenHelper.setMainStageDimensions(this);
 
         if (noSaveFile) {
             newUserWelcomeScreen.renderNewUserWelcomeScreen();
@@ -90,33 +93,14 @@ public class UserInterface extends Application {
         createCategoryPopup = new CreateCategoryPopup(this);
         editCategoryPopup = new EditCategoryPopup(this);
 
-        // components
+        // components & tools
         sideBarComponent = new SideBarComponent(this);
         savePromptPopup = new SavePromptPopup(this);
         categoryChartComponent = new CategoryChartComponent(this);
         journalTableComponent = new JournalTableComponent();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets mainStage dimensions to set width and height
-    private void setMainStageDimensions() {
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainStage.setWidth(WINDOW_WIDTH);
-        mainStage.setHeight(WINDOW_HEIGHT);
-        mainStage.setMinWidth(WINDOW_WIDTH);
-        mainStage.setMinHeight(WINDOW_HEIGHT);
-        setMiddle(mainStage);
-    }
-
-    // MODIFIES: object that calls this method
-    // EFFECTS: sets stage to middle of screen depending on device's screen resolution
-    public void setMiddle(Stage s) {
-        double middleCoordinateX = screenSize.getWidth() / 2;
-        double middleCoordinateY = screenSize.getHeight() / 2;
-        double subtractWindowSizeX = s.getWidth() / 2;
-        double subtractWindowSizeY = s.getHeight() / 2;
-        s.setX(middleCoordinateX - subtractWindowSizeX);
-        s.setY(middleCoordinateY - subtractWindowSizeY);
+        categoryListComponent = new CategoryListComponent(this);
+        journalTableFilterComponent = new JournalTableFilterComponent(this);
+        screenHelper = new ScreenHelper();
     }
 
     // getters for fields in UserInterface
@@ -188,11 +172,31 @@ public class UserInterface extends Application {
         return savePromptPopup;
     }
 
+    public CategoryListComponent getCategoryListComponent() {
+        return categoryListComponent;
+    }
+
+    public JournalTableFilterComponent getJournalTableFilterComponent() {
+        return journalTableFilterComponent;
+    }
+
     public UserSession getCurrentSession() {
         return currentSession;
     }
 
     public Stage getMainStage() {
         return mainStage;
+    }
+
+    public ScreenHelper getScreenHelper() {
+        return screenHelper;
+    }
+
+    public Dimension getScreenSize() {
+        return screenSize;
+    }
+
+    public void setScreenSize(Dimension screenSize) {
+        this.screenSize = screenSize;
     }
 }

@@ -153,7 +153,7 @@ public class JournalEntryCreateScreen extends Screen {
     private void populateCategoryDropdown() {
         categoryListDurationString = new ComboBox<>();
         categoryListDurationString.setStyle("-fx-font-size: 15px");
-        categoryListCategory = userInterface.getCategoryListScreen().getCategoryObservableList();
+        categoryListCategory = userInterface.getCategoryListComponent().getCategoryObservableList();
 
         for (Category c : categoryListCategory) {
             categoryListDurationString.getItems().add(c.getDurationString());
