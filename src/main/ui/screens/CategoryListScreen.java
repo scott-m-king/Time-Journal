@@ -198,16 +198,11 @@ public class CategoryListScreen extends Screen {
     //          adds clears final pane and reloads it with the filter result
     private void filterEntries() {
         int index = categoryListView.getSelectionModel().getSelectedIndex();
-        categoryCurrentSelected =
-                userInterface
-                .getCurrentSession()
-                .getCategoryList()
-                .get(index)
-                .getName();
+        categoryCurrentSelected = userInterface.getCurrentSession().getCategoryList().get(index).getName();
         setButtonColors();
         categoryJournalTable = userInterface
-                .getJournalTableFilterComponent()
-                .renderFilteredJournalTable(categoryCurrentSelected);
+                        .getJournalTableFilterComponent()
+                        .renderFilteredJournalTable(categoryCurrentSelected);
         pane.getChildren().clear();
         pane.getChildren().addAll(
                 sideBar,

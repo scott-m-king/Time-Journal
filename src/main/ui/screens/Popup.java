@@ -15,8 +15,8 @@ import java.applet.AudioClip;
 
 // Represents a generic 'popup' class which subclasses extend to access shared functionality
 public abstract class Popup implements Display {
-    Button submit;
-    Button cancel;
+    protected Button submit;
+    protected Button cancel;
 
     public static final int STANDARD_POPUP_WIDTH = 450;
     public static final int STANDARD_POPUP_HEIGHT = 250;

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 // Represents a reader object to deserialize JSON files and reconstruct objects
 public class SaveReader {
-    Reader fileReader;
-    Gson gson;
+    private Reader fileReader;
+    private Gson gson;
 
     // Constructor
     public SaveReader(String file) throws IOException {

@@ -4,7 +4,7 @@
       {
         "categoryID": 0,
         "name": "Uncategorized",
-        "duration": 45
+        "duration": 40
       },
       {
         "categoryID": 2,
@@ -120,7 +120,7 @@
         "category": {
           "categoryID": 0,
           "name": "Uncategorized",
-          "duration": 45
+          "duration": 40
         },
         "duration": 15
       },
@@ -216,26 +216,26 @@
         "category": {
           "categoryID": 0,
           "name": "Uncategorized",
-          "duration": 45
+          "duration": 40
         },
         "duration": 10
       },
-      "26": {
-        "journalID": 26,
-        "date": "2020-03-29",
-        "description": "Seeing things over time",
+      "27": {
+        "journalID": 27,
+        "date": "2020-03-31",
+        "description": "TestEntry",
         "categoryID": 0,
         "category": {
           "categoryID": 0,
           "name": "Uncategorized",
-          "duration": 45
+          "duration": 40
         },
-        "duration": 20
+        "duration": 15
       }
     }
   },
-  "journalID": 27,
-  "categoryID": 10,
+  "journalID": 28,
+  "categoryID": 9,
   "currentUser": "Scott",
   "userAvatar": "File:src/main/ui/resources/coffee.png",
   "userList": [

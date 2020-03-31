@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 // Represents a writer object to serialize JournalLog and CategoryList into JSON format and write to file in data folder
 public class SaveWriter {
-    FileWriter writer;
-    Gson gson;
+    private FileWriter writer;
+    private Gson gson;
 
     // Constructor
     public SaveWriter(File file) throws IOException {
